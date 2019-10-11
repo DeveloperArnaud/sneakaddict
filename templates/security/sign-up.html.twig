@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello SecurityController!{% endblock %}
+{% block body %}
+
+<a style="text-decoration: none; color: black" href=""><h1 style="text-align: center; margin-top: 10px;font-family: 'Permanent Marker', cursive;">Sneak'Addict</h1></a>
+<body style="background-color: #eee">
+<div style="background-color: white; text-align: center;height: auto ;width : 600px;margin-left: 650px; margin-top: 40px ">
+    <hr>     <a style="text-decoration: none; color: black;" href="{{ path('login') }}">Déjà inscrit ?</a>
+    <hr>
+
+
+    <p style="font-size: medium"><b>INSCRIVEZ-VOUS AVEC ...</b></p>
+    <button style="background-color: white; width: 188px;height: 50px;border: 2px solid grey"><i style="margin-right: 10px; color: dodgerblue" class="fa fa-facebook-square"></i>FACEBOOK </button> <button style="background-color: white; border: 2px solid grey;width: 188px;height: 50px;"><i style="margin-right: 10px;" class="fa fa-google"></i>GOOGLE</button> <button style="background-color: white; border: 2px solid grey;width: 188px;height: 50px;"><i style="margin-right: 5px; color: #5eb5e0" class="fa fa-twitter"></i> TWITTER </button>
+    <hr>OU<hr>
+    <form action="{{ path('login') }}" method="post">
+    <p style="font-size: medium"><b>INSCRIVEZ-VOUS AVEC VOTRE ADRESSE E-MAIL</b></p>
+    <label style="margin-right: 240px; color: grey; font-size: small"><b>ADRESSE E-MAIL:</b></label>
+    <br>
+    <input style="margin-bottom: 10px; margin-top: 5px; width: 350px; height: 45px" id="email" type="email" name="email">
+    <br>
+    <span style="font-size: x-small;margin-bottom: 10px;color: grey">Un email de confirmation vous sera envoyé à cette adresse</span>
+    <br>
+    <label style="margin-right: 290px; color: grey; font-size: small"><b>PRENOM:</b></label>
+    <br>
+    <input style="margin-bottom: 40px; margin-top: 5px; width: 350px; height: 45px" type="text">
+    <br>
+    <label style="margin-right: 240px; color: grey; font-size: small"><b>NOM DE FAMILLE:</b></label>
+    <br>
+    <input style="margin-bottom: 40px; margin-top: 5px; width: 350px; height: 45px" type="text">
+    <br>
+    <label style="margin-right: 240px; color: grey; font-size: small"><b>MOT DE PASSE:</b></label>
+    <br>
+    <input style="margin-bottom: 10px; margin-top: 5px; width: 350px; height: 45px" type="password" id="password" name="_password">
+    <br>
+    <span style="font-size: x-small;margin-bottom: 10px;color: grey;margin-right: 185px">Doit contenir minimum 10 caractères</span>
+    <br>
+    <label style="margin-right: 210px; color: grey; font-size: small;margin-top: 50px"><b>DATE DE NAISSANCE:</b></label>
+    <br>
+    <input style="margin-bottom: 40px; margin-top: 5px; width: 350px; height: 45px" type="text">
+    <br>
+    <label style="margin-right: 300px; color: grey; font-size: small"><b>SEXE:</b></label>
+    <br>
+
+    <input type="radio" id="fille" name="fille" value="fille"
+           checked> <label style="margin-right: 100px">Fille </label>
+
+    <input type="radio" id="garcon" name="garcon" value="garçon"
+           checked> <label> Garçon </label>
+    <br>
+    <input type="submit" style="margin-bottom: 40px; margin-top: 40px; background-color: black; border: none; color: white; width: 350px; height : 45px" value="REJOIGNEZ SNEAK'ADDICT">
+    </form>
+</div>
+
+
+{% endblock %}

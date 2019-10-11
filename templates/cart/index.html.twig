@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello CartController!{% endblock %}
+
+{% block body %}
+<div class="bg-light p-3">
+    <h1>Votre panier</h1>
+</div>
+<div class="container">
+    {% if items | length >0 %}
+    <table class="table">
+        <thead>
+        <tr>
+            <th></th>
+            <th>Modèle</th>
+            <th>Taille</th>
+            <th>Quantité</th>
+            <th>Prix</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in items %}
+        <tr>
+            <td>
+                <div class="media">
+                    <img src="{{ asset(item.sneaker.path) }}" class="mr-3" style="width :80px ; height: 80px" alt="...">
+                    <br>
+                    {{ item.sneaker.titre }}</div></td>
+            <td><br>{{ item.sneaker.modele }}</td>
+            <td><br>{{ item.sneaker.taille }}</td>
+            <td><br>{{ item.quantity }}</td>
+            <td><br>{{ item.sneaker.prix}} €</td>
+            <td>
+                <a  class="btn btn-danger btn-sm" href="{{ path('cart_remove',{'id' : item.sneaker.id}) }}"><i class="fa fa-trash"></i></a>
+            </td>
+
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+        <dl class="dl-horizontal pull-right">
+            <dt>Total:</dt>
+            <dd>{{ total }} €</dd>
+        </dl>
+        <div class="clearfix"></div>
+        <a href="{{ path('billing'{'id_user': app.user.id}) }}" class="btn btn-success pull-right">Payer</a>
+        <a href="{{ path('chaussures') }}" class="btn btn-primary">Continuer mes achats</a>
+        </div>
+
+
+    {% else %}
+    <p> Panier vide</p>
+    {% endif %}
+{% endblock %}

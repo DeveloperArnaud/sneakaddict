@@ -1,0 +1,81 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+    <div class="container" style="max-width: 1400px">
+        <div class="row" style="margin-top: 50px" >
+            {% for chaussure in chaussures %}
+                <div class="col-4">
+                    <div class="card" style=" border : none">
+                            <img src={{ asset(chaussure.path) }}  style="height: 578; width=462px" alt="...">
+                    </div>
+                </div>
+
+                <div class="col-4">
+                    <div class="card" style=" border : none">
+                        <video src={{ asset('videos/joyride-video.webm') }} width="460" height="580" autoplay="autoplay" autoplay loop></video>
+                    </div>
+                </div>
+
+                <div class="col-4">
+                    <div style="position:absolute;margin-left: 400px" class="card-text">{{ chaussure.prix }} €
+                    </div>
+                    <h2 class="card-title" style ="font-size: 16px; margin-left: 100px">Chaussures pour Homme</h2>
+
+                    <h1 class="card-text" style ="font-size: 28px; margin-left: 100px">{{chaussure.titre}}</h1>
+                    <div style="margin-left: 100px; margin-top: 200px; position: absolute">
+                        <div class="card-text">Sélectionner une taille</div>
+                        <br>
+                        <label >EUR 43</label>
+                        <input type="radio" value="43">
+                        <label >EUR 43</label>
+                        <input type="radio" value="43">
+                        <label >EUR 43</label>
+                        <input type="radio" value="43">
+
+                        <a href="{{ path('cart_add',{'id': chaussure.id}) }}" style="color: white"><button  style ="background-color: black; color : white; border-radius: 30px; border: none; width : 320px; height: 60px; margin-top: 40px">Ajouter au panier</button></a>
+                        <button style ="background-color: white; color : black; border-radius: 30px; border: 1px solid black; width : 320px; height: 60px; margin-top: 10px">Ajouter aux favoris</button>
+
+                        <div class="card-text" style="margin-top: 40px">
+                            {{ chaussure.description }}
+                        </div>
+
+                    </div>
+                    <div class="card-text"  style="position: relative;margin-top: 40px;margin-left: 80px">
+                        <div class="media">
+                            <img src={{ asset('images/joyride-colorway.webp') }} class="mr-3" alt="...">
+                            <img src={{ asset('images/joyride-colorway.webp') }} class="mr-3" alt="...">
+                            <img src={{ asset('images/joyride-colorway.webp') }} class="mr-3" alt="...">
+                            <img src={{ asset('images/joyride-colorway.webp') }} class="mr-3" alt="...">
+                        </div>
+                    </div>
+
+
+
+                </div>
+            {% endfor %}
+        </div>
+
+    <div class="row" style="margin-top: 10px" >
+        {% for chaussure in chaussures %}
+            <div class="col-4">
+                <div class="card" style=" border : none">
+                    <img src={{ asset(chaussure.path) }} style="height: 578; width=462px" alt="...">
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="card" style=" border : none">
+                    <img src={{ asset(chaussure.path) }} style="height: 578; width=462px" alt="...">
+                </div>
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+
+    </div>
+{% endblock %}
+{% block container %}
+
+{% endblock %}
