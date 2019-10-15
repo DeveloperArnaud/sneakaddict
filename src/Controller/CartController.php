@@ -3,7 +3,10 @@
 namespace App\Controller;
 
 use App\Repository\SneakerRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -71,4 +74,30 @@ class CartController extends AbstractController
        return $this->redirectToRoute("cart_index");
 
     }
+
+
+    /**
+     * @Route("/cart_modal", name="cart_modal")
+     */
+    public function modal(SessionInterface $session , SneakerRepository $sneakerRepository)
+    {
+        $panier = $session->get('panier',[]);
+        $panierData = [];
+
+        foreach ($panier as $id => $quantity) {
+            $panierData [] = [
+
+                    'titre' => $sneakerRepository->find($id)->getTitre(),
+                    'prix' => $sneakerRepository->find($id)->getPrix(),
+                    'modele' => $sneakerRepository->find($id)->getModele(),
+                    'url' => $sneakerRepository->find($id)->getPath(),
+                    'quantity' =>$quantity
+            ];
+        }
+        $total = 0;
+
+
+        return new JsonResponse($panierData);
+    }
+
 }

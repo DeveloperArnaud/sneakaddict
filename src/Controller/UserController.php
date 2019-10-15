@@ -9,16 +9,11 @@ use Symfony\Component\Routing\Annotation\Route;
 class UserController extends AbstractController
 {
     /**
-     * @Route("/user/{id}", name="user")
+     * @Route("/user", name="user")
      */
-    public function index($id, UserRepository $userRepository)
+    public function index()
     {
-
-        $user = $userRepository->findBy(array('id'=>$id));
-
         return $this->render('user/index.html.twig', [
-            'controller_name' => 'UserController',
-            'user' => $user
-        ]);
+            'controller_name' => 'UserController']);
     }
 }

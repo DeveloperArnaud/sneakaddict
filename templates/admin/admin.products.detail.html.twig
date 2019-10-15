@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AdminController!{% endblock %}
+
+{% block body %}
+<div class="container" style="margin-left: 600px">
+    <div class="row">
+    <div class="col mt-4">
+    <figure class="figure">
+        {% for detail in chaussure %}
+        <img src="{{ asset(detail.path) }}" class="figure-img img-fluid rounded" alt="...">
+        <figcaption style="text-align: center" class="figure-caption">Titre : {{detail.titre}}
+            <br>
+            Modèle : {{detail.modele}}
+            <br>
+            Tailles disponibles :
+            {% for taille in detail.tailles %}
+                <a href="{{ path('admin_product_taille_sneaker_quantities',{'idTaille' : taille.id, 'idSneaker': detail.id}) }}">{{ taille.taille }}</a> |
+            {% endfor %}
+
+            <br>
+            Prix : {{detail.prix}} €
+        </figcaption>
+    </figure>
+    </div>
+    </div>
+    {% endfor %}
+
+</div>
+{% endblock %}

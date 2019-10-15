@@ -3,8 +3,9 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="">
+
     <title style="font-family: 'Permanent Marker', cursive;">Sneak'Addict</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/4.3/examples/checkout/">
@@ -33,7 +34,6 @@
         }
     </style>
     <!-- Custom styles for this template -->
-    <link href="form-validation.css" rel="stylesheet">
 </head>
 <body class="bg-light">
 
@@ -61,11 +61,8 @@
                     </div>
                     <span class="text-muted"  style="margin-top:17px">{{ item.sneakers.prix }}€</span>
                 </li>
-                <li class="list-group-item d-flex justify-content-between">
-
-
-
                 {% endfor  %}
+                <li class="list-group-item d-flex justify-content-between">
                 <span>Total</span>
                 <strong>{{ total }}€</strong>
                 </li>
@@ -73,12 +70,12 @@
         </div>
         <div class="col-md-8 order-md-1">
             <h4 class="mb-3">Adresse de facturation</h4>
-            <form class="needs-validation" novalidate>
+            <form action="{{ path('billing_payment') }}" method="post" id="payment-form">
                 {% for detail in user %}
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label for="firstName">Nom de famille</label>
-                        <input type="text" class="form-control" id="firstName" placeholder="" value="{{ detail.nom }}" required>
+                        <input type="text" class="form-control" id="firstName"  name ="name" placeholder="" value="{{ detail.nom }}" required>
                         <div class="invalid-feedback">
                             Valid first name is required.
                         </div>
@@ -94,7 +91,7 @@
 
                 <div class="mb-3">
                     <label for="email">Email</label>
-                    <input type="email" value="{{ detail.email }}" class="form-control" id="email" placeholder="you@example.com">
+                    <input type="email" value="{{ detail.email }}" class="form-control" name="email" id="email" placeholder="you@example.com">
                     <div class="invalid-feedback">
                         Please enter a valid email address for shipping updates.
                     </div>
@@ -103,11 +100,12 @@
                 <div class="mb-3">
                     <label for="address">Adresse</label>
                     <input type="text"  value =" {{ detail.adresse }}"class="form-control" id="address" placeholder="1234 Main St" required>
+
                     <div class="invalid-feedback">
                         Please enter your shipping address.
                     </div>
                 </div>
-
+                <input type="hidden" name="amount" value =" {{ total }}"class="form-control" required>
                 <div class="mb-3">
                     <label for="address2">Adresse 2 <span class="text-muted">(Optionelle)</span></label>
                     <input type="text" class="form-control" id="address2" placeholder="Adresse 2" DISABLED>
@@ -116,7 +114,7 @@
                 <div class="row">
                     <div class="col-md-5 mb-3">
                         <label for="country">Pays</label>
-                        <select class="custom-select d-block w-100" id="country" required>
+                        <select class="custom-select d-block w-100" id="country" >
                             <option value="">{{ detail.pays }}</option>
                             <option>United States</option>
                         </select>
@@ -126,7 +124,7 @@
                     </div>
                     <div class="col-md-4 mb-3">
                         <label for="state">Ville</label>
-                        <select class="custom-select d-block w-100" id="state" required>
+                        <select class="custom-select d-block w-100" id="state" >
                             <option value="">{{ detail.ville }}</option>
                             <option>California</option>
                         </select>
@@ -136,12 +134,13 @@
                     </div>
                     <div class="col-md-3 mb-3">
                         <label for="zip">Code postal</label>
-                        <input type="text" class="form-control" id="zip" placeholder="" value ="{{ detail.codePostal }}" required>
+                        <input type="text" class="form-control" id="zip" placeholder="" value ="{{ detail.codePostal }}" >
                         <div class="invalid-feedback">
                             Zip code required.
                         </div>
                     </div>
                 </div>
+
                 <hr class="mb-4">
 
                 <h4 class="mb-3">Méthode de paiement</h4>
@@ -153,44 +152,29 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label for="cc-name">Nom sur la carte</label>
-                        <input type="text" class="form-control" id="cc-name" placeholder="" required>
-                        <small class="text-muted">Nom du propriétaire de la carte</small>
-                        <div class="invalid-feedback">
-                            Name on card is required
-                        </div>
+                    <div class="col-md-5 mb-3">
+                        <label for="name-card">Nom de la carte</label>
+                        <input type="text" class="form-control" name="" id="" placeholder="" required>
                     </div>
-                    <div class="col-md-6 mb-3">
-                            <label for="cc-number">Numéro de carte</label>
-                        <input type="text" class="form-control" id="cc-number" placeholder="" required>
-                        <div class="invalid-feedback">
-                            Credit card number is required
-                        </div>
+                    <div class="col-md-5 mb-3">
+                        <label for="name-card">Numéro de la carte</label>
+                        <input type="text" class="form-control" name="number"  data-stripe="number" required>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-3 mb-3">
-                        <label for="cc-expiration">Expiration</label>
-                        <input type="text" class="form-control" id="cc-expiration" placeholder="" required>
-                        <div class="invalid-feedback">
-                            Expiration date required
-                        </div>
+                    <div class="col-md-5 mb-3">
+                        <label for="">Date d'expiration</label>
+                        <input type="text"  style="width : 40px;" name="exp_month"  placeholder="MM" data-stripe="exp_month" required> /
+                        <input type="text"  style="width : 40px;"   name="exp_year"  placeholder="YY" data-stripe="exp_year" required>
                     </div>
-                    <div class="col-md-3 mb-3">
-                        <label for="cc-cvv">CVV</label>
-                        <input type="text" class="form-control" id="cc-cvv" placeholder="" required>
-                        <div class="invalid-feedback">
-                            Security code required
-                        </div>
+                    <div class="col-md-5 mb-3">
+                        <label for="CVC">CVC</label>
+                        <input type="text"  style="width : 50px;"   name="cvc" id="" placeholder="" data-stripe="cvc" required>
                     </div>
                 </div>
-                <hr class="mb-4">
-                <button class="btn btn-primary btn-lg btn-block" type="submit">Continuer</button>
-                {% endfor  %}
+                <button type="submit" class="btn btn-primary">Valider</button>
             </form>
-        </div>
-    </div>
+
+
+            {% endfor  %}
 
     <footer class="my-5 pt-5 text-muted text-center text-small">
         <p class="mb-1">&copy; 2017-2019 Company Name</p>
@@ -200,8 +184,35 @@
             <li class="list-inline-item"><a href="#">Support</a></li>
         </ul>
     </footer>
+        </div>
+    </div>
 </div>
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script>window.jQuery || document.write('<script src="/docs/4.3/assets/js/vendor/jquery-slim.min.js"><\/script>')</script><script src="/docs/4.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
-<script src="form-validation.js"></script></body>
+</body>
+<script type="text/javascript" src="https://js.stripe.com/v3/"></script>
+<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+<script>
+   Stripe.setPublishableKey('pk_test_uLpoyg4G8u0wSjIXS9QIaW2T00M43PkeMY');
+    var $form = $('#payment-form');
+    $form.submit(function(e){
+        e.preventDefault();
+        $form.find('.button').attr('disabled',true);
+        Stripe.card.createToken($form, function(status,response) {
+            if(response.error) {
+                $form.find('.message').remove();
+                $form.prepend('<div class=" alert alert-danger">' + response.error.message + '<div>')
+            } else {
+                var token = response.id;
+                $form.append($('<input type="hidden" name="stripeToken">').val(token));
+                console.log(token);
+                $form.get(0).submit();
+            }
+
+        })
+    })
+</script>
+
+
 </html>

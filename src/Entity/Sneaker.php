@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -27,13 +29,6 @@ class Sneaker
      * @ORM\Column(name="couleur", type="string", length=255, nullable=false)
      */
     private $couleur;
-
-    /**
-     * @var float
-     *
-     * @ORM\Column(name="taille", type="float", precision=10, scale=0, nullable=false)
-     */
-    private $taille;
 
     /**
      * @var string
@@ -86,6 +81,25 @@ class Sneaker
      * })
      */
     private $commande;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Taille", mappedBy="sneaker")
+     */
+    private $tailles;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Quantity", mappedBy="relation")
+     */
+    private $quantities;
+
+
+
+    public function __construct()
+    {
+        $this->tailles = new ArrayCollection();
+        $this->quantity = new ArrayCollection();
+        $this->quantities = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -198,6 +212,68 @@ class Sneaker
         $this->commande = $commande;
 
         return $this;
+    }
+
+    /**
+     * @return Collection|Taille[]
+     */
+    public function getTailles(): Collection
+    {
+        return $this->tailles;
+    }
+
+    public function addTaille(Taille $taille): self
+    {
+        if (!$this->tailles->contains($taille)) {
+            $this->tailles[] = $taille;
+            $taille->addSneaker($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTaille(Taille $taille): self
+    {
+        if ($this->tailles->contains($taille)) {
+            $this->tailles->removeElement($taille);
+            $taille->removeSneaker($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Taille[]
+     */
+    public function getQuantity(): Collection
+    {
+        return $this->quantity;
+    }
+
+    public function addQuantity(Taille $quantity): self
+    {
+        if (!$this->quantity->contains($quantity)) {
+            $this->quantity[] = $quantity;
+        }
+
+        return $this;
+    }
+
+    public function removeQuantity(Taille $quantity): self
+    {
+        if ($this->quantity->contains($quantity)) {
+            $this->quantity->removeElement($quantity);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Quantity[]
+     */
+    public function getQuantities(): Collection
+    {
+        return $this->quantities;
     }
 
 

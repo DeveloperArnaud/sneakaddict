@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AdminController!{% endblock %}
+
+{% block body %}
+    <a  class="btn btn-light btn-sm" style ="float: right; margin-top: 20px;margin-bottom: 10px; margin-right:  10px" href="{{ path('admin_add') }}"><i class="fa fa-plus"></i> Ajouter un produit</a>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col"></th>
+            <th scope="col">Titre</th>
+            <th scope="col">Marque</th>
+            <th scope="col">Actions</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        {% for chaussure in chaussures %}
+        <tr>
+            <th scope="row">{{ chaussure.id }}</th>
+            <td> <div class="media">
+                <img class="mr-3"  style ="height: 64px;width: 64px" src="{{ asset(chaussure.path) }}">
+            </div>
+            </td>
+            <td>{{chaussure.titre}}</td>
+            <td><b>{{ chaussure.marque }}</b></td>
+            <td><button  class="btn btn-primary btn-sm">Modifier</button> <a class="btn btn-primary btn-sm" href="{{ path('admin_product_detail',{'id' : chaussure.id}) }}">Détails</a>  <a  class="btn btn-danger btn-sm" href="{{ path('cart_remove',{'id' : chaussure.id}) }}"><i class="fa fa-trash"></i></a></td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

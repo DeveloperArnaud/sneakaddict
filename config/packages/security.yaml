@@ -15,6 +15,7 @@ security:
                 path: /logout
                 target: chaussures
 
+
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
 
@@ -22,12 +23,13 @@ security:
             # switch_user: true
 
             form_login:
+                login_path: login
                 check_path: login
                 default_target_path: chaussures
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
          - { path: ^/admin, roles: ROLE_ADMIN }
-         - { path: ^/profile, roles: ROLE_USER }
+         - { path: ^/user, roles: ROLE_USER }
     encoders:
         App\Entity\User: plaintext

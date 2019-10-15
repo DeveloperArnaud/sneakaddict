@@ -13,7 +13,6 @@
         <tr>
             <th></th>
             <th>Modèle</th>
-            <th>Taille</th>
             <th>Quantité</th>
             <th>Prix</th>
         </tr>
@@ -27,7 +26,6 @@
                     <br>
                     {{ item.sneaker.titre }}</div></td>
             <td><br>{{ item.sneaker.modele }}</td>
-            <td><br>{{ item.sneaker.taille }}</td>
             <td><br>{{ item.quantity }}</td>
             <td><br>{{ item.sneaker.prix}} €</td>
             <td>
@@ -43,7 +41,12 @@
             <dd>{{ total }} €</dd>
         </dl>
         <div class="clearfix"></div>
-        <a href="{{ path('billing'{'id_user': app.user.id}) }}" class="btn btn-success pull-right">Payer</a>
+        {% if app.user %}
+        <a href="{{ path('billing' , {'id_user': app.user.id }) }}" class="btn btn-success pull-right">Payer</a>
+            {% else %}
+                <a href="{{ path('login')}}" class="btn btn-success pull-right">Payer</a>
+        {% endif %}
+
         <a href="{{ path('chaussures') }}" class="btn btn-primary">Continuer mes achats</a>
         </div>
 

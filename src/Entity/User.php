@@ -92,6 +92,13 @@ class User implements UserInterface,\Serializable
      */
     private $codePostal;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="roles", type="string", length=255,nullable=true)
+     */
+    private $roles;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -255,7 +262,12 @@ class User implements UserInterface,\Serializable
      */
     public function getRoles()
     {
-        return ['ROLE_ADMIN'];
+
+        if ($this->roles == 'ROLE_ADMIN') {
+            return ['ROLE_ADMIN'];
+        } else {
+            return ['ROLE_USER'];
+        }
     }
 
     /**

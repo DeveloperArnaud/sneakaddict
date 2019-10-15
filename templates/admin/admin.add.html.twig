@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AdminController!{% endblock %}
+
+{% block body %}
+    <div class="container">
+    <form>
+        {{ form_start(form) }}
+        {{ form_row(form.titre,{
+            attr: { class: 'form-control'}}) }}
+        {{ form_row(form.couleur,{
+            attr: {  class: 'form-control'}}) }}
+        {{ form_row(form.description,{
+            attr: {  class: 'form-control'}}) }}
+        {{ form_row(form.modele,{
+            attr: {  class: 'form-control'}}) }}
+        {{ form_row(form.marque,{
+            attr: {  class: 'form-control'}}) }}
+        {{ form_row(form.prix,{
+            attr: {  class: 'form-control'}}) }}
+        {{ form_row(form.path,{
+            attr: { class: 'form-control'}}) }}
+        {{ form_row(form.tailles,{
+            attr: {  class: 'form-control'}}) }}
+        {{ form_end(form) }}
+    </form>
+    </div>
+{% endblock %}

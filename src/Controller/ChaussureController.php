@@ -14,12 +14,16 @@ class ChaussureController extends AbstractController
     public function index(SessionInterface $session)
     {
         $em= $this->getDoctrine()->getManager();
-        $panier = $session->get('panier');
         $repo = $em->getRepository('App:Sneaker');
         $chaussures = $repo->findAll();
+        $repo = $em->getRepository('App:Taille');
+        $tailles = $repo->findAll();
+
+
         return $this->render('chaussure/index.html.twig', [
             'controller_name' => 'ChaussureController',
             'chaussures' => $chaussures,
+            'tailles' => $tailles
         ]);
     }
 

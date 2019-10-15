@@ -12,8 +12,8 @@
                 <ul class="nav flex-column" style="margin-left: 10px">
                     <li class="nav-item">
                         <p style="text-align: center">Taille</p><hr>
-                        {% for chaussure in chaussures %}
-                        <button style="width: 58px; height: 28px; background-color: white;border-radius:5px; border: 1px solid grey; margin-right: 2px" >{{ chaussure.taille }}</button>
+                        {% for taille in tailles %}
+                        <button style="width: 58px; height: 28px; background-color: white;border-radius:5px; border: 1px solid grey; margin-right: 2px" >{{ taille.taille }}</button>
 
                         {% endfor %}
 
@@ -26,11 +26,11 @@
                         <p style="text-align: center">Coupe</p>
 
                         <ul style="text-align: left; list-style: none; margin-left: 35px">
-                            <li><b>Low</b></li>
+                            <li><button style="background-color: white; border: 1px solid black; border-radius: 5px">Low</button></li>
                             <br>
-                            <li><b>Mid</b></li>
+                            <li><button style="background-color: white; border: 1px solid black; border-radius: 5px">Mid</button></li>
                             <br>
-                            <li><b>High</b></li>
+                            <li><button style="background-color: white; border: 1px solid black; border-radius: 5px">High</button></li>
                         </ul>
 
 
