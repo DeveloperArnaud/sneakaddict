@@ -22,11 +22,13 @@ class ChaussureController extends AbstractController
         $repo = $em->getRepository('App:Taille');
         $tailles = $repo->findAll();
 
+        $couleurChaussure = $em->getRepository('App:Sneaker')->GroupByColor();
 
         return $this->render('chaussure/index.html.twig', [
             'controller_name' => 'ChaussureController',
             'chaussures' => $chaussures,
-            'tailles' => $tailles
+            'tailles' => $tailles,
+            'couleurs' => $couleurChaussure
         ]);
     }
 
@@ -41,6 +43,39 @@ class ChaussureController extends AbstractController
         return $this->render('chaussure/chaussure_detail.html.twig', [
             'controller_name' => 'ChaussureController',
             'chaussures' => $chaussure
+        ]);
+
+    }
+
+    /**
+     * @Route("/chaussures/{color}", name="chaussure_color_search")
+     */
+    public function chaussure_color_search($color) {
+
+        $em= $this->getDoctrine()->getManager();
+        $repo = $em->getRepository('App:Sneaker');
+        $chaussures = $repo->findByCouleur($color);
+
+        $repo = $em->getRepository('App:Taille');
+        $tailles = $repo->findAll();
+        return $this->render('chaussure/chaussure.color.search.html.twig', [
+            'controller_name' => 'ChaussureController',
+            'chaussures' => $chaussures,
+            'tailles' => $tailles
+        ]);
+
+    }
+
+    /**
+     * @Route("/search/chaussures", name="chaussure_search")
+     */
+    public function chaussure_search(Request $request) {
+
+        $em= $this->getDoctrine()->getManager();
+        $repo = $em->getRepository('App:Sneaker');
+        $chaussures = $repo->findByTitre($request->get('query'));
+        return $this->render('chaussure/chaussures.search.html.twig', [
+            'chaussures' => $chaussures,
         ]);
 
     }

@@ -22,19 +22,40 @@ class SneakerRepository extends ServiceEntityRepository
     // /**
     //  * @return Sneaker[] Returns an array of Sneaker objects
     //  */
-    /*
-    public function findByExampleField($value)
+
+    public function findByCouleur($couleur)
     {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('s.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+
+           return $this->createQueryBuilder('s')
+                ->where('s.couleur LIKE :couleur')
+                ->setParameter('couleur', "$couleur%")
+                ->getQuery()
+                ->getResult();
+
     }
-    */
+
+    public function findByTitre($query)
+    {
+
+        return $this->createQueryBuilder('s')
+            ->where('s.titre LIKE :titre')
+            ->setParameter('titre', "%$query%")
+            ->getQuery()
+            ->getResult();
+
+    }
+
+    public function GroupByColor()
+    {
+
+        return $this->createQueryBuilder('s')
+            ->select('s.couleur')
+            ->groupBy('s.couleur')
+            ->getQuery()
+            ->getResult();
+
+    }
+
 
     /*
     public function findOneBySomeField($value): ?Sneaker

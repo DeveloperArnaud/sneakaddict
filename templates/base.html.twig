@@ -48,11 +48,18 @@
                 </li>
 
             </ul>
-            <form class="form-inline my-2 my-lg-0">
-                <input   class="form-control mr-sm-2" type="search" placeholder="Rechercher" aria-label="Search">
-                <button class="btn btn-outline-dark" type="submit"><i class="fa fa-search"></i></button>
-            </form>
+            <div class="form-inline my-2 my-lg-0" style="margin-right: 400px" >
+                <input  style="width: 700px;border-radius: 30px" class="form-control" id="searchbox" type="search" placeholder="Rechercher" aria-label="Search">
+
+                <div class="modal-users" id="modal-users" style="position: absolute; margin-top:325px;background-color: white; text-align: center; width: 700px;border-radius: 30px; border: 0px solid black">
+
+                </div>
+            </div>
+
         </div>
+
+
+
 
         {% if app.user %}
         <a  class="nav-item nav-link" style ="color : darkgray;"  href={{ path('user',{'id' : app.user.id }) }} ><i class="fa fa-user"></i></a>
@@ -137,6 +144,26 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script type="text/javascript" src="js/main.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        $('#searchbox').on('keyup',function () {
+            var query = $(this).val();
+            if(query.length > 0) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/search/chaussures',
+                    data: {
+                        query: query
+                    },
+                    success: function (data) {
+                        console.log(data);
+                        $('#modal-users').html(data).show();
+                    },
+                });
+            } else {
+                $('#modal-users').hide();
+            }
+        });
+    </script>
 
 
     </body>
