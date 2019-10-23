@@ -24,6 +24,11 @@
 
     <body>
     <div class="container-fluid">
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
         <div class="row">
             <nav class="col-md-2 d-none d-md-block  sidebar" style="margin-top: 50px">
                 <div class="sidebar-sticky">
@@ -108,7 +113,6 @@
                     <div class="col-md-8 col-md-offset-4">
                         {% if app.user %}
                         <div class="col-md-8 order-md-1">
-                            <form>
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
                                         <label for="firstName">Nom</label>

@@ -72,33 +72,19 @@ class Sneaker
      */
     private $path;
 
-    /**
-     * @var \Commande
-     *
-     * @ORM\ManyToOne(targetEntity="Commande")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="commande_id", referencedColumnName="id")
-     * })
-     */
-    private $commande;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Taille", mappedBy="sneaker")
      */
     private $tailles;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Quantity", mappedBy="relation")
-     */
-    private $quantities;
 
 
 
     public function __construct()
     {
         $this->tailles = new ArrayCollection();
-        $this->quantity = new ArrayCollection();
-        $this->quantities = new ArrayCollection();
+
     }
 
     public function getId(): ?int
@@ -198,18 +184,6 @@ class Sneaker
     public function setPath(string $path): self
     {
         $this->path = $path;
-
-        return $this;
-    }
-
-    public function getCommande(): ?Commande
-    {
-        return $this->commande;
-    }
-
-    public function setCommande(?Commande $commande): self
-    {
-        $this->commande = $commande;
 
         return $this;
     }

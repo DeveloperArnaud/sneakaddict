@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Sneaker;
+use App\Entity\Taille;
 use App\Form\SneakerType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -37,6 +38,34 @@ class AdminController extends AbstractController
     }
 
     /**
+     * @Route("/admin/customers", name="admin_customers")
+     */
+    public function admin_customers()
+    {
+        $em= $this->getDoctrine()->getManager();
+        $repo = $em->getRepository('App:User');
+        $users = $repo->findAll();
+        return $this->render('admin/admin.customers.html.twig', [
+            'controller_name' => 'AdminController',
+            'users' => $users ,
+        ]);
+    }
+
+    /**
+     * @Route("/admin/customers/detail/{id}", name="admin_customers_detail")
+     */
+    public function admin_customers_detail($id)
+    {
+        $em= $this->getDoctrine()->getManager();
+        $repo = $em->getRepository('App:User');
+        $user = $repo->findOneBy(array('id'=>$id));
+        return $this->render('admin/admin.customers.html.twig', [
+            'detail_user' => $user ,
+        ]);
+    }
+
+
+    /**
      * @Route("/admin/product/detail/{id}", name="admin_product_detail")
      */
     public function admin_product_detail($id)
@@ -65,10 +94,10 @@ class AdminController extends AbstractController
     }
 
 
-
-
     /**
      * @Route("/admin/add", name="admin_add")
+     * @param Request $request
+     * @return string
      */
     public function admin_add(Request $request)
     {
@@ -76,23 +105,70 @@ class AdminController extends AbstractController
 
         $form = $this->createForm(SneakerType::class,$sneaker);
 
-        $form->handleRequest($request);
+         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()) {
-
-            $sneaker->setPrix($request->get('prix'));
-            $sneaker->setDescription($request->get('description'));
-
-        }
-
+            if ($form->isSubmitted() && $form->isValid()) {
+                $sneaker = $form->getData();
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($sneaker);
+                $em->flush();
+                return $this->redirectToRoute('admin_products');
+            }
         return $this->render('admin/admin.add.html.twig', [
             'form'=> $form->createView()
         ]);
+    }
 
+    /**
+     * @Route("/admin/remove/{id}", name="admin_remove")
+     * @param Request $request
+     * @return string
+     */
+    public function admin_remove($id)
+    {
+        $repository = $this->getDoctrine()->getManager()->getRepository('App:Sneaker');
+        $sneaker = $repository->find($id);
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($sneaker);
+        $em->flush();
 
-        return $this->render('admin/index.html.twig', [
-            'controller_name' => 'AdminController',
+        $message= "Le produit a correctement été supprimé ! ";
+
+        return $this->redirectToRoute('admin_products', [
+            'message' => $message
         ]);
     }
+
+
+    /**
+     * @Route("/admin/edit/{id}", name="admin_edit_sneaker")
+     * @param Request $request
+     * @return string
+     */
+    public function admin_edit_sneaker(Sneaker $sneaker, Request $request)
+    {
+        $form = $this->createForm(SneakerType::class,$sneaker);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()){
+                $em = $this->getDoctrine()->getManager();
+                $em->flush();
+
+                foreach ($form['tailles']->getData()->getValues() as $uneTaille){
+
+                    $sneaker->addTaille($uneTaille);
+
+                    dd($sneaker->getTailles());
+                }
+
+
+            return $this->redirectToRoute('admin_products');
+        }
+        return $this->render('admin/admin_edit_sneaker.html.twig', array(
+            'sneaker'=> $sneaker,
+            'form'=>$form->createView()));
+
+    }
+
+
 
 }

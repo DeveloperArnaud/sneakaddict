@@ -4,3 +4,11 @@
 
 logout:
   path: /logout
+
+admin_add:
+  path: /admin/add
+  controller: App\Controller\AdminController::admin_add
+
+admin_edit_sneaker:
+  path: /admin/edit/{id}
+  controller: App\Controller\AdminController::admin_edit_sneaker

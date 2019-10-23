@@ -4,8 +4,9 @@
 
 {% block body %}
     <div class="container">
-    <form>
+    <form action="{{ path('admin_add') }}" method="POST">
         {{ form_start(form) }}
+
         {{ form_row(form.titre,{
             attr: { class: 'form-control'}}) }}
         {{ form_row(form.couleur,{
@@ -22,6 +23,10 @@
             attr: { class: 'form-control'}}) }}
         {{ form_row(form.tailles,{
             attr: {  class: 'form-control'}}) }}
+        <br>
+        {{ form_row(form.save,{
+            attr: {  class: 'btn btn-success'}}) }}
+
         {{ form_end(form) }}
     </form>
     </div>

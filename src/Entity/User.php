@@ -314,4 +314,9 @@ class User implements UserInterface,\Serializable
 
         return $this;
     }
+
+    public function setRoles(string $role) : self {
+        $this->roles = $role;
+        return $this;
+    }
 }

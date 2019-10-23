@@ -3,6 +3,14 @@
 {% block title %}Hello AdminController!{% endblock %}
 
 {% block body %}
+    {% if message is defined %}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                {{ message }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {% endif %}
     <a  class="btn btn-light btn-sm" style ="float: right; margin-top: 20px;margin-bottom: 10px; margin-right:  10px" href="{{ path('admin_add') }}"><i class="fa fa-plus"></i> Ajouter un produit</a>
     <table class="table">
         <thead>
@@ -25,7 +33,7 @@
             </td>
             <td>{{chaussure.titre}}</td>
             <td><b>{{ chaussure.marque }}</b></td>
-            <td><button  class="btn btn-primary btn-sm">Modifier</button> <a class="btn btn-primary btn-sm" href="{{ path('admin_product_detail',{'id' : chaussure.id}) }}">Détails</a>  <a  class="btn btn-danger btn-sm" href="{{ path('cart_remove',{'id' : chaussure.id}) }}"><i class="fa fa-trash"></i></a></td>
+            <td><a href="{{ path('admin_edit_sneaker',{'id' : chaussure.id}) }}" class="btn btn-primary btn-sm">Modifier</a> <a class="btn btn-primary btn-sm" href="{{ path('admin_product_detail',{'id' : chaussure.id}) }}">Détails</a>  <a  class="btn btn-danger btn-sm" href="{{ path('admin_remove',{'id' : chaussure.id}) }}"><i class="fa fa-trash"></i></a></td>
         </tr>
         {% endfor %}
         </tbody>

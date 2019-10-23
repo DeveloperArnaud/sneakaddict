@@ -4,6 +4,9 @@ namespace App\Form;
 
 use App\Entity\Sneaker;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -18,8 +21,10 @@ class SneakerType extends AbstractType
             ->add('description')
             ->add('marque')
             ->add('prix')
-            ->add('path')
+            ->add('path',TextType::class,['label' => 'Image','data_class'=> null])
             ->add('tailles')
+            ->add('save', SubmitType::class, ['label' => 'Valider'])
+
 
         ;
     }
@@ -30,4 +35,13 @@ class SneakerType extends AbstractType
             'data_class' => Sneaker::class,
         ]);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getBlockPrefix()
+    {
+        return 'App:Sneaker';
+    }
+
 }

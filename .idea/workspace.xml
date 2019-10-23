@@ -149,6 +149,8 @@
       <path value="$PROJECT_DIR$/vendor/hoa/stream" />
       <path value="$PROJECT_DIR$/vendor/hoa/zformat" />
       <path value="$PROJECT_DIR$/vendor/hoa/visitor" />
+      <path value="$PROJECT_DIR$/vendor/knplabs/knp-components" />
+      <path value="$PROJECT_DIR$/vendor/knplabs/knp-paginator-bundle" />
     </include_path>
   </component>
   <component name="ProjectId" id="1RptoWJwhNiab8i7JdfGyG72FQH" />
@@ -207,7 +209,11 @@
       <workItem from="1571041531085" duration="1222000" />
       <workItem from="1571046812399" duration="19214000" />
       <workItem from="1571122208845" duration="12122000" />
-      <workItem from="1571139476240" duration="11782000" />
+      <workItem from="1571139476240" duration="17648000" />
+      <workItem from="1571211729993" duration="7966000" />
+      <workItem from="1571505069037" duration="3992000" />
+      <workItem from="1571509839457" duration="8544000" />
+      <workItem from="1571772156972" duration="5963000" />
     </task>
     <servers />
   </component>

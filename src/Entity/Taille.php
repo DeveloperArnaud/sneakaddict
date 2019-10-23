@@ -28,19 +28,12 @@ class Taille
      */
     private $sneaker;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Quantity", mappedBy="taille")
-     */
-    private $quantities;
-
 
 
 
     public function __construct()
     {
         $this->sneaker = new ArrayCollection();
-        $this->quantity = new ArrayCollection();
-        $this->quantities = new ArrayCollection();
     }
 
     public function getId(): ?int
