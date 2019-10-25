@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Commande;
+use App\Entity\User;
 use App\Repository\SneakerRepository;
+use App\Repository\TailleRepository;
 use App\Stripe\Stripe;
-use mysql_xdevapi\Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\LazyProxy\Instantiator\RealServiceInstantiator;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,25 +29,37 @@ class BillingController extends AbstractController
 
         $session = $request->getSession();
         $panier = $session->get('panier');
-        $panierUser = [];
-
-        foreach ($panier as $id => $quantity) {
-            $panierUser[] = [
-                'sneakers' => $sneakerRepository->find($id),
-                'quantity' =>$quantity
-            ];
+        $panierData = [];
+        foreach ($panier as $item => $value) {
+            foreach ($value as $v => $quantity) {
+                $panierData [] = [
+                    'sneaker' => $sneakerRepository->getSneakerByTailleIdandSneakerId($v,$item),
+                    'quantity' =>$quantity
+                ];
+            }
+        }
+        $total = 0;
+        foreach ($panierData as $item => $value ) {
+            foreach ($value['sneaker'] as $sneaker) {
+                $totalItem =  $sneaker->getPrix() * $value['quantity'];
+                $total = $total + $totalItem;
+            }
         }
 
-        $total =  0;
-        foreach($panierUser as $item) {
-            $totalItem= $item['sneakers']->getPrix() * $item['quantity'];
-            $total = $total + $totalItem;
+        $panierBilling = [];
+        foreach ($panierData as $item => $value ) {
+            foreach ($value['sneaker'] as $sneaker) {
+                $panierBilling [] = [
+                    'sneakers' => $sneakerRepository->find($sneaker->getId()),
+                    'quantity' => $value['quantity']
+                ];
+            }
         }
 
         return $this->render('billing/index.html.twig', [
             'controller_name' => 'BillingController',
             'user' =>$user,
-            'panier' => $panierUser,
+            'panier' => $panierBilling,
             'total' => $total
         ]);
     }
@@ -53,7 +67,7 @@ class BillingController extends AbstractController
     /**
      * @Route("/billing/payment", name="billing_payment")
      */
-    public function billing_payment(Request $request)
+    public function billing_payment(Request $request, Security $security,SneakerRepository $sneakerRepository, TailleRepository $tailleRepository)
     {
         $token = $request->get('stripeToken');
         $email = $request->get('email');
@@ -72,9 +86,58 @@ class BillingController extends AbstractController
             'customer'=> $customer->id
         ]);
 
-        var_dump($charge);
+        if($charge) {
+            $commande = new Commande();
+            $us = $security->getUser();
+            $em = $this->getDoctrine()->getManager();
+            $user = $em->getRepository(User::class)->findOneBy(array('id' => $us->getId()));
+            $commande->setUser($user);
+            $commande->setStatut("En préparation");
+            $date = new \DateTime('now');
+            $commande->setDateCommande($date);
+            $session = $request->getSession();
+            $panier = $session->get('panier');
+            $panierConfirm = [];
+            foreach ($panier as $item => $value) {
+                foreach ($value as $v => $quantity) {
+                    $panierConfirm [] = [
+                        'sneaker' => $sneakerRepository->getSneakerByTailleIdandSneakerId($v,$item),
+                        'quantity' =>$quantity
+                    ];
+                }
+            }
 
-        return new Response('Paiement réussi');
+            foreach ($panierConfirm as $item => $value) {
+                foreach ($value['sneaker'] as $sneaker) {
+                    $commande->addSneaker($sneaker);
+                }
+                foreach ($value['sneaker'] as $sneaker) {
+                    foreach ($sneaker->getTaille() as $taille) {
+                        $commande->addTaille($tailleRepository->find($taille->getId()));
+
+                    }
+                }
+            }
+            $total = 0;
+            foreach ($panierConfirm as $item => $value ) {
+                foreach ($value['sneaker'] as $sneaker) {
+                    $totalItem =  $sneaker->getPrix() * $value['quantity'];
+                    $total = $total + $totalItem;
+                    $commande->setTotal($total);
+                }
+            }
+
+
+
+            $em->persist($commande);
+            $em->flush();
+            $session->remove('panier');
+
+            return $this->render('billing/billing_confirmation.page.html.twig',array('commande'=> $commande));
+
+        }
+
+        return new Response('Paiement réussi, mais commande pas prise en compte');
 
 
 

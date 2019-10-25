@@ -24,16 +24,20 @@ class Taille
     private $taille;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Sneaker", inversedBy="tailles")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Sneaker", mappedBy="taille")
      */
-    private $sneaker;
+    private $sneakers;
 
-
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Commande", mappedBy="tailles")
+     */
+    private $commandes;
 
 
     public function __construct()
     {
-        $this->sneaker = new ArrayCollection();
+        $this->sneakers = new ArrayCollection();
+        $this->commandes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -53,18 +57,26 @@ class Taille
         return $this;
     }
 
+
     /**
      * @return Collection|Sneaker[]
      */
-    public function getSneaker(): Collection
+    public function getSneakers(): Collection
     {
-        return $this->sneaker;
+        return $this->sneakers;
+    }
+
+
+    public function __toString()
+    {
+        return (string)$this->taille;
     }
 
     public function addSneaker(Sneaker $sneaker): self
     {
-        if (!$this->sneaker->contains($sneaker)) {
-            $this->sneaker[] = $sneaker;
+        if (!$this->sneakers->contains($sneaker)) {
+            $this->sneakers[] = $sneaker;
+            $sneaker->addTaille($this);
         }
 
         return $this;
@@ -72,51 +84,41 @@ class Taille
 
     public function removeSneaker(Sneaker $sneaker): self
     {
-        if ($this->sneaker->contains($sneaker)) {
-            $this->sneaker->removeElement($sneaker);
-        }
-
-        return $this;
-    }
-
-    public function __toString()
-    {
-        return (string)$this->taille;
-    }
-
-    /**
-     * @return Collection|Sneaker[]
-     */
-    public function getQuantity(): Collection
-    {
-        return $this->quantity;
-    }
-
-    public function addQuantity(Sneaker $quantity): self
-    {
-        if (!$this->quantity->contains($quantity)) {
-            $this->quantity[] = $quantity;
-            $quantity->addQuantity($this);
-        }
-
-        return $this;
-    }
-
-    public function removeQuantity(Sneaker $quantity): self
-    {
-        if ($this->quantity->contains($quantity)) {
-            $this->quantity->removeElement($quantity);
-            $quantity->removeQuantity($this);
+        if ($this->sneakers->contains($sneaker)) {
+            $this->sneakers->removeElement($sneaker);
+            $sneaker->removeTaille($this);
         }
 
         return $this;
     }
 
     /**
-     * @return Collection|Quantity[]
+     * @return Collection|Commande[]
      */
-    public function getQuantities(): Collection
+    public function getCommandes(): Collection
     {
-        return $this->quantities;
+        return $this->commandes;
     }
+
+    public function addCommande(Commande $commande): self
+    {
+        if (!$this->commandes->contains($commande)) {
+            $this->commandes[] = $commande;
+            $commande->addTaille($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommande(Commande $commande): self
+    {
+        if ($this->commandes->contains($commande)) {
+            $this->commandes->removeElement($commande);
+            $commande->removeTaille($this);
+        }
+
+        return $this;
+    }
+
+
 }

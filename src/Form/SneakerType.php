@@ -22,7 +22,7 @@ class SneakerType extends AbstractType
             ->add('marque')
             ->add('prix')
             ->add('path',TextType::class,['label' => 'Image','data_class'=> null])
-            ->add('tailles')
+            ->add('taille')
             ->add('save', SubmitType::class, ['label' => 'Valider'])
 
 

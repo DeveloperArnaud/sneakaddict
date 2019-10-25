@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 class ChaussureController extends AbstractController
 {
@@ -23,6 +24,7 @@ class ChaussureController extends AbstractController
         $tailles = $repo->findAll();
 
         $couleurChaussure = $em->getRepository('App:Sneaker')->GroupByColor();
+        $test = $em->getRepository('App:Sneaker')->getSneakerByTailleIdandSneakerId(1,2);
 
         return $this->render('chaussure/index.html.twig', [
             'controller_name' => 'ChaussureController',
@@ -58,10 +60,13 @@ class ChaussureController extends AbstractController
 
         $repo = $em->getRepository('App:Taille');
         $tailles = $repo->findAll();
+        $couleurChaussure = $em->getRepository('App:Sneaker')->GroupByColor();
+
         return $this->render('chaussure/chaussure.color.search.html.twig', [
             'controller_name' => 'ChaussureController',
             'chaussures' => $chaussures,
-            'tailles' => $tailles
+            'tailles' => $tailles,
+            'couleurs' => $couleurChaussure
         ]);
 
     }
@@ -77,6 +82,36 @@ class ChaussureController extends AbstractController
         return $this->render('chaussure/chaussures.search.html.twig', [
             'chaussures' => $chaussures,
         ]);
+
+    }
+
+    /**
+     * @Route("/chaussures/taille/{taille}", name="chaussures_search_taille")
+     */
+    public function chaussure_search_taille($taille) {
+
+        $em= $this->getDoctrine()->getManager();
+        $repo = $em->getRepository('App:Sneaker');
+        $chaussures = $repo->SearchByTaille($taille);
+        $repo = $em->getRepository('App:Taille');
+        $tailles = $repo->findAll();
+        $couleurChaussure = $em->getRepository('App:Sneaker')->GroupByColor();
+
+        return $this->render('chaussure/chaussures.search.taille.html.twig', [
+            'chaussures' => $chaussures,
+            'tailles' => $tailles,
+            'couleurs' => $couleurChaussure
+        ]);
+
+    }
+
+
+    /**
+     * @Route("/chaussure/test/html", name="chaussures_test")
+     */
+    public function chaussure_test() {
+
+        return $this->render('chaussure/indexbis.html.twig');
 
     }
 }

@@ -2,19 +2,77 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <title>{% block title %}Sneak'Addict{% endblock %}</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
         <link href="https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Rubik&display=swap" rel="stylesheet">
+            <script src="https://bootstrapcreative.com/wp-bc/wp-content/themes/wp-bootstrap/codepen/bootstrapcreative.js?v=7"></script>
 
         {% block stylesheets %}
 
         {% endblock %}
     </head>
+    <style>
+        /* Jacob Lett - https//BootstrapCreative.com - Reference / Refresh / Repetition */
+
+        .modal-header {
+            border-bottom: none;
+        }
+
+        .modal-dialog {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        .modal-backdrop {
+            background-color:#fff;
+            opacity:1!important;
+            border: 10px solid rgba(136, 136, 136, .4);
+        }
+
+        .modal-content {
+            height: auto;
+            min-height: 100%;
+            border-radius: 0;
+            background: none;
+            box-shadow: none;
+        }
+
+        .modal-body {
+            text-align: center;
+        }
+
+        .modal-body form {
+            margin: 0 auto;
+            float: none;
+            width: 100%;
+
+        }
+
+        .modal-content .close {
+            opacity: 1;
+            font-size: 30px;
+        }
+
+        .navbar-default .navbar-collapse,
+        .navbar-default .navbar-form {
+            border: none;
+        }
+    </style>
+    <script>
+        window.console = window.console || function(t) {};
+    </script>
+    <script>
+        if (document.location.search.match(/type=embed/gi)) {
+            window.parent.postMessage("resize", "*");
+        }
+    </script>
     <body>
     <nav class="navbar navbar-expand-lg navbar-light">
-        <a class="navbar-brand" href={{ path('chaussures') }} style="font-family: 'Permanent Marker', cursive;">Sneak'Addict</a>
+        <a class="navbar-brand" href="{{ path('chaussures') }}" style="font-family: 'Permanent Marker', cursive;">Sneak'Addict</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -26,13 +84,13 @@
                         {% for role in app.user.roles %}
                             {% if role == "ROLE_ADMIN" %}
                             <li class="nav-item active">
-                                 <a class="nav-link" href="{{ path('admin_customers') }}">Les clients<span class="sr-only">(current)</span></a>
+                                 <a class="nav-link" href="{{ path('admin_customers') }}">Clients<span class="sr-only">(current)</span></a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ path('admin_products') }}">Les produits</a>
+                                <a class="nav-link" href="{{ path('admin_products') }}">Chaussures</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Les commandes</a>
+                                <a class="nav-link" href="{{ path('admin_orders') }}">Commandes</a>
                             </li>
 
                             {% endif %}
@@ -40,21 +98,8 @@
 
                     {% endif %}
 
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Homme<span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Femme</a>
-                </li>
-
             </ul>
-            <div class="form-inline my-2 my-lg-0" style="margin-right: 400px" >
-                <input  style="width: 700px;border-radius: 30px" class="form-control" id="searchbox" type="search" placeholder="Rechercher" aria-label="Search">
 
-                <div class="modal-users" id="modal-users" style="position: absolute; margin-top:325px;background-color: white; text-align: center; width: 700px;border-radius: 30px; border: 0px solid black">
-
-                </div>
-            </div>
 
         </div>
 
@@ -68,68 +113,72 @@
         {% endif %}
         <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
+                <div class="modal-content" style="width: 1910px">
                     <div class="modal-header">
-                        <h5 class="modal-title" style="text-align: center" id="exampleModalLongTitle"><b>VOTRE IDENTIFIANT POUR REJOINDRE SNEAK'ADDICT</b></h5>
+                        <h5 class="modal-title" style="text-align: center;margin-left: 150px;margin-top: 10px" id="exampleModalLongTitle"><b>CONNEXION</b></h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
+                            <span aria-hidden="true" style="">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
                         <form action="{{ path('login') }}" method="post">
 
-                            <div class="form-group">
+                            <div class="form-group" style="width: 500px">
                                 <input type="email" class="form-control"  name="_username" id="email" aria-describedby="emailHelp" placeholder="Adresse e-mail">
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" style="width: 500px">
                                 <input type="password" class="form-control" name="_password" id="password" placeholder="Mot de passe">
                             </div>
-                            <div class="form-group form-check">
+                            <div class="form-group form-check" style="width: 500px">
                                 <input  type="checkbox" class="form-check-input" id="exampleCheck1">
                                 <label class="form-check-label" for="exampleCheck1">Rester connecté(e) </label>
-                                <a style ="margin-left: 150px; text-decoration: underline; color: grey; font-size: small;" href="">Mot de passe oublié ?</a>
+                                <a style ="margin-left: 150px; text-decoration: underline; color: grey; font-size: small;" href="{{ path('forgotten_password') }}">Mot de passe oublié ?</a>
 
                             </div>
-                            <button style="border : none; background-color: black; margin-left: 80px;width: 322px; height: 40px; margin-top: 40px " type="submit" value="Se connecter" class="btn btn-primary">SE CONNECTER</button>
+                            <button style="border : none; background-color: black; margin-right: 1400px;width: 322px; height: 40px; margin-top: 40px " type="submit" value="Se connecter" class="btn btn-primary">SE CONNECTER</button>
                             <br>
-                          <p style="text-align: center; margin-top: 10px"> Vous n'êtes pas encore membre ? <a style ="text-decoration: underline; color: grey; font-size: small;" href="{{ path('sign-up') }}">Rejoignez-nous !</a></p>
+                          <p style="text-align: center; margin-top: 10px;margin-right: 1400px"> Vous n'êtes pas encore membre ? <a style ="text-decoration: underline; color: grey; font-size: small;" href="{{ path('sign-up') }}">Rejoignez-nous !</a></p>
                         </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <a  class="nav-item nav-link" id="cartShop-btn" style ="color : darkgray;" href="{{ path('cart_index') }}"><i class="fa fa-shopping-cart"></i></a>
-        <div class="modal" id="modal-cart" tabindex="-1" role="dialog" style="margin-left: 1480px; margin-top: 20px; width: 400px">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Mon panier</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="list-group">
-
-                            <ul class="list-unstyled">
-
-
-                            </ul>
-
+                        <div style="justify-content: center; width: 2000px" >
+                            <h1 style="font-family: 'Permanent Marker', cursive;">Sneak'Addict</h1>
                         </div>
 
                     </div>
-                    <div class="modal-footer">
-                        <a  href="{{ path('cart_index') }}"> <button style="width:  350px;margin-left: 130px;" class="btn btn-dark">Payer</button></a>
-                    </div>
+
                 </div>
             </div>
         </div>
-        <a  class="nav-item nav-link" id="cartShop-btn" style ="color : darkgray;" href="#"><i class="fa fa-heart"></i></a>
+
+        <a  class="nav-item nav-link" id="cartShop-btn" style ="color : darkgray;" href="{{ path('cart_index') }}"><i class="fa fa-shopping-cart"></i></a>
         {% if app.user %}
-        <a  class="nav-item nav-link" id="cartShop-btn" style ="color : darkgray;" href="{{ path('logout') }}"><i class="fa fa-sign-out"></i></a>
+            <a  class="nav-item nav-link" id="cartShop-btn" style ="color : darkgray;" href="{{ path('user_favoris') }}"><i class="fa fa-heart"></i></a>
+            <a  class="nav-item nav-link" id="cartShop-btn" style ="color : darkgray;" href="{{ path('logout') }}"><i class="fa fa-sign-out"></i></a>
         {% endif %}
 
+        <button type="button" data-toggle="modal" data-target="#myModal" class="btn btn-default navbar-btn">
+            <i class="fa fa-search"></i>
+        </button>
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content" style="width: 1900px; height: 900px">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <div class="modal-body">
+                        <h1 style="font-family: 'Permanent Marker', cursive;">Sneak'Addict</h1>
+                            <div class="form-group">
+                                <input type="text" placeholder="Rechercher.." id="searchbox" style="border: none; outline: none; width: 1850px" >
+                                <hr>
+                            </div>
+                        <div class="modal-users" id="modal-users" style="position: absolute;background-color: white; text-align: center; width: 1800px;border-radius: 30px;">
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
 
 
     </nav>

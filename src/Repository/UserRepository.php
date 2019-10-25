@@ -22,19 +22,27 @@ class UserRepository extends ServiceEntityRepository
     // /**
     //  * @return User[] Returns an array of User objects
     //  */
-    /*
-    public function findByExampleField($value)
+
+    public function findOneByEmail($email)
     {
         return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('u.id', 'ASC')
-            ->setMaxResults(10)
+            ->where('u.email = :email')
+            ->setParameter('email', $email)
             ->getQuery()
             ->getResult()
         ;
     }
-    */
+
+    public function findOneByResetToken($token)
+    {
+        return $this->createQueryBuilder('u')
+            ->where('u.reset_token = :token')
+            ->setParameter('token', $token)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
 
     /*
     public function findOneBySomeField($value): ?User

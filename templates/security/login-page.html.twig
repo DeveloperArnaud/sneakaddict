@@ -13,8 +13,13 @@
 
         </div>
     {% endif %}
-    <div style="background-color: white; text-align: center;height: 600px;width : 600px;margin-left: 650px; margin-top: 0px ">
 
+    <div style="background-color: white; text-align: center;height: 600px;width : 600px;margin-left: 650px; margin-top: 0px ">
+        {% for message in app.flashes('notice') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
         <form action="{{ path('login') }}" method="post">
             <br>
             <br>
@@ -29,7 +34,7 @@
             <br>
             <input type="submit" name="submit" style="margin-bottom: 40px; margin-top: 20px; background-color: black; border: none; color: white; width: 320px; height : 45px" value="CONNEXION">
             <br>
-            <a href="#" style="text-decoration: none; color: black; font-size: small;">Mot de passe oublié ? </a> | <a style="text-decoration: none; color: black; font-size: small;" href="">Pas encore inscrit ?</a>
+            <a href="{{ path('forgotten_password') }}" style="text-decoration: none; color: black; font-size: small;">Mot de passe oublié ? </a> | <a style="text-decoration: none; color: black; font-size: small;" href="{{ path('sign-up') }}">Pas encore inscrit ?</a>
             <hr>OU<hr>
             <p style="font-size: medium"><b>CONNECTEZ-VOUS AVEC ...</b></p>
             <button style="background-color: white; width: 188px;height: 50px;border: 2px solid grey"><i style="margin-right: 10px; color: dodgerblue" class="fa fa-facebook-square"></i>FACEBOOK </button> <button style="background-color: white; border: 2px solid grey;width: 188px;height: 50px;"><i style="margin-right: 10px;" class="fa fa-google"></i>GOOGLE</button> <button style="background-color: white; border: 2px solid grey;width: 188px;height: 50px;"><i style="margin-right: 5px; color: #5eb5e0" class="fa fa-twitter"></i> TWITTER </button>

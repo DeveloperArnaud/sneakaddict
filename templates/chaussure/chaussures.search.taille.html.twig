@@ -6,7 +6,6 @@
     <div class="jumbotron" style="background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAACoCAMAAABt9SM9AAAAe1BMVEX///8AAADp6emamprt7e34+Pjm5ubIyMjU1NSSkpL09PQ4ODjCwsL8/Pzj4+PMzMxKSkqlpaXe3t65ublVVVWLi4tpaWmurq5+fn50dHQmJiYXFxceHh6FhYVaWlo9PT0wMDB4eHhgYGAODg6qqqpHR0dtbW0bGxslJSU1LTLHAAAD1klEQVR4nO3b63aqMBAF4DOigooiKkq9Fau9vP8THpFWBRKSIJiA+/tfGWYxSZih//4BAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAvKD+aT/RHUMjdN3DlkZz3WE0gDMYEdHXTHccxpv5C4oNhrojSTiGxJHTnX9dEkXvxtRfP9AdAcvQDkZJpmjp6A7mhrq6I8hxrCn9CUwKb7HUHUFaZ7W8Joqile5wUgIy6CHvueHxlin6MCi0mEvfukP4NXYGU7q36+gOKaNPZOmOITY57VOJOtffWHdMORGR9jeI7vxtk84U7T3dQTGcl9JIbwResKYs4+rvYhVHpu/yM2uRSxStT+bVX6wfB+fquXZnvswnimhh6wlHLIrD03Dk6853EStTFGpfP7l2l6f+2Vf1rm8xGRu/9+xY5NnJvvPMS86sPTtRRFNNy4GcXhLk27Oudz4g8BJFdDC8VfXb/PCfca2hvePUXmxrGVx/FzY9K1kza8pPlOn1dzH+i/VU62W6K+YB4aYRreLr+lHfkzW2d9/FmSLj6+/CucZbT7LGgtqLmdMqFridCWt42+mvPkSJOtefYa0qPv8WdMXnrKEbbsWZooFJreJiw7uwqzzBJ+M9oWaNSlOnw341vznzJWovZtKoRsIkFXwFKzyje8dj1KhGRvr9LHrsx3o278U4b2Rgq1jAydzCAx0kiQPCjWmjGinZ7mTJJV54OE9rXP1dZB+sMuOdntwB4cqwUak8xqalVB9jx/pUSdS5/kwc1UiZsG5Hups78bndOx4zRzVyQuYdybz7D+eHI/OPC2wNHdXI6XHuSrSoeAF7xFBo0dj6S6y4N8Yvxb9v7xSFFb0b6PPOvzlmH66zWsoezlPWp0a0qgr1C+8wslL7Ysfd5UfrUswdlaqwhPcZHQLrbBAqng/uNL/+EgVVWJEfv8n7372h+GYf0476S7j1pipswqhG2qDGTH2b/KlCGQoNFUUNGJWqUmoVKDD4U6HS6lnf122rv0SnhlS1af9LmVWeqjbW3698k/Qh29acP1kqfbIW7dv/Uipcs9p1/mSpajds3fmTSXocWqS1+18GuwGvpMX7X4YtTkahNvQ/5SmPZ+4Z+a9aNfLFKeHZtaT/qaDko/VT70fNhip1iG/u/P1ByoV4DBo8f3+UWrf0s1Hff1ZP4dlq/0uNkOS69d7Uj6qq1RN/s7cJXuakLuQVvyW+ver2x+HyxvPH0GtzT6+kySD/2cfyhOrj6brW1+d2czZaBJb3wgcqAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAS/gNEFysHV7+9yAAAAABJRU5ErkJggg==') ;background-repeat:no-repeat;background-position:center center;background-color:white ">
 
     </div>
-
     <div class="row">
         <nav class="col-md-200 d-none d-md-block bg sidebar"  style="position: absolute; ; margin-top: 50px; margin-left: 20px">
             <div class="sidebar-sticky" style="width: 200px;height: 1200px">
@@ -37,7 +36,6 @@
                     </li>
                     <br>
 
-
                     <li class="nav-item" style="margin-left: 10px; text-align: center" >
 
                         <hr>
@@ -51,12 +49,10 @@
                             <b>  {{ color.couleur | capitalize }}</b></a>
                     </li>
                     {% endfor %}
-                    <br>
                 </ul>
             </div>
         </nav>
     </div>
-
 
     <div class="container" style="max-width: 1600px; margin-right: 50px">
 
@@ -65,7 +61,7 @@
                 <div class="col-4">
                     <div class="card" style=" border : none">
                         <a href="{{ path('chaussure_detail', {'id' : chaussure.id }) }}" style="text-decoration: none; color: black">
-                            <img src="{{ asset(chaussure.path) }}" style="height: 500px; width:500px;" alt="...">
+                            <img src="{{ asset(chaussure.path) }}" style="height: 500px; width: 500px;" alt="...">
                             <div class="card-body">
                                 <p class="card-title" style="font-size: medium">{{ chaussure.titre }}</p>
                                 <span style="color : grey"> Chaussures pour Homme </span>
@@ -78,10 +74,6 @@
 
             {% endfor %}
 
-        </div>
-
-        <div class="pagination" style="justify-content: center;margin-top: 50px;">
-            {{ knp_pagination_render(chaussures) }}
         </div>
     </div>
 

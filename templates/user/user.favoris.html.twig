@@ -1,0 +1,44 @@
+{% extends 'base.user.html.twig' %}
+
+
+{% block body %}
+
+<div class="container-fluid" style="position: absolute">
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+        {% for message in app.flashes('notice') %}
+            <div class="alert alert-success alert-dismissible fade show"  style="text-align: center"role="alert">
+                <strong>L'article a été supprimé de vos favoris</strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endfor %}
+        <h4 class="mb-3">Vos favoris</h4>
+        <hr>
+        <div class="row">
+        {% for favori in favoris %}
+            <div class="col-4">
+                <div class="card" style="margin-top: 20px;border: none" >
+                        {% for dshoe in favori.sneaker %}
+                    <a href="{{ path('chaussure_detail', {'id' : dshoe.id }) }}" style="text-decoration: none; color: black">
+                    <img src="{{ asset(dshoe.path) }}" style="height: 500px; width:500px;" alt="...">
+                    </a>
+                        <div class="card-body">
+                            <p class="card-title" style="text-align: center;font-size: medium">{{ dshoe.titre }}</p>
+                            <a href="{{ path('user_remove_favoris',{'idSneaker': dshoe.id,'idFavoris' : favori.id}) }}"> <button class="btn btn-light" style="float: right; border-radius: 30px;"><i class="fa fa-heart"></i></button></a>
+                        </div>
+
+
+                        {% endfor %}
+
+
+                </div>
+            </div>
+
+        {% endfor %}
+
+    </div>
+    </main>
+</div>
+
+{% endblock %}

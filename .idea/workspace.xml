@@ -157,8 +157,9 @@
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../BatiInterim" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
+    <property name="nodejs_package_manager_path" value="npm" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -214,7 +215,11 @@
       <workItem from="1571505069037" duration="3992000" />
       <workItem from="1571509839457" duration="8544000" />
       <workItem from="1571772156972" duration="5963000" />
-      <workItem from="1571815615490" duration="12073000" />
+      <workItem from="1571815615490" duration="27918000" />
+      <workItem from="1571857540985" duration="6433000" />
+      <workItem from="1571941486753" duration="8883000" />
+      <workItem from="1571990125059" duration="27638000" />
+      <workItem from="1572027767812" duration="12060000" />
     </task>
     <servers />
   </component>

@@ -57,9 +57,16 @@
                             <img src="{{ asset(item.sneakers.path) }}" style="width: 64px; height: 64px" class="mr-3" alt="...">
                             <small class="text-muted" style="margin-top: 20px">{{ item.sneakers.titre }}</small>
                         </div>
+                        <small class="text-muted"  style="margin-top:17px;margin-left: 80px">Quantité: {{ item.quantity }}</small>
+                        {% for taille in item.sneakers.taille %}
+                        <small  class="text-muted"  style="margin-top:17px;margin-left: 50px">Taille :{{ taille.taille }} EUR </small>
+                        {% endfor  %}
+
+
 
                     </div>
                     <span class="text-muted"  style="margin-top:17px">{{ item.sneakers.prix }}€</span>
+
                 </li>
                 {% endfor  %}
                 <li class="list-group-item d-flex justify-content-between">

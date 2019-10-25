@@ -52,6 +52,23 @@ class AdminController extends AbstractController
     }
 
     /**
+     * @Route("/admin/orders", name="admin_orders")
+     */
+    public function admin_orders()
+    {
+        $em= $this->getDoctrine()->getManager();
+        $repo = $em->getRepository('App:Commande');
+        $orders = $repo->findAll();
+        $chaussures = $em->getRepository('App:Sneaker')->findAll();
+        
+        return $this->render('admin/admin.orders.html.twig', [
+            'controller_name' => 'AdminController',
+            'commandes' => $orders ,
+            'chaussures' =>$chaussures
+        ]);
+    }
+
+    /**
      * @Route("/admin/customers/detail/{id}", name="admin_customers_detail")
      */
     public function admin_customers_detail($id)
@@ -151,15 +168,8 @@ class AdminController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()){
                 $em = $this->getDoctrine()->getManager();
+                $em->persist($sneaker);
                 $em->flush();
-
-                foreach ($form['tailles']->getData()->getValues() as $uneTaille){
-
-                    $sneaker->addTaille($uneTaille);
-
-                    dd($sneaker->getTailles());
-                }
-
 
             return $this->redirectToRoute('admin_products');
         }

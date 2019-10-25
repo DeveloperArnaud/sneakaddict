@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -98,6 +100,38 @@ class User implements UserInterface,\Serializable
      * @ORM\Column(name="roles", type="string", length=255,nullable=true)
      */
     private $roles;
+
+    /**
+     * @var string le token qui servira lors de l'oubli de mot de passe
+     * @ORM\Column(name="resetToken", type="string", length=255, nullable=true)
+     */
+    protected $resetToken;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Favoris", mappedBy="user")
+     */
+    private $favoris;
+
+    public function __construct()
+    {
+        $this->favoris = new ArrayCollection();
+    }
+
+    /**
+     * @return string
+     */
+    public function getResetToken(): string
+    {
+        return $this->resetToken;
+    }
+
+    /**
+     * @param $resetToken
+     */
+    public function setResetToken($resetToken): void
+    {
+        $this->resetToken = $resetToken;
+    }
 
     public function getId(): ?int
     {
@@ -317,6 +351,34 @@ class User implements UserInterface,\Serializable
 
     public function setRoles(string $role) : self {
         $this->roles = $role;
+        return $this;
+    }
+
+    /**
+     * @return Collection|Favoris[]
+     */
+    public function getFavoris(): Collection
+    {
+        return $this->favoris;
+    }
+
+    public function addFavori(Favoris $favori): self
+    {
+        if (!$this->favoris->contains($favori)) {
+            $this->favoris[] = $favori;
+            $favori->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFavori(Favoris $favori): self
+    {
+        if ($this->favoris->contains($favori)) {
+            $this->favoris->removeElement($favori);
+            $favori->removeUser($this);
+        }
+
         return $this;
     }
 }

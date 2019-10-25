@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Sneaker
  *
- * @ORM\Table(name="sneaker", indexes={@ORM\Index(name="IDX_4259B88A82EA2E54", columns={"commande_id"})})
+ * @ORM\Table(name="sneaker")
  * @ORM\Entity(repositoryClass="App\Repository\SneakerRepository")
  */
 class Sneaker
@@ -74,16 +74,29 @@ class Sneaker
 
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Taille", mappedBy="sneaker")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Taille", inversedBy="sneakers")
      */
-    private $tailles;
+    private $taille;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Commande", mappedBy="sneakers")
+     */
+    private $commandes;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Favoris", mappedBy="sneaker")
+     */
+    private $favoris;
+
 
 
 
 
     public function __construct()
     {
-        $this->tailles = new ArrayCollection();
+        $this->commandes = new ArrayCollection();
+        $this->taille = new ArrayCollection();
+        $this->favoris = new ArrayCollection();
 
     }
 
@@ -104,10 +117,6 @@ class Sneaker
         return $this;
     }
 
-    public function getTaille(): ?float
-    {
-        return $this->taille;
-    }
 
     public function setTaille(float $taille): self
     {
@@ -188,19 +197,58 @@ class Sneaker
         return $this;
     }
 
+
+
+    public function setCommande(?Commande $commande): self
+    {
+        $this->commande = $commande;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Commande[]
+     */
+    public function getCommandes(): Collection
+    {
+        return $this->commandes;
+    }
+
+    public function addCommande(Commande $commande): self
+    {
+        if (!$this->commandes->contains($commande)) {
+            $this->commandes[] = $commande;
+            $commande->setChaussures($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommande(Commande $commande): self
+    {
+        if ($this->commandes->contains($commande)) {
+            $this->commandes->removeElement($commande);
+            // set the owning side to null (unless already changed)
+            if ($commande->getChaussures() === $this) {
+                $commande->setChaussures(null);
+            }
+        }
+
+        return $this;
+    }
+
     /**
      * @return Collection|Taille[]
      */
-    public function getTailles(): Collection
+    public function getTaille(): Collection
     {
-        return $this->tailles;
+        return $this->taille;
     }
 
     public function addTaille(Taille $taille): self
     {
-        if (!$this->tailles->contains($taille)) {
-            $this->tailles[] = $taille;
-            $taille->addSneaker($this);
+        if (!$this->taille->contains($taille)) {
+            $this->taille[] = $taille;
         }
 
         return $this;
@@ -208,46 +256,39 @@ class Sneaker
 
     public function removeTaille(Taille $taille): self
     {
-        if ($this->tailles->contains($taille)) {
-            $this->tailles->removeElement($taille);
-            $taille->removeSneaker($this);
+        if ($this->taille->contains($taille)) {
+            $this->taille->removeElement($taille);
         }
 
         return $this;
     }
 
     /**
-     * @return Collection|Taille[]
+     * @return Collection|Favoris[]
      */
-    public function getQuantity(): Collection
+    public function getFavoris(): Collection
     {
-        return $this->quantity;
+        return $this->favoris;
     }
 
-    public function addQuantity(Taille $quantity): self
+    public function addFavori(Favoris $favori): self
     {
-        if (!$this->quantity->contains($quantity)) {
-            $this->quantity[] = $quantity;
+        if (!$this->favoris->contains($favori)) {
+            $this->favoris[] = $favori;
+            $favori->addSneaker($this);
         }
 
         return $this;
     }
 
-    public function removeQuantity(Taille $quantity): self
+    public function removeFavori(Favoris $favori): self
     {
-        if ($this->quantity->contains($quantity)) {
-            $this->quantity->removeElement($quantity);
+        if ($this->favoris->contains($favori)) {
+            $this->favoris->removeElement($favori);
+            $favori->removeSneaker($this);
         }
 
         return $this;
-    }
-
-    /**
-     * @return Collection|Quantity[]
-     */
-    public function getQuantities(): Collection
-    {
-        return $this->quantities;
     }
 
 

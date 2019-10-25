@@ -14,8 +14,8 @@
             Modèle : {{detail.modele}}
             <br>
             Tailles disponibles :
-            {% for taille in detail.tailles %}
-                <a href="{{ path('admin_product_taille_sneaker_quantities',{'idTaille' : taille.id, 'idSneaker': detail.id}) }}">{{ taille.taille }}</a> |
+            {% for taille in detail.taille %}
+                <a style="text-decoration: none;color: black;" href="{{ path('admin_product_taille_sneaker_quantities',{'idTaille' : taille.id, 'idSneaker': detail.id}) }}">{{ taille.taille }}</a> |
             {% endfor %}
 
             <br>

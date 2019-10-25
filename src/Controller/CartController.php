@@ -19,55 +19,70 @@ class CartController extends AbstractController
     {
         $panier = $session->get('panier',[]);
         $panierData = [];
-
-        foreach ($panier as $id => $quantity) {
-            $panierData [] = [
-                'sneaker' => $sneakerRepository->find($id),
-                'quantity' =>$quantity
-            ];
+        foreach ($panier as $item => $value) {
+            foreach ($value as $v => $quantity) {
+                $panierData [] = [
+                    'sneaker' => $sneakerRepository->getSneakerByTailleIdandSneakerId($v,$item),
+                    'quantity' =>$quantity
+                ];
+            }
         }
         $total = 0;
-        foreach($panierData as $item) {
-            $totalItem= $item['sneaker']->getPrix() * $item['quantity'];
-            $total = $total + $totalItem;
+        foreach ($panierData as $item => $value ) {
+            foreach ($value['sneaker'] as $sneaker) {
+                $totalItem =  $sneaker->getPrix() * $value['quantity'];
+                $total = $total + $totalItem;
+            }
         }
 
+        $convertObject = [];
+        foreach ($panierData as $item => $value ) {
+            foreach ($value['sneaker'] as $sneaker) {
+                $convertObject [] = [
+                    'sneaker' => $sneakerRepository->find($sneaker->getId()),
+                    'quantity' => $value['quantity']
+                ];
+            }
+        }
+
+
+
         return $this->render('cart/index.html.twig', [
-            'items' => $panierData,
-            'total' => $total
+            'items' => $convertObject,
+            'total' => $total,
         ]);
     }
 
 
     /**
-     * @Route("/cart/add/{id}", name="cart_add")
+     * @Route("/cart/add/{idSneaker}/{idTaille}", name="cart_add")
      */
-    public function add($id, SessionInterface $session) {
+    public function add($idSneaker, $idTaille,SessionInterface $session) {
 
         $panier = $session->get('panier', []);
 
-        if(!empty($panier[$id])) {
-            $panier[$id] ++;
+        if(!empty($panier[$idSneaker][$idTaille])) {
+            $panier[$idSneaker][$idTaille] ++;
+
         } else {
-            $panier[$id] = 1;
+            $panier[$idSneaker][$idTaille] = 1;
         }
 
         $session->set('panier',$panier);
-
 
         return $this->redirectToRoute("cart_index");
 
     }
 
     /**
-     * @Route("/cart/remove/{id}", name="cart_remove")
+     * @Route("/cart/remove/{idSneaker}/{idTaille}", name="cart_remove")
      */
-    public function remove($id, SessionInterface $session) {
+    public function remove($idSneaker,$idTaille,SessionInterface $session) {
 
         $panier = $session->get('panier', []);
 
-        if(!empty($panier[$id])) {
-            unset($panier[$id]);
+        if(!empty($panier[$idSneaker][$idTaille])) {
+            unset($panier[$idSneaker][$idTaille]);
         }
 
         $session->set('panier',$panier);

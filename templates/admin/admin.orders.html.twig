@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">N°</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for commande in commandes %}
+            <tr>
+                <th scope="row"><p>
+                            Commande {{ commande.id }}
+                        <small STYLE="float: right">Statut : <b>{{ commande.statut }}</b></small></p>
+                    <div class="">
+                        <div class="card card-body">
+                            Statut : {{ commande.statut }}
+                            <br>
+                            Date de commande : {{ commande.datecommande | date('d-m-Y') }}
+                            <br>
+                            à : {{ commande.datecommande | date('H:m:s') }}
+                            <br>
+                            <br>
+                            Client : {{ commande.user.nom }} {{ commande.user.prenom }}
+                            <br>     {{ commande.user.pays }}
+                            <br>     {{ commande.user.adresse }}
+                            <br>     {{ commande.user.codePostal }}, {{ commande.user.ville }}
+                            <br>
+                            Article(s) :
+                            {% for detail in commande.sneakers %}
+
+                            <div class="media" style="margin-top: 50px">
+                                <img class="mr-3" style="width: 64px; height: 64px" src="{{ asset(detail.path) }}" alt="Generic placeholder image">
+                                <div class="media-body">
+                                    <h5 class="mt-0">{{detail.titre}}</h5>
+                                    {% for taille in commande.tailles %}
+                                    <p>Taille : EUR {{ taille.taille }}</p>
+                                    {% endfor %}
+                                        <p>Prix : {{ detail.prix }} €</p>
+                                </div>
+                            </div>
+
+                            {% endfor %}
+
+                        </div>
+                        <p style="float: right">Total payé : {{ commande.total }} €</p>
+
+
+                    </div>
+                </th>
+                <td></td>
+            </tr>
+
+
+
+        {% endfor %}
+
+        </tbody>
+    </table>
+{% endblock %}

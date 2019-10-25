@@ -19,20 +19,23 @@
         </thead>
         <tbody>
         {% for item in items %}
-        <tr>
+            {% for taille in item.sneaker.taille %}
+
+                <tr>
             <td>
                 <div class="media">
                     <img src="{{ asset(item.sneaker.path) }}" class="mr-3" style="width :80px ; height: 80px" alt="...">
                     <br>
-                    {{ item.sneaker.titre }}</div></td>
+                    {{ item.sneaker.titre }} (Taille : EUR{{ taille.taille }})</div></td>
             <td><br>{{ item.sneaker.modele }}</td>
             <td><br>{{ item.quantity }}</td>
             <td><br>{{ item.sneaker.prix}} €</td>
             <td>
-                <a  class="btn btn-danger btn-sm" href="{{ path('cart_remove',{'id' : item.sneaker.id}) }}"><i class="fa fa-trash"></i></a>
+                <a  class="btn btn-danger btn-sm" href="{{ path('cart_remove',{'idSneaker' : item.sneaker.id,'idTaille' : taille.id}) }}"><i class="fa fa-trash"></i></a>
             </td>
 
         </tr>
+            {% endfor %}
         {% endfor %}
         </tbody>
     </table>

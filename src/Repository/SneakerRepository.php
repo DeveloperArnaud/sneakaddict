@@ -56,6 +56,31 @@ class SneakerRepository extends ServiceEntityRepository
 
     }
 
+    public function SearchByTaille($taille) {
+        return $this->createQueryBuilder('s')
+            ->innerJoin('s.taille', 't')
+            ->where('t.taille = :taille')
+            ->setParameter('taille',$taille)
+            ->getQuery()
+            ->getResult();
+
+
+    }
+
+    public function getSneakerByTailleIdandSneakerId($taille,$idSneaker) {
+        return $this->createQueryBuilder('s')
+            ->select('s,st')
+            ->Join('s.taille', 'st')
+            ->where('s.id = :idSneaker')
+            ->AndWhere('st.id = :taille')
+            ->setParameter('taille',$taille)
+            ->setParameter('idSneaker',$idSneaker)
+            ->getQuery()
+            ->getResult();
+
+
+    }
+
 
     /*
     public function findOneBySomeField($value): ?Sneaker

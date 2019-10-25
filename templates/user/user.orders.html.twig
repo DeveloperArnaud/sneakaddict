@@ -1,0 +1,85 @@
+{% extends 'base.user.html.twig' %}
+
+{% block title %}Hello UserController!{% endblock %}
+
+{% block body %}
+    <div class="container-fluid" STYLE="position: absolute">
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+            <h4 class="mb-3">Vos commandes</h4>
+            <hr>
+
+        <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">N° de commande</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr>
+                {% for order in user_orders %}
+                <th scope="row"><p>
+                        <small>Commande {{ order.id }} :</small>
+                    <small> Statut :  <b>{{ order.statut }}</b>  |  <button class="btn btn-primary btn-sm" style="background: transparent;"><a href="#" style="text-decoration: none">Suivre votre colis</a></button></small>
+                        {% if order.statut == "En cours" or order.statut =="Validée" %}
+                        <small><a href="#" style="float: right;margin-top: 5px">Annuler la commande</a> </small>
+                        {% elseif order.statut == "En cours de traitement" %}
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                            {% elseif order.statut == "En préparation" %}
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 50%" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                            {% elseif order.statut == "Envoyée" %}
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 100%" aria-valuenow="100    " aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                    {% endif %}
+                    </p>
+                    <div class="">
+                        <div class="card card-body">
+                            Statut : {{ order.statut }}
+                            <br>
+                            Date de commande : {{ order.datecommande | date('d-m-Y') }}
+                            <br>
+                            à : {{ order.datecommande | date('H:m:s') }}
+                            <br>
+                            <br>
+                            Client :
+                            <br>{{ app.user.nom }} {{ app.user.prenom }}
+                            <br>{{ app.user.pays }}
+                            <br>{{ app.user.adresse }} , {{ app.user.codePostal }}
+                            <br>
+                            Article(s) :
+                            {% for detail in order.sneakers %}
+
+                                <div class="media" style="margin-top: 50px">
+                                    <img class="mr-3" style="width: 64px; height: 64px" src="{{ asset(detail.path) }}" alt="Generic placeholder image">
+                                    <div class="media-body">
+                                        <h5 class="mt-0"></h5>
+                                        {% for taille in order.tailles %}
+                                            {{ detail.titre }}
+                                            <p>Taille : EUR {{ taille.taille }}</p>
+                                        {% endfor %}
+                                        <p>Prix : {{ detail.prix }}  €</p>
+                                    </div>
+                                </div>
+
+                                <hr>
+
+                            {% endfor %}
+                            <p style="float: right">Total payé : {{ order.total }} €</p>
+
+                        </div>
+
+
+                    </div>
+                </th>
+            </tr>
+        {% endfor %}
+        </tbody>
+
+    </table>
+        </main>
+    </div>
+{% endblock %}
