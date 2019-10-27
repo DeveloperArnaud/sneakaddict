@@ -33,11 +33,19 @@ class Taille
      */
     private $commandes;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Quantity", mappedBy="tailles")
+     */
+    private $quantities;
+
+
 
     public function __construct()
     {
         $this->sneakers = new ArrayCollection();
         $this->commandes = new ArrayCollection();
+        $this->quantities = new ArrayCollection();
+
     }
 
     public function getId(): ?int
@@ -119,6 +127,38 @@ class Taille
 
         return $this;
     }
+
+    /**
+     * @return Collection|Quantity[]
+     */
+    public function getQuantities(): Collection
+    {
+        return $this->quantities;
+    }
+
+    public function addQuantity(Quantity $quantity): self
+    {
+        if (!$this->quantities->contains($quantity)) {
+            $this->quantities[] = $quantity;
+            $quantity->setTailles($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQuantity(Quantity $quantity): self
+    {
+        if ($this->quantities->contains($quantity)) {
+            $this->quantities->removeElement($quantity);
+            // set the owning side to null (unless already changed)
+            if ($quantity->getTailles() === $this) {
+                $quantity->setTailles(null);
+            }
+        }
+
+        return $this;
+    }
+
 
 
 }
