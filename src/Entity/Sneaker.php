@@ -88,6 +88,12 @@ class Sneaker
      */
     private $favoris;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Quantity", mappedBy="chaussure")
+     */
+    private $quantities;
+
+
 
 
 
@@ -97,6 +103,8 @@ class Sneaker
         $this->commandes = new ArrayCollection();
         $this->taille = new ArrayCollection();
         $this->favoris = new ArrayCollection();
+        $this->quantities = new ArrayCollection();
+
 
     }
 
@@ -290,6 +298,38 @@ class Sneaker
 
         return $this;
     }
+
+    /**
+     * @return Collection|Quantity[]
+     */
+    public function getQuantities(): Collection
+    {
+        return $this->quantities;
+    }
+
+    public function addQuantity(Quantity $quantity): self
+    {
+        if (!$this->quantities->contains($quantity)) {
+            $this->quantities[] = $quantity;
+            $quantity->setChaussure($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQuantity(Quantity $quantity): self
+    {
+        if ($this->quantities->contains($quantity)) {
+            $this->quantities->removeElement($quantity);
+            // set the owning side to null (unless already changed)
+            if ($quantity->getChaussure() === $this) {
+                $quantity->setChaussure(null);
+            }
+        }
+
+        return $this;
+    }
+
 
 
 }
