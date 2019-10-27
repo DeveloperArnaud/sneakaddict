@@ -93,6 +93,10 @@ class Sneaker
      */
     private $quantities;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\QuantityOrder", mappedBy="chaussure")
+     */
+    private $quantityOrders;
 
 
 
@@ -104,7 +108,7 @@ class Sneaker
         $this->taille = new ArrayCollection();
         $this->favoris = new ArrayCollection();
         $this->quantities = new ArrayCollection();
-
+        $this->quantityOrders = new ArrayCollection();
 
     }
 
@@ -329,6 +333,38 @@ class Sneaker
 
         return $this;
     }
+
+    /**
+     * @return Collection|QuantityOrder[]
+     */
+    public function getQuantityOrders(): Collection
+    {
+        return $this->quantityOrders;
+    }
+
+    public function addQuantityOrder(QuantityOrder $quantityOrder): self
+    {
+        if (!$this->quantityOrders->contains($quantityOrder)) {
+            $this->quantityOrders[] = $quantityOrder;
+            $quantityOrder->setChaussure($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQuantityOrder(QuantityOrder $quantityOrder): self
+    {
+        if ($this->quantityOrders->contains($quantityOrder)) {
+            $this->quantityOrders->removeElement($quantityOrder);
+            // set the owning side to null (unless already changed)
+            if ($quantityOrder->getChaussure() === $this) {
+                $quantityOrder->setChaussure(null);
+            }
+        }
+
+        return $this;
+    }
+
 
 
 

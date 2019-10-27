@@ -65,6 +65,12 @@ class Commande
      */
     private $total;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\QuantityOrder", mappedBy="order_u")
+     */
+    private $quantityOrders;
+
+
 
 
 
@@ -73,6 +79,7 @@ class Commande
         $this->chaussures = new ArrayCollection();
         $this->sneakers = new ArrayCollection();
         $this->tailles = new ArrayCollection();
+        $this->quantityOrders = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -195,4 +202,37 @@ class Commande
     {
         return "Client : " . $this->getUser()->__toString() ."<br>Commande : " .$this->sneakerString();
     }
+
+    /**
+     * @return Collection|QuantityOrder[]
+     */
+    public function getQuantityOrders(): Collection
+    {
+        return $this->quantityOrders;
+    }
+
+    public function addQuantityOrder(QuantityOrder $quantityOrder): self
+    {
+        if (!$this->quantityOrders->contains($quantityOrder)) {
+            $this->quantityOrders[] = $quantityOrder;
+            $quantityOrder->setOrderU($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQuantityOrder(QuantityOrder $quantityOrder): self
+    {
+        if ($this->quantityOrders->contains($quantityOrder)) {
+            $this->quantityOrders->removeElement($quantityOrder);
+            // set the owning side to null (unless already changed)
+            if ($quantityOrder->getOrderU() === $this) {
+                $quantityOrder->setOrderU(null);
+            }
+        }
+
+        return $this;
+    }
+
+
 }
