@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Quantity;
 use App\Entity\Sneaker;
 use App\Entity\Taille;
 use App\Form\SneakerType;
+use App\Form\StockType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -177,6 +179,32 @@ class AdminController extends AbstractController
             'sneaker'=> $sneaker,
             'form'=>$form->createView()));
 
+    }
+
+    /**
+     * @Route("/admin/stock", name="admin_stock")
+     * @param Request $request
+     * @return string
+     */
+    public function admin_stock(Request $request)
+    {
+        $stock = new Quantity();
+
+        $form = $this->createForm(StockType::class,$stock);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $stock = $form->getData();
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($stock);
+            $em->flush();
+            $this->addFlash('notice', "Le stock pour l'article n°" . $stock->getChaussure()->getId() ." ". $stock->getChaussure()->getTitre() . " (Taille " . $stock->getTailles()->getTaille().")" . " est de ". $stock->getQuantity() ." pièces");
+            return $this->redirectToRoute('admin_products');
+        }
+        return $this->render('admin/admin.manage.stock.html.twig', [
+            'form'=> $form->createView()
+        ]);
     }
 
 
