@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AdminController!{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <form action="{{ path('admin_stock') }}" method="POST">
+            {{ form_start(form) }}
+
+            {{ form_row(form.chaussure,{
+                attr: { class: 'form-control'}}) }}
+            {{ form_row(form.tailles,{
+                attr: {  class: 'form-control'}}) }}
+            {{ form_row(form.quantity,{
+                attr: {  class: 'form-control'}}) }}
+
+            <br>
+            {{ form_row(form.save,{
+                attr: {  class: 'btn btn-success'}}) }}
+
+            {{ form_end(form) }}
+        </form>
+    </div>
+{% endblock %}

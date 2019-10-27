@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Commande;
+use App\Entity\QuantityOrder;
 use App\Entity\User;
 use App\Repository\CommandeRepository;
 use App\Repository\SneakerRepository;
@@ -88,6 +89,7 @@ class BillingController extends AbstractController
         ]);
 
         if($charge) {
+            $quantity_sneaker_size = new QuantityOrder();
             $commande = new Commande();
             $us = $security->getUser();
             $em = $this->getDoctrine()->getManager();
@@ -108,13 +110,18 @@ class BillingController extends AbstractController
                 }
             }
 
+
             foreach ($panierConfirm as $item => $value) {
                 foreach ($value['sneaker'] as $sneaker) {
                     $commande->addSneaker($sneaker);
+                    $quantity_sneaker_size->addChaussure($sneaker);
                 }
+
+
                 foreach ($value['sneaker'] as $sneaker) {
                     foreach ($sneaker->getTaille() as $taille) {
                         $commande->addTaille($tailleRepository->find($taille->getId()));
+                        $quantity_sneaker_size->addTaille($taille);
 
                     }
                 }
@@ -123,14 +130,15 @@ class BillingController extends AbstractController
             foreach ($panierConfirm as $item => $value ) {
                 foreach ($value['sneaker'] as $sneaker) {
                     $totalItem =  $sneaker->getPrix() * $value['quantity'];
+                    $quantity_sneaker_size->setQuantity($value['quantity']);
                     $total = $total + $totalItem;
                     $commande->setTotal($total);
                 }
             }
 
-
-
+            $quantity_sneaker_size->addOrderU($commande);
             $em->persist($commande);
+            $em->persist($quantity_sneaker_size);
             $em->flush();
             $session->remove('panier');
             $message = (new \Swift_Message('Confirmation de commande'))
