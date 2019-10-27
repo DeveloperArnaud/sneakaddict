@@ -381,4 +381,9 @@ class User implements UserInterface,\Serializable
 
         return $this;
     }
+
+    public function __toString()
+    {
+        return "<br>Nom : ".$this->nom . "<br>Prénom : ".$this->prenom ."<br>Adresse : ".$this->adresse ."<br>Code postal : ".$this->codePostal;
+    }
 }

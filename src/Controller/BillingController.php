@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Commande;
 use App\Entity\User;
+use App\Repository\CommandeRepository;
 use App\Repository\SneakerRepository;
 use App\Repository\TailleRepository;
 use App\Stripe\Stripe;
@@ -67,7 +68,7 @@ class BillingController extends AbstractController
     /**
      * @Route("/billing/payment", name="billing_payment")
      */
-    public function billing_payment(Request $request, Security $security,SneakerRepository $sneakerRepository, TailleRepository $tailleRepository)
+    public function billing_payment(Request $request, Security $security,SneakerRepository $sneakerRepository, TailleRepository $tailleRepository,\Swift_Mailer $mailer, CommandeRepository $commandeRepository)
     {
         $token = $request->get('stripeToken');
         $email = $request->get('email');
@@ -92,7 +93,7 @@ class BillingController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $user = $em->getRepository(User::class)->findOneBy(array('id' => $us->getId()));
             $commande->setUser($user);
-            $commande->setStatut("En préparation");
+            $commande->setStatut("Envoyée");
             $date = new \DateTime('now');
             $commande->setDateCommande($date);
             $session = $request->getSession();
@@ -132,8 +133,18 @@ class BillingController extends AbstractController
             $em->persist($commande);
             $em->flush();
             $session->remove('panier');
+            $message = (new \Swift_Message('Confirmation de commande'))
+                ->setFrom('example@example.com')
+                ->setTo($user->getEmail())
+                ->setBody(
+                    "".$commande->__toString(),
+                    'text/html'
+                );
 
-            return $this->render('billing/billing_confirmation.page.html.twig',array('commande'=> $commande));
+            $mailer->send($message);
+            $commandeUser = $commandeRepository->getCommandeByUserIdAndIdCommande($security->getUser()->getId(),$commande->getId());
+
+            return $this->render('billing/billing_confirmation.page.html.twig',array('commandes'=> $commandeUser));
 
         }
 

@@ -7,7 +7,14 @@
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
             <h4 class="mb-3">Vos commandes</h4>
             <hr>
+            <div class="row">
+                {% if user_orders | length <= 0  %}
+                    <div class="col-4">
+                        Vous n'avez pas encore effectué de commande
+                    </div>
 
+            </div>
+            {% else %}
         <table class="table">
         <thead>
         <tr>
@@ -80,6 +87,8 @@
         </tbody>
 
     </table>
+            {% endif %}
+
         </main>
     </div>
 {% endblock %}

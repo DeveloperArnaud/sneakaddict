@@ -160,6 +160,7 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../BatiInterim" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_package_manager_path" value="npm" />
+    <property name="php.override.implement.member.chooser.php.doc" value="NONE" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -219,7 +220,8 @@
       <workItem from="1571857540985" duration="6433000" />
       <workItem from="1571941486753" duration="8883000" />
       <workItem from="1571990125059" duration="27638000" />
-      <workItem from="1572027767812" duration="12060000" />
+      <workItem from="1572027767812" duration="12247000" />
+      <workItem from="1572181740706" duration="7387000" />
     </task>
     <servers />
   </component>

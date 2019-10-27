@@ -181,9 +181,18 @@ class Commande
         return $this;
     }
 
+    public function sneakerString() {
+        foreach ($this->getSneakers() as $sneaker) {
+            foreach ($this->getTailles() as $taille) {
+                return "<br>Prix : " . $sneaker->getPrix() . " <br>Couleur : " . $sneaker->getCouleur() . "<br>Taille : ".$taille->getTaille();
+            }
+        }
+        return '';
+    }
 
 
-
-
-
+    public function __toString()
+    {
+        return "Client : " . $this->getUser()->__toString() ."<br>Commande : " .$this->sneakerString();
+    }
 }

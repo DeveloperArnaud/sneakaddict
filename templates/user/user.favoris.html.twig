@@ -16,7 +16,17 @@
         <h4 class="mb-3">Vos favoris</h4>
         <hr>
         <div class="row">
+        {% if favoris | length <= 0  %}
+            <div class="col-4">
+                Vous n'avez pas encore de favoris
+            </div>
+
+        {% endif %}
+        </div>
+        <div class="row">
+
         {% for favori in favoris %}
+
             <div class="col-4">
                 <div class="card" style="margin-top: 20px;border: none" >
                         {% for dshoe in favori.sneaker %}

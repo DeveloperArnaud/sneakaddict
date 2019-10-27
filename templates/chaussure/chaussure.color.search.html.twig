@@ -13,8 +13,7 @@
                     <li class="nav-item">
                         <p style="text-align: center">Taille</p><hr>
                         {% for taille in tailles %}
-                            <button style="width: 58px; height: 28px; background-color: white;border-radius:5px; border: 1px solid grey; margin-right: 2px" >{{ taille.taille }}</button>
-
+                            <a href="{{ path('chaussures_search_taille', {'taille' : taille.taille}) }}"> <button style="width: 58px; height: 28px; background-color: white;border-radius:5px; border: 1px solid grey; margin-right: 2px" >{{ taille.taille }}</button></a>
                         {% endfor %}
 
 

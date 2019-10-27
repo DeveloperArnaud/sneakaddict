@@ -45,6 +45,19 @@ class CommandeRepository extends ServiceEntityRepository
             ;
     }
 
+    public function getCommandeByUserIdAndIdCommande($idUser,$idCommande)
+    {
+        return $this->createQueryBuilder('c')
+            ->innerJoin('c.user', 'u')
+            ->where('u.id = :idUser')
+            ->Andwhere('c.id = :idCommande')
+            ->setParameter('idUser', $idUser)
+            ->setParameter('idCommande', $idCommande)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
 
     /*
     public function findOneBySomeField($value): ?Commande
