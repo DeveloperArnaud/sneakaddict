@@ -7,6 +7,7 @@ use App\Entity\Sneaker;
 use App\Entity\Taille;
 use App\Form\SneakerType;
 use App\Form\StockType;
+use App\Repository\QuantityRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -33,11 +34,32 @@ class AdminController extends AbstractController
         $em= $this->getDoctrine()->getManager();
         $repo = $em->getRepository('App:Sneaker');
         $chaussures = $repo->findAll();
+        $repoQ = $em->getRepository('App:Quantity');
+        $stock = $repoQ->findBySneakerIdAndTailleId($idSneaker,$tailleId);
+
         return $this->render('admin/admin.products.html.twig', [
             'controller_name' => 'AdminController',
             'chaussures' => $chaussures ,
         ]);
     }
+
+    /**
+     * @Route("/admin/sneaker-taille-stock", name="admin_sneaker-taille-stock")
+     */
+    public function admin_sneaker_taille_stock()
+    {
+        $em= $this->getDoctrine()->getManager();
+        $repo = $em->getRepository('App:Sneaker');
+        $chaussures = $repo->findAll();
+        $repoQ = $em->getRepository('App:Quantity');
+        $stock = $repoQ->findBySneakerIdAndTailleId($idSneaker,$tailleId);
+
+        return $this->render('admin/sneaker-taille-stock', [
+            'controller_name' => 'AdminController',
+            'stocks' => $stock ,
+        ]);
+    }
+
 
     /**
      * @Route("/admin/customers", name="admin_customers")
@@ -186,7 +208,7 @@ class AdminController extends AbstractController
      * @param Request $request
      * @return string
      */
-    public function admin_stock(Request $request)
+    public function admin_stock(Request $request, QuantityRepository $quantityRepository)
     {
         $stock = new Quantity();
 
@@ -197,8 +219,16 @@ class AdminController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $stock = $form->getData();
             $em = $this->getDoctrine()->getManager();
+            $checkStock = $quantityRepository->findBySneakerIdAndTailleId($stock->getChaussure()->getId(),$stock->getTailles()->getId());
+            foreach($checkStock as $quantity) {
+                if ($quantity->getChaussure()->getId() == $stock->getChaussure()->getId() && $quantity->getTailles()->getId() == $stock->getTailles()->getId()) {
+                    $this->addFlash('notice', "Le stock de l'article n° " ." ". $stock->getChaussure()->getId() ." ". $stock->getChaussure()->getTitre() . "    à la taille " . $stock->getTailles()->getTaille() . " a déjà été initialisé");
+                    return $this->redirectToRoute('admin_stock');
+                }
+            }
             $em->persist($stock);
             $em->flush();
+
             $this->addFlash('notice', "Le stock pour l'article n°" . $stock->getChaussure()->getId() ." ". $stock->getChaussure()->getTitre() . " (Taille " . $stock->getTailles()->getTaille().")" . " est de ". $stock->getQuantity() ." pièces");
             return $this->redirectToRoute('admin_products');
         }

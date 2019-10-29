@@ -65,11 +65,6 @@ class Commande
      */
     private $total;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\QuantityOrder", mappedBy="order_u")
-     */
-    private $quantityOrders;
-
 
 
 
@@ -184,52 +179,6 @@ class Commande
     public function setTotal(string $total): self
     {
         $this->total = $total;
-
-        return $this;
-    }
-
-    public function sneakerString() {
-        foreach ($this->getSneakers() as $sneaker) {
-            foreach ($this->getTailles() as $taille) {
-                return "<br>Prix : " . $sneaker->getPrix() . " <br>Couleur : " . $sneaker->getCouleur() . "<br>Taille : ".$taille->getTaille();
-            }
-        }
-        return '';
-    }
-
-
-    public function __toString()
-    {
-        return "Client : " . $this->getUser()->__toString() ."<br>Commande : " .$this->sneakerString();
-    }
-
-    /**
-     * @return Collection|QuantityOrder[]
-     */
-    public function getQuantityOrders(): Collection
-    {
-        return $this->quantityOrders;
-    }
-
-    public function addQuantityOrder(QuantityOrder $quantityOrder): self
-    {
-        if (!$this->quantityOrders->contains($quantityOrder)) {
-            $this->quantityOrders[] = $quantityOrder;
-            $quantityOrder->setOrderU($this);
-        }
-
-        return $this;
-    }
-
-    public function removeQuantityOrder(QuantityOrder $quantityOrder): self
-    {
-        if ($this->quantityOrders->contains($quantityOrder)) {
-            $this->quantityOrders->removeElement($quantityOrder);
-            // set the owning side to null (unless already changed)
-            if ($quantityOrder->getOrderU() === $this) {
-                $quantityOrder->setOrderU(null);
-            }
-        }
 
         return $this;
     }

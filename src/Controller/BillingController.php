@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Commande;
 use App\Entity\QuantityOrder;
+use App\Entity\QuantitySneakerOrdered;
+use App\Entity\QuantityTestOrder;
 use App\Entity\User;
 use App\Repository\CommandeRepository;
 use App\Repository\SneakerRepository;
@@ -36,17 +38,18 @@ class BillingController extends AbstractController
             foreach ($value as $v => $quantity) {
                 $panierData [] = [
                     'sneaker' => $sneakerRepository->getSneakerByTailleIdandSneakerId($v,$item),
-                    'quantity' =>$quantity
+                    'quantity' =>$quantity,
                 ];
             }
         }
-        $total = 0;
+
+            $total = 0;
         foreach ($panierData as $item => $value ) {
             foreach ($value['sneaker'] as $sneaker) {
                 $totalItem =  $sneaker->getPrix() * $value['quantity'];
-                $total = $total + $totalItem;
             }
         }
+        $total = $total + $totalItem;
 
         $panierBilling = [];
         foreach ($panierData as $item => $value ) {
@@ -89,7 +92,7 @@ class BillingController extends AbstractController
         ]);
 
         if($charge) {
-            $quantity_sneaker_size = new QuantityOrder();
+
             $commande = new Commande();
             $us = $security->getUser();
             $em = $this->getDoctrine()->getManager();
@@ -114,44 +117,49 @@ class BillingController extends AbstractController
             foreach ($panierConfirm as $item => $value) {
                 foreach ($value['sneaker'] as $sneaker) {
                     $commande->addSneaker($sneaker);
-                    $quantity_sneaker_size->addChaussure($sneaker);
                 }
 
 
                 foreach ($value['sneaker'] as $sneaker) {
                     foreach ($sneaker->getTaille() as $taille) {
                         $commande->addTaille($tailleRepository->find($taille->getId()));
-                        $quantity_sneaker_size->addTaille($taille);
 
                     }
                 }
+
             }
             $total = 0;
             foreach ($panierConfirm as $item => $value ) {
                 foreach ($value['sneaker'] as $sneaker) {
                     $totalItem =  $sneaker->getPrix() * $value['quantity'];
-                    $quantity_sneaker_size->setQuantity($value['quantity']);
-                    $total = $total + $totalItem;
-                    $commande->setTotal($total);
                 }
             }
 
-            $quantity_sneaker_size->addOrderU($commande);
+            $total = $total + $totalItem;
+            $commande->setTotal($total);
+
+
             $em->persist($commande);
-            $em->persist($quantity_sneaker_size);
             $em->flush();
             $session->remove('panier');
-            $message = (new \Swift_Message('Confirmation de commande'))
-                ->setFrom('example@example.com')
-                ->setTo($user->getEmail())
-                ->setBody(
-                    "".$commande->__toString(),
-                    'text/html'
-                );
 
-            $mailer->send($message);
             $commandeUser = $commandeRepository->getCommandeByUserIdAndIdCommande($security->getUser()->getId(),$commande->getId());
 
+            $message = (new \Swift_Message('Confirmation de commande'))
+                ->setFrom('example@example.fr')
+                ->setTo($user->getEmail());
+
+            $img = "";
+            foreach($commande->getSneakers() as $imgSneaker) {
+                $img = $message->embed(\Swift_Image::fromPath($imgSneaker->getPath()));
+
+            }
+            $message->setBody(
+                $this->render('billing/email.confirmation.order.html.twig', [
+                    'commandes' => $commandeUser, 'img' => $img]),
+                'text/html'
+            );
+            $mailer->send($message);
             return $this->render('billing/billing_confirmation.page.html.twig',array('commandes'=> $commandeUser));
 
         }
@@ -163,6 +171,7 @@ class BillingController extends AbstractController
 
 
     }
+
 
 
 }
