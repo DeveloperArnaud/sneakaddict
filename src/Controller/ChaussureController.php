@@ -9,13 +9,16 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Contracts\Cache\CacheInterface;
 
 class ChaussureController extends AbstractController
 {
+
+
     /**
      * @Route("/chaussures", name="chaussures")
      */
-    public function index(PaginatorInterface $pagination, SessionInterface $session, Request $request)
+    public function index(CacheInterface $cache, PaginatorInterface $pagination, SessionInterface $session, Request $request)
     {
         $em= $this->getDoctrine()->getManager();
         $repo = $em->getRepository('App:Sneaker');
@@ -24,7 +27,6 @@ class ChaussureController extends AbstractController
         $tailles = $repo->findAll();
 
         $couleurChaussure = $em->getRepository('App:Sneaker')->GroupByColor();
-        $test = $em->getRepository('App:Sneaker')->getSneakerByTailleIdandSneakerId(1,2);
 
         return $this->render('chaussure/index.html.twig', [
             'controller_name' => 'ChaussureController',

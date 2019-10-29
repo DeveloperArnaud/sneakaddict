@@ -22,19 +22,20 @@ class QuantityRepository extends ServiceEntityRepository
     // /**
     //  * @return Quantity[] Returns an array of Quantity objects
     //  */
-    /*
-    public function findByExampleField($value)
+
+    public function findBySneakerIdAndTailleId($idSneaker,$idTaille)
     {
         return $this->createQueryBuilder('q')
-            ->andWhere('q.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('q.id', 'ASC')
-            ->setMaxResults(10)
+            ->innerJoin('q.chaussure','s')
+            ->innerJoin('q.tailles  ','t')
+            ->where('s.id = :idSneaker')
+            ->andWhere('t.id = :idTaille')
+            ->setParameter('idSneaker', $idSneaker)
+            ->setParameter('idTaille',$idTaille)
             ->getQuery()
             ->getResult()
         ;
     }
-    */
 
     /*
     public function findOneBySomeField($value): ?Quantity
