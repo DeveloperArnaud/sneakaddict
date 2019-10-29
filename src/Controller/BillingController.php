@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Commande;
 use App\Entity\QuantityOrder;
+use App\Entity\QuantitySneakerOrdered;
+use App\Entity\QuantityTestOrder;
 use App\Entity\User;
 use App\Repository\CommandeRepository;
 use App\Repository\SneakerRepository;
@@ -36,17 +38,18 @@ class BillingController extends AbstractController
             foreach ($value as $v => $quantity) {
                 $panierData [] = [
                     'sneaker' => $sneakerRepository->getSneakerByTailleIdandSneakerId($v,$item),
-                    'quantity' =>$quantity
+                    'quantity' =>$quantity,
                 ];
             }
         }
-        $total = 0;
+
+            $total = 0;
         foreach ($panierData as $item => $value ) {
             foreach ($value['sneaker'] as $sneaker) {
                 $totalItem =  $sneaker->getPrix() * $value['quantity'];
-                $total = $total + $totalItem;
             }
         }
+        $total = $total + $totalItem;
 
         $panierBilling = [];
         foreach ($panierData as $item => $value ) {
@@ -89,6 +92,7 @@ class BillingController extends AbstractController
         ]);
 
         if($charge) {
+
             $commande = new Commande();
             $us = $security->getUser();
             $em = $this->getDoctrine()->getManager();
@@ -122,15 +126,18 @@ class BillingController extends AbstractController
 
                     }
                 }
+
             }
             $total = 0;
             foreach ($panierConfirm as $item => $value ) {
                 foreach ($value['sneaker'] as $sneaker) {
                     $totalItem =  $sneaker->getPrix() * $value['quantity'];
-                    $total = $total + $totalItem;
-                    $commande->setTotal($total);
                 }
             }
+
+            $total = $total + $totalItem;
+            $commande->setTotal($total);
+
 
             $em->persist($commande);
             $em->flush();
@@ -139,16 +146,19 @@ class BillingController extends AbstractController
             $commandeUser = $commandeRepository->getCommandeByUserIdAndIdCommande($security->getUser()->getId(),$commande->getId());
 
             $message = (new \Swift_Message('Confirmation de commande'))
+                ->setFrom('example@example.fr')
                 ->setTo($user->getEmail());
 
+            $img = "";
             foreach($commande->getSneakers() as $imgSneaker) {
                 $img = $message->embed(\Swift_Image::fromPath($imgSneaker->getPath()));
-                $message->setBody(
-                    $this->render('billing/email.confirmation.order.html.twig', [
-                        'commandes' => $commandeUser, 'img' => $img]),
-                    'text/html'
-                );
+
             }
+            $message->setBody(
+                $this->render('billing/email.confirmation.order.html.twig', [
+                    'commandes' => $commandeUser, 'img' => $img]),
+                'text/html'
+            );
             $mailer->send($message);
             return $this->render('billing/billing_confirmation.page.html.twig',array('commandes'=> $commandeUser));
 

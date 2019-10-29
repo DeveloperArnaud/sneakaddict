@@ -38,10 +38,6 @@ class Taille
      */
     private $quantities;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\QuantityOrder", mappedBy="taille")
-     */
-    private $quantityOrders;
 
 
 
@@ -165,36 +161,6 @@ class Taille
         return $this;
     }
 
-    /**
-     * @return Collection|QuantityOrder[]
-     */
-    public function getQuantityOrders(): Collection
-    {
-        return $this->quantityOrders;
-    }
-
-    public function addQuantityOrder(QuantityOrder $quantityOrder): self
-    {
-        if (!$this->quantityOrders->contains($quantityOrder)) {
-            $this->quantityOrders[] = $quantityOrder;
-            $quantityOrder->setTaille($this);
-        }
-
-        return $this;
-    }
-
-    public function removeQuantityOrder(QuantityOrder $quantityOrder): self
-    {
-        if ($this->quantityOrders->contains($quantityOrder)) {
-            $this->quantityOrders->removeElement($quantityOrder);
-            // set the owning side to null (unless already changed)
-            if ($quantityOrder->getTaille() === $this) {
-                $quantityOrder->setTaille(null);
-            }
-        }
-
-        return $this;
-    }
 
 
 

@@ -13,7 +13,8 @@ class AccessDeniedHandler implements AccessDeniedHandlerInterface
     public function handle(Request $request, AccessDeniedException $accessDeniedException)
     {
         // ...
+        $content = $accessDeniedException->getMessage();
 
-        return new Response($content, 403);
+        return new Response('<a href="chaussures">Retour à laccueil</a>', 403);
     }
 }

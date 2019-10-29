@@ -105,7 +105,13 @@
 
 
         {% if app.user %}
-        <a  class="nav-item nav-link" style ="color : darkgray;"  href={{ path('user',{'id' : app.user.id }) }} ><i class="fa fa-user"></i></a>
+            {% for role in app.user.roles %}
+                {% if role == "ROLE_USER" %}
+                <a  class="nav-item nav-link" style ="color : darkgray;"  href={{ path('user',{'id' : app.user.id }) }} ><i class="fa fa-user"></i></a>
+                {% else %}
+                    <a  class="nav-item nav-link" style ="color : darkgray;"  href={{ path('admin') }} ><i class="fa fa-user"></i></a>
+            {% endif %}
+        {% endfor %}
         {% else %}
         <a  class="nav-item nav-link" style ="color : darkgray;"  href="#" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-user"></i></a>
         {% endif %}
@@ -210,6 +216,7 @@
                 $('#modal-users').hide();
             }
         });
+
     </script>
 
 

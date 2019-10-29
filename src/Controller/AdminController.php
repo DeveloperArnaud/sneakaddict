@@ -34,11 +34,32 @@ class AdminController extends AbstractController
         $em= $this->getDoctrine()->getManager();
         $repo = $em->getRepository('App:Sneaker');
         $chaussures = $repo->findAll();
+        $repoQ = $em->getRepository('App:Quantity');
+        $stock = $repoQ->findBySneakerIdAndTailleId($idSneaker,$tailleId);
+
         return $this->render('admin/admin.products.html.twig', [
             'controller_name' => 'AdminController',
             'chaussures' => $chaussures ,
         ]);
     }
+
+    /**
+     * @Route("/admin/sneaker-taille-stock", name="admin_sneaker-taille-stock")
+     */
+    public function admin_sneaker_taille_stock()
+    {
+        $em= $this->getDoctrine()->getManager();
+        $repo = $em->getRepository('App:Sneaker');
+        $chaussures = $repo->findAll();
+        $repoQ = $em->getRepository('App:Quantity');
+        $stock = $repoQ->findBySneakerIdAndTailleId($idSneaker,$tailleId);
+
+        return $this->render('admin/sneaker-taille-stock', [
+            'controller_name' => 'AdminController',
+            'stocks' => $stock ,
+        ]);
+    }
+
 
     /**
      * @Route("/admin/customers", name="admin_customers")
