@@ -43,15 +43,15 @@
                             <h2 style="text-align: center;text-decoration: underline;margin-top: 50px;margin-bottom: 50px">Vos coordonnées</h2>
                             <div class="row">
                                 <div class="col-md-6 mb-3">
-                                    <label for="firstName">Nom</label>
-                                    <input type="text" class="form-control" id="firstName" placeholder="" value="{{ app.user.nom }}" disabled>
+                                    <label for="firstName">Nom <span style="color: red">*</span> </label>
+                                    <input type="text" class="form-control" id="firstName" placeholder="" value="{{ app.user.nom }}" required>
                                     <div class="invalid-feedback">
                                         Valid first name is required.
                                     </div>
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label for="lastName">Prénom</label>
-                                    <input type="text" class="form-control" id="lastName" placeholder="" value="{{ app.user.prenom }}" disabled>
+                                    <label for="lastName">Prénom <span style="color: red">*</span></label>
+                                    <input type="text" class="form-control" id="lastName" placeholder="" value="{{ app.user.prenom }}" required>
                                     <div class="invalid-feedback">
                                         Valid last name is required.
                                     </div>
@@ -59,45 +59,37 @@
                             </div>
 
                             <div class="mb-3">
-                                <label for="email">Email</label>
-                                <input type="email" class="form-control" id="email" value="{{ app.user.email }}" disabled>
+                                <label for="email">Email <span style="color: red">*</span></label>
+                                <input type="email" class="form-control" id="email" value="{{ app.user.email }}" required>
                                 <div class="invalid-feedback">
                                     Please enter a valid email address for shipping updates.
                                 </div>
                             </div>
-
                             <div class="mb-3">
-                                <label for="address">Adresse</label>
-                                <input type="text" class="form-control" id="address"  value="{{ app.user.adresse }}" disabled>
+                                <label for="password">Mot de passe <span style="color: red">*</span></label>
+                                <input type="password" class="form-control" id="password" value="{{ app.user.password }}" required>
                             </div>
-
                             <div class="mb-3">
-                                <label for="address2">Adresse 2 <span class="text-muted">(Optionelle)</span></label>
-                                <input type="text" class="form-control" id="address2" placeholder="Appartement/Etage.." disabled>
+                                <label for="sexe">Date de naissance <span style="color: red">*</span></label>
+                                <input type="textgit" class="form-control" id="dateNaissance" value="{{ app.user.dateNaissance | date('d-m-Y')}}" required>
                             </div>
-
-                            <div class="row">
-                                <div class="col-md-3 mb-3">
-                                    <label for="country">Pays</label>
-                                    <select class="custom-select d-block w-100" id="country" disabled>
-                                        <option value="">{{app.user.pays}}</option>
+                            <div class="mb-3">
+                                <label for="sexe">Sexe <span style="color: red">*</span></label>
+                                <input type="text" class="form-control" id="password" value="{{ app.user.sexe }}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="pointure">Votre pointure</label>
+                                <div class="input-group mb-3">
+                                    <select class="custom-select" id="inputGroupSelect02">
+                                        <option selected>Choissisez..</option>
+                                        <option value="1">39</option>
+                                        <option value="1">40</option>
+                                        <option value="2">41</option>
+                                        <option value="3">42</option>
+                                        <option value="1">40</option>
+                                        <option value="2">41</option>
+                                        <option value="3">42</option>
                                     </select>
-                                    <div class="invalid-feedback">
-                                        Please select a valid country.
-                                    </div>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="state">Ville</label>
-                                    <select class="custom-select d-block w-200" id="state" disabled>
-                                        <option value="">{{app.user.ville}}</option>
-                                    </select>
-                                    <div class="invalid-feedback">
-                                        Please provide a valid state.
-                                    </div>
-                                </div>
-                                <div class="col-md-3 mb-3">
-                                    <label for="zip">Code postal</label>
-                                    <input type="text" class="form-control" id="zip"  value ="{{ app.user.codePostal }}" placeholder="" disabled>
                                 </div>
                             </div>
                             <div class="col-md-15 mb-3">

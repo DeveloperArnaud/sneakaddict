@@ -69,34 +69,6 @@ class User implements UserInterface,\Serializable
     /**
      * @var string
      *
-     * @ORM\Column(name="adresse", type="string", length=255, nullable=false)
-     */
-    private $adresse;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="ville", type="string", length=255, nullable=false)
-     */
-    private $ville;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="pays", type="string", length=255, nullable=false)
-     */
-    private $pays;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="codePostal", type="string", length=5, nullable=false)
-     */
-    private $codePostal;
-
-    /**
-     * @var string
-     *
      * @ORM\Column(name="roles", type="string", length=255,nullable=true)
      */
     private $roles;
@@ -117,10 +89,16 @@ class User implements UserInterface,\Serializable
      */
     private $avis;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Adresses", mappedBy="user")
+     */
+    private $adresses;
+
     public function __construct()
     {
         $this->favoris = new ArrayCollection();
         $this->avis = new ArrayCollection();
+        $this->adresses = new ArrayCollection();
     }
 
     /**
@@ -216,41 +194,6 @@ class User implements UserInterface,\Serializable
         return $this;
     }
 
-    public function getAdresse(): ?string
-    {
-        return $this->adresse;
-    }
-
-    public function setAdresse(string $adresse): self
-    {
-        $this->adresse = $adresse;
-
-        return $this;
-    }
-
-    public function getVille(): ?string
-    {
-        return $this->ville;
-    }
-
-    public function setVille(string $ville): self
-    {
-        $this->ville = $ville;
-
-        return $this;
-    }
-
-    public function getPays(): ?string
-    {
-        return $this->pays;
-    }
-
-    public function setPays(string $pays): self
-    {
-        $this->pays = $pays;
-
-        return $this;
-    }
 
 
     /**
@@ -343,18 +286,6 @@ class User implements UserInterface,\Serializable
         // TODO: Implement eraseCredentials() method.
     }
 
-    public function getCodePostal(): ?string
-    {
-        return $this->codePostal;
-    }
-
-    public function setCodePostal(string $codePostal): self
-    {
-        $this->codePostal = $codePostal;
-
-        return $this;
-    }
-
     public function setRoles(string $role) : self {
         $this->roles = $role;
         return $this;
@@ -418,6 +349,37 @@ class User implements UserInterface,\Serializable
             // set the owning side to null (unless already changed)
             if ($avi->getUser() === $this) {
                 $avi->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Adresses[]
+     */
+    public function getAdresses(): Collection
+    {
+        return $this->adresses;
+    }
+
+    public function addAdress(Adresses $adress): self
+    {
+        if (!$this->adresses->contains($adress)) {
+            $this->adresses[] = $adress;
+            $adress->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAdress(Adresses $adress): self
+    {
+        if ($this->adresses->contains($adress)) {
+            $this->adresses->removeElement($adress);
+            // set the owning side to null (unless already changed)
+            if ($adress->getUser() === $this) {
+                $adress->setUser(null);
             }
         }
 

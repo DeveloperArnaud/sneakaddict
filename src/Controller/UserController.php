@@ -2,9 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Adresses;
 use App\Entity\Favoris;
 use App\Entity\User;
+use App\Form\AdressesType;
 use App\Form\UserType;
+use App\Repository\AdressesRepository;
 use App\Repository\AvisRepository;
 use App\Repository\FavorisRepository;
 use App\Repository\SneakerRepository;
@@ -44,6 +47,35 @@ class UserController extends AbstractController
     {
         return $this->render('user/user.adresses.html.twig', [
             'controller_name' => 'UserController']);
+    }
+
+    /**
+     * @Route("/user/new_adresse", name="user_new_adress")
+     * @param AdressesRepository $adressesRepository
+     * @param UserRepository $userRepository
+     * @param Security $security
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
+    public function user_new_adress(AdressesRepository $adressesRepository,UserRepository $userRepository,Security $security,Request $request)
+    {
+        $adress = new Adresses();
+        $user = $userRepository->find($security->getUser()->getId());
+        $form = $this->createForm(AdressesType::class,$adress);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()) {
+            $adress = $form->getData();
+            $adress->setUser($user);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($adress);
+            $em->flush();
+            $this->addFlash('notice', "Votre adresse a correctement été ajoutée !");
+            return $this->redirectToRoute('user_adresses');
+        }
+
+        return $this->render('user/user.add.adress.html.twig', [
+            'controller_name' => 'UserController',
+            'form' => $form->createView()]);
     }
 
     /**
