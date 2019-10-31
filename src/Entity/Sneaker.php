@@ -93,6 +93,11 @@ class Sneaker
      */
     private $quantities;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Avis", mappedBy="sneaker")
+     */
+    private $avis;
+
 
 
 
@@ -104,6 +109,7 @@ class Sneaker
         $this->favoris = new ArrayCollection();
         $this->quantities = new ArrayCollection();
         $this->quantityOrders = new ArrayCollection();
+        $this->avis = new ArrayCollection();
 
     }
 
@@ -332,6 +338,37 @@ class Sneaker
     public function __toString()
     {
         return $this->titre;
+    }
+
+    /**
+     * @return Collection|Avis[]
+     */
+    public function getAvis(): Collection
+    {
+        return $this->avis;
+    }
+
+    public function addAvi(Avis $avi): self
+    {
+        if (!$this->avis->contains($avi)) {
+            $this->avis[] = $avi;
+            $avi->setSneaker($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAvi(Avis $avi): self
+    {
+        if ($this->avis->contains($avi)) {
+            $this->avis->removeElement($avi);
+            // set the owning side to null (unless already changed)
+            if ($avi->getSneaker() === $this) {
+                $avi->setSneaker(null);
+            }
+        }
+
+        return $this;
     }
 
 

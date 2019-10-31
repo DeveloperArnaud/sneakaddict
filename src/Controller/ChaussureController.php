@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Avis;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -13,7 +14,6 @@ use Symfony\Contracts\Cache\CacheInterface;
 
 class ChaussureController extends AbstractController
 {
-
 
     /**
      * @Route("/chaussures", name="chaussures")
@@ -39,17 +39,51 @@ class ChaussureController extends AbstractController
     /**
      * @Route("/chaussure/{id}", name="chaussure_detail")
      */
-    public function chaussure_detail($id) {
+    public function chaussure_detail(Security $security, $id) {
 
         $em= $this->getDoctrine()->getManager();
         $repo = $em->getRepository('App:Sneaker');
         $chaussure = $repo->findBy(array('id'=>$id));
+        $avis = $repo = $em->getRepository('App:Avis')-> findBySneakerId($id);
+
         return $this->render('chaussure/chaussure_detail.html.twig', [
             'controller_name' => 'ChaussureController',
-            'chaussures' => $chaussure
+            'chaussures' => $chaussure,
+            'avis' => $avis
         ]);
 
     }
+
+    /**
+     * @Route(name="chaussure_post_avis")
+     */
+    public function chaussure_post_avis(Security $security,Request $request)
+    {
+        $avis = new Avis();
+
+        if ($request->isMethod("POST")) {
+            $em = $this->getDoctrine()->getManager();
+            $repo = $em->getRepository('App:Sneaker');
+            $chaussure = $repo->find( $request->request->get('idSneaker'));
+            $user = $em->getRepository('App:User')->find($security->getUser()->getId());
+            $avis->setSneaker($chaussure);
+            $avis->setUser($user);
+            if (empty($request->request->get('avis-user'))) {
+                $this->addFlash('notice', 'Veuillez écrire quelque chose');
+                return $this->redirectToRoute('chaussure_detail', array('id' => $chaussure->getId(), 'avis' => $avis));
+            }
+            $avis->setAvis($request->request->get('avis-user'));
+            $avis->setNote(3.5);
+            $em->persist($avis);
+            $em->flush();
+            $this->addFlash('success', 'Votre avis a bien été ajouté !');
+            return $this->redirectToRoute('chaussure_detail', array('id' => $chaussure->getId(), 'avis' => $avis));
+
+        }
+        return $this->redirectToRoute('chaussure_detail',[ 'avis' => $avis]);
+
+    }
+
 
     /**
      * @Route("/chaussures/{color}", name="chaussure_color_search")
@@ -108,12 +142,5 @@ class ChaussureController extends AbstractController
     }
 
 
-    /**
-     * @Route("/chaussure/test/html", name="chaussures_test")
-     */
-    public function chaussure_test() {
 
-        return $this->render('chaussure/indexbis.html.twig');
-
-    }
 }

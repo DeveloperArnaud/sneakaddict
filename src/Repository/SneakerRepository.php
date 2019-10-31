@@ -23,6 +23,17 @@ class SneakerRepository extends ServiceEntityRepository
     //  * @return Sneaker[] Returns an array of Sneaker objects
     //  */
 
+
+    public function findAllLimited()
+    {
+
+        return $this->createQueryBuilder('s')
+            ->setMaxResults(3)
+            ->getQuery()
+            ->getResult();
+
+    }
+
     public function findByCouleur($couleur)
     {
 

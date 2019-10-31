@@ -11,7 +11,7 @@
   <component name="ComposerSettings" doNotAsk="true" synchronizationState="SYNCHRONIZE">
     <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
     <execution>
-      <executable />
+      <executable path="composer" />
     </execution>
   </component>
   <component name="FileTemplateManagerImpl">
@@ -151,6 +151,7 @@
       <path value="$PROJECT_DIR$/vendor/hoa/visitor" />
       <path value="$PROJECT_DIR$/vendor/knplabs/knp-components" />
       <path value="$PROJECT_DIR$/vendor/knplabs/knp-paginator-bundle" />
+      <path value="$PROJECT_DIR$/vendor/shippo/shippo-php" />
     </include_path>
   </component>
   <component name="ProjectId" id="1RptoWJwhNiab8i7JdfGyG72FQH" />
@@ -182,6 +183,12 @@
         </RuleState>
       </list>
     </option>
+  </component>
+  <component name="RunManager">
+    <configuration name="phpunit.xml.dist" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
+      <TestRunner scope="XML" />
+      <method v="2" />
+    </configuration>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -224,6 +231,9 @@
       <workItem from="1572181740706" duration="25278000" />
       <workItem from="1572292655307" duration="2217000" />
       <workItem from="1572340221415" duration="13124000" />
+      <workItem from="1572429258919" duration="22562000" />
+      <workItem from="1572460992702" duration="637000" />
+      <workItem from="1572513139648" duration="17336000" />
     </task>
     <servers />
   </component>

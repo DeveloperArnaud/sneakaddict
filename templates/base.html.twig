@@ -7,6 +7,8 @@
         <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
         <link href="https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Rubik&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Staatliches&display=swap" rel="stylesheet">
+
         {% block stylesheets %}
 
         {% endblock %}
@@ -68,9 +70,9 @@
             window.parent.postMessage("resize", "*");
         }
     </script>
-    <body>
+    <body STYLE="font-family: 'Staatliches', cursive; letter-spacing: 1px">
     <nav class="navbar navbar-expand-lg navbar-light">
-        <a class="navbar-brand" href="{{ path('chaussures') }}" style="font-family: 'Permanent Marker', cursive;">Sneak'Addict</a>
+        <a class="navbar-brand" href="{{ path('accueil') }}" style="font-family: 'Permanent Marker', cursive;">Sneak'Addict</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -102,14 +104,30 @@
         </div>
 
 
-
-
         {% if app.user %}
             {% for role in app.user.roles %}
                 {% if role == "ROLE_USER" %}
-                <a  class="nav-item nav-link" style ="color : darkgray;"  href={{ path('user',{'id' : app.user.id }) }} ><i class="fa fa-user"></i></a>
+                    <div class="dropdown">
+                        <button  id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-secondary dropdown-toggle" style ="color : darkgray; background: transparent;border: none;outline: none;" ><i class="fa fa-user"></i><small style="margin-left: 5px">Mon compte</small></button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="{{ path(('user')) }}">Paramètres du compte</a>
+                            <a class="dropdown-item" href="{{ path('user_orders') }}">Mes commandes</a>
+                            <a class="dropdown-item" href="{{ path('user_avis') }}">Mes avis</a>
+                            <a class="dropdown-item" href="{{ path('user_favoris') }}">Mes favoris</a>
+                            <a class="dropdown-item" href="#">Se déconnecter</a>
+                        </div>
+                    </div>
                 {% else %}
-                    <a  class="nav-item nav-link" style ="color : darkgray;"  href={{ path('admin') }} ><i class="fa fa-user"></i></a>
+                    <div class="dropdown">
+                    <button  id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-secondary dropdown-toggle" style ="color : darkgray; background: transparent;border: none;outline: none;" ><i class="fa fa-user"></i><small style="margin-left: 5px">Mon compte</small></button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="#">Paramètres du compte</a>
+                            <a class="dropdown-item" href="#">Mes commandes</a>
+                            <a class="dropdown-item" href="#">Mes avis</a>
+                            <a class="dropdown-item" href="#">Mes favoris</a>
+                            <a class="dropdown-item" href="{{ path('logout') }}">Se déconnecter</a>
+                        </div>
+                    </div>
             {% endif %}
         {% endfor %}
         {% else %}
@@ -155,11 +173,10 @@
 
         <a  class="nav-item nav-link" id="cartShop-btn" style ="color : darkgray;" href="{{ path('cart_index') }}"><i class="fa fa-shopping-cart"></i></a>
         {% if app.user %}
-            <a  class="nav-item nav-link" id="cartShop-btn" style ="color : darkgray;" href="{{ path('user_favoris') }}"><i class="fa fa-heart"></i></a>
             <a  class="nav-item nav-link" id="cartShop-btn" style ="color : darkgray;" href="{{ path('logout') }}"><i class="fa fa-sign-out"></i></a>
         {% endif %}
 
-        <button type="button" data-toggle="modal" data-target="#myModal" class="btn btn-default navbar-btn">
+        <button style="color: darkgray" type="button" data-toggle="modal" data-target="#myModal" class="btn btn-default navbar-btn">
             <i class="fa fa-search"></i>
         </button>
         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -186,6 +203,7 @@
 
 
     </nav>
+    <hr STYLE="margin-bottom: 0">
         {% block body %}
 
         {% endblock %}

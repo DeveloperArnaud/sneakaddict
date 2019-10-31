@@ -49,12 +49,38 @@
                                 </label>
                             </div>
                             {% endfor %}
-                        <a href="" style="color: white"><button type="submit"  style ="background-color: black; color : white; border-radius: 30px; border: none; width : 320px; height: 60px; margin-top: 40px">Ajouter au panier</button></a>
+                            <br>
+
+                        <a style="color: white"><button type="submit"  style ="background-color: black; color : white; border-radius: 30px; border: none; width : 320px; height: 60px; margin-top: 40px">Ajouter au panier</button></a>
                         </form>
                         <a href="{{ path('user_add_favoris',{'idSneaker' : chaussure.id}) }}" style="color: white"><button style ="background-color: white; color : black; border-radius: 30px; border: 1px solid black; width : 320px; height: 60px; margin-top: 10px">Ajouter aux favoris</button></a>
 
-                        <div class="card-text" style="margin-top: 40px">
+
+                        <div class="card-text" style="margin-top: 40px;text-align: justify">
                             {{ chaussure.description }}
+                        </div>
+                        <hr STYLE="background: black">
+                        <BUTTON   style="width: 400px;background: transparent;border: none;outline: none" class="card-title">
+                            <b>LES AVIS</b> <i style="margin-left: 100px;position:absolute " id="arrow-avis" class="fa fa-arrow-circle-down"></i>
+                        </BUTTON>
+                        <hr STYLE="background: black">
+                        <div id="avis-avis" class="card-text" style="margin-top: 20px">
+                            {% for avis in avis %}
+                                <b>{{ avis.user.prenom }} {{ avis.user.nom }}</b>
+                                <p STYLE="float: right">Note : <b>{{ avis.note }}/5</b></p>
+                                <br>
+                                <p STYLE="margin-top: 10px">{{ avis.avis }}</p>
+                            {% endfor %}
+                            <form action="{{ path('chaussure_post_avis') }}" method="post">
+                            <div class="form-group">
+                                <input name="idSneaker" value="{{ chaussure.id }}" type="text"  placeholder="Donnez votre avis.." style="border: none" hidden>
+
+                                <textarea name="avis-user"  placeholder="Donnez votre avis.." style="border: none" class="form-control" rows="3"></textarea>
+
+                                <input name="valider-avis" type="submit">
+
+                            </div>
+                            </form>
                         </div>
 
                     </div>

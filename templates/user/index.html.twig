@@ -11,13 +11,36 @@
             </div>
         {% endfor %}
         <div class="" STYLE="">
-                <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-                <h4 class="mb-3">Informations personnelles</h4>
-
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+                <h2>Paramètres du compte</h2>
+                <br>
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link active" style="color: black" href="{{ path('user') }}"> <i class="fa fa-cog"></i> Informations personnelles</a>
+                    </li>
+                    <li class="nav-item">
+                        <a id="mode-paiement" style="color: black" class="nav-link" href="{{ path('user_modes_paiement') }}"> <i class="fa fa-credit-card"></i> Modes de paiement</a>
+                    </li>
+                    <li class="nav-item">
+                        <a style="color: black" class="nav-link" href="{{ path('user_adresses') }}"> Adresses</a>
+                    </li>
+                </ul>
                 <div class="row" style="margin-left: 500px; margin-top: 50px">
-                    <div class="col-md-8 col-md-offset-4">
+                {% for message in app.flashes('notice') %}
+                    <div class="alert alert-success">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+
+
+                    <div class="col-md-10 col-md-offset-4">
                         {% if app.user %}
                         <div class="col-md-8 order-md-1">
+                            <img style="width: 200px;height: 200px;border-radius: 100px;margin-left:150px" src="images/avatar.png">
+
+                            <div class="col-md-6 mb-3">
+                            </div>
+                            <h2 style="text-align: center;text-decoration: underline;margin-top: 50px;margin-bottom: 50px">Vos coordonnées</h2>
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label for="firstName">Nom</label>
@@ -37,59 +60,56 @@
 
                             <div class="mb-3">
                                 <label for="email">Email</label>
-                                <input type="email" class="form-control" id="email" value="{{ app.user.email }}">
+                                <input type="email" class="form-control" id="email" value="{{ app.user.email }}" disabled>
                                 <div class="invalid-feedback">
                                     Please enter a valid email address for shipping updates.
                                 </div>
                             </div>
 
                             <div class="mb-3">
-                                <label for="address">Address</label>
-                                <input type="text" class="form-control" id="address"  value="{{ app.user.adresse }}" placeholder="1234 Main St" required>
-                                <div class="invalid-feedback">
-                                    Please enter your shipping address.
-                                </div>
+                                <label for="address">Adresse</label>
+                                <input type="text" class="form-control" id="address"  value="{{ app.user.adresse }}" disabled>
                             </div>
 
                             <div class="mb-3">
-                                <label for="address2">Address 2 <span class="text-muted">(Optional)</span></label>
-                                <input type="text" class="form-control" id="address2" placeholder="Apartment or suite">
+                                <label for="address2">Adresse 2 <span class="text-muted">(Optionelle)</span></label>
+                                <input type="text" class="form-control" id="address2" placeholder="Appartement/Etage.." disabled>
                             </div>
 
                             <div class="row">
-                                <div class="col-md-5 mb-3">
-                                    <label for="country">Country</label>
-                                    <select class="custom-select d-block w-100" id="country" required>
+                                <div class="col-md-3 mb-3">
+                                    <label for="country">Pays</label>
+                                    <select class="custom-select d-block w-100" id="country" disabled>
                                         <option value="">{{app.user.pays}}</option>
                                     </select>
                                     <div class="invalid-feedback">
                                         Please select a valid country.
                                     </div>
                                 </div>
-                                <div class="col-md-4 mb-3">
+                                <div class="col-md-6 mb-3">
                                     <label for="state">Ville</label>
-                                    <select class="custom-select d-block w-200" id="state" >
+                                    <select class="custom-select d-block w-200" id="state" disabled>
                                         <option value="">{{app.user.ville}}</option>
-                                        <option>California</option>
                                     </select>
                                     <div class="invalid-feedback">
                                         Please provide a valid state.
                                     </div>
                                 </div>
                                 <div class="col-md-3 mb-3">
-                                    <label for="zip">Code</label>
-                                    <input type="text" class="form-control" id="zip"  value ="{{ app.user.codePostal }}"placeholder="" disabled>
+                                    <label for="zip">Code postal</label>
+                                    <input type="text" class="form-control" id="zip"  value ="{{ app.user.codePostal }}" placeholder="" disabled>
                                 </div>
                             </div>
+                            <div class="col-md-15 mb-3">
+                                <a href="{{ path('user_update') }}"  class="btn btn-light" style="text-decoration: none;margin-left: 200px">Modifier vos coordonnées</a>
+                            </div>
+                        </div>
                             {% endif %}
                         </div>
                     </div>
-
-                    </main>
+                </main>
             </div>
-
-        </div>
-    </div>
+            </div>
 
     <!-- Bootstrap core JavaScript
     ================================================== -->

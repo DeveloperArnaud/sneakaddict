@@ -1,0 +1,75 @@
+{% extends 'base.user.html.twig' %}
+
+{% block title %}Hello UserController!{% endblock %}
+
+{% block body %}
+    <body>
+    <div class="container-fluid" STYLE="position: absolute">
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
+        <div class="" STYLE="">
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+                <h2>Adresses</h2>
+                <br>
+                {% if app.user %}
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link" style="color: black" href="{{ path('user') }}"> <i class="fa fa-cog"></i> Informations personnelles</a>
+                    </li>
+                    <li class="nav-item">
+                        <a id="mode-paiement" style="color: black" class="nav-link" href="{{ path('user_modes_paiement') }}"> <i class="fa fa-credit-card"></i> Modes de paiement</a>
+                    </li>
+                    <li class="nav-item">
+                        <a style="color: black" class="nav-link active" href="{{ path('user_adresses') }}"> Adresses</a>
+                    </li>
+                </ul>
+                <table class="table table-borderless" style="margin-top: 50px">
+
+                    <tbody>
+                    <tr>
+                        <th scope="row">{{ app.user.nom }} {{ app.user.prenom }}
+                            <br>
+                            {{ app.user.adresse}}
+                            <br>
+                            {{app.user.ville}}, ILE-DE-FRANCE
+                            <br>
+                            {{ app.user.pays }}
+                            <br>
+                            0688502106
+                        </th>
+                        <td><button class="btn btn-dark" style="background: transparent;border-radius: 30px; width: 150px;height: 40px; color: black; margin-top: 35px">Modifier</button>
+                        </td>
+                    </tr>
+
+                    </tbody>
+
+                </table>
+                <hr>
+                {% endif %}
+            </main>
+        </div>
+
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+    <script src="../../assets/js/vendor/popper.min.js"></script>
+    <script src="../../dist/js/bootstrap.min.js"></script>
+
+    <!-- Icons -->
+    <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+    <script>
+        feather.replace()
+    </script>
+
+    <!-- Graphs -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+
+    </body>
+{% endblock %}

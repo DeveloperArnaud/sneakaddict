@@ -112,9 +112,15 @@ class User implements UserInterface,\Serializable
      */
     private $favoris;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Avis", mappedBy="user")
+     */
+    private $avis;
+
     public function __construct()
     {
         $this->favoris = new ArrayCollection();
+        $this->avis = new ArrayCollection();
     }
 
     /**
@@ -385,5 +391,36 @@ class User implements UserInterface,\Serializable
     public function __toString()
     {
         return "<br>Nom : ".$this->nom . "<br>Prénom : ".$this->prenom ."<br>Adresse : ".$this->adresse ."<br>Code postal : ".$this->codePostal;
+    }
+
+    /**
+     * @return Collection|Avis[]
+     */
+    public function getAvis(): Collection
+    {
+        return $this->avis;
+    }
+
+    public function addAvi(Avis $avi): self
+    {
+        if (!$this->avis->contains($avi)) {
+            $this->avis[] = $avi;
+            $avi->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAvi(Avis $avi): self
+    {
+        if ($this->avis->contains($avi)) {
+            $this->avis->removeElement($avi);
+            // set the owning side to null (unless already changed)
+            if ($avi->getUser() === $this) {
+                $avi->setUser(null);
+            }
+        }
+
+        return $this;
     }
 }

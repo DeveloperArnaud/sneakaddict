@@ -5,8 +5,19 @@
 {% block body %}
     <div class="container-fluid" STYLE="position: absolute">
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+            <div class="dropdown" style="float: right;margin-right: 80px">
+                <button style="outline: none;border: none;color: black;background: transparent" class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Trier par
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="#">Date la plus récente</a>
+                    <a class="dropdown-item" href="#">Date la plus ancienne</a>
+                </div>
+            </div>
             <h4 class="mb-3">Vos commandes</h4>
+
             <hr>
+
             <div class="row">
                 {% if user_orders | length <= 0  %}
                     <div class="col-4">

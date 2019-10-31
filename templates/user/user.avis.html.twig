@@ -1,0 +1,52 @@
+{% extends 'base.user.html.twig' %}
+
+
+{% block body %}
+
+    <div class="container-fluid" style="position: absolute">
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+            {% for message in app.flashes('notice') %}
+                <div class="alert alert-success alert-dismissible fade show"  style="text-align: center"role="alert">
+                    <strong>L'avis a été supprimé</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endfor %}
+            <h4 class="mb-3">Vos avis</h4>
+            <hr>
+            <div class="row">
+                {% if avis | length <= 0  %}
+                    <div class="col-4">
+                        Vous n'avez pas encore de favoris
+                    </div>
+
+                {% endif %}
+            </div>
+            <div class="row">
+
+                {% for avis in avis %}
+
+                    <div class="col-4">
+                        <div class="card" style="margin-top: 20px;border: none" >
+                                <a href="{{ path('chaussure_detail', {'id' : avis.id }) }}" style="text-decoration: none; color: black">
+                                    <img src="{{ asset(avis.sneaker.path) }}" style="height: 500px; width:500px;" alt="...">
+                                </a>
+                                <div class="card-body">
+                                    <p class="card-title" style="text-align: center;font-size: medium">{{ avis.avis }}</p>
+                                    <a href="{{ path('user_remove_avis',{'idAvis': avis.id}) }}"> <button class="btn btn-light" style="float: right; border-radius: 30px;"><i class="fa fa-trash"></i></button></a>
+                                </div>
+
+
+
+
+                        </div>
+                    </div>
+
+                {% endfor %}
+
+            </div>
+        </main>
+    </div>
+
+{% endblock %}

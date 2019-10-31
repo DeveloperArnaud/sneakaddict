@@ -11,9 +11,32 @@ use App\Repository\QuantityRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Cache\CacheInterface;
 
 class AdminController extends AbstractController
 {
+    /**
+     * @Route("/fr", name="accueil")
+     * @param CacheInterface $cache
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @throws \Psr\Cache\InvalidArgumentException
+     */
+    public function accueil_fr(CacheInterface $cache) {
+
+        $function  = $cache->get('affichage',function() {
+            return $this->test();
+        });
+        return $this->render('chaussure/accueil.fr.html.twig',['sneakers' => $function ]);
+
+    }
+
+    private function test() {
+        $em= $this->getDoctrine()->getManager();
+        $repo = $em->getRepository('App:Sneaker');
+        $sneakers = $repo->findAllLimited();
+        return $sneakers;
+    }
+
     /**
      * @Route("/admin", name="admin")
      */
@@ -182,7 +205,7 @@ class AdminController extends AbstractController
 
 
     /**
-     * @Route("/admin/edit/{id}", name="admin_edit_sneaker")
+     * @Route("/admin/edit", name="admin_edit_sneaker")
      * @param Request $request
      * @return string
      */

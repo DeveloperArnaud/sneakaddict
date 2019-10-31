@@ -4,7 +4,7 @@
 
 {% block body %}
     <div class="container">
-        <form action="{{ path('admin_edit_sneaker', {'id' : sneaker.id}) }}" method="POST">
+        <form action="{{ path('admin_edit_sneaker') }}" method="POST">
             {{ form_start(form) }}
 
             {{ form_row(form.titre,{

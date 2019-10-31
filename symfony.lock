@@ -204,6 +204,9 @@
             "./config/packages/sensio_framework_extra.yaml"
         ]
     },
+    "shippo/shippo-php": {
+        "version": "v1.4.3"
+    },
     "stripe/stripe-php": {
         "version": "v7.3.1"
     },

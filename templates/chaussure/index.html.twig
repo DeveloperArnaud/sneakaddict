@@ -2,11 +2,66 @@
 
 
 {% block body %}
-
-    <div class="jumbotron" style="background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAACoCAMAAABt9SM9AAAAe1BMVEX///8AAADp6emamprt7e34+Pjm5ubIyMjU1NSSkpL09PQ4ODjCwsL8/Pzj4+PMzMxKSkqlpaXe3t65ublVVVWLi4tpaWmurq5+fn50dHQmJiYXFxceHh6FhYVaWlo9PT0wMDB4eHhgYGAODg6qqqpHR0dtbW0bGxslJSU1LTLHAAAD1klEQVR4nO3b63aqMBAF4DOigooiKkq9Fau9vP8THpFWBRKSIJiA+/tfGWYxSZih//4BAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAvKD+aT/RHUMjdN3DlkZz3WE0gDMYEdHXTHccxpv5C4oNhrojSTiGxJHTnX9dEkXvxtRfP9AdAcvQDkZJpmjp6A7mhrq6I8hxrCn9CUwKb7HUHUFaZ7W8Joqile5wUgIy6CHvueHxlin6MCi0mEvfukP4NXYGU7q36+gOKaNPZOmOITY57VOJOtffWHdMORGR9jeI7vxtk84U7T3dQTGcl9JIbwResKYs4+rvYhVHpu/yM2uRSxStT+bVX6wfB+fquXZnvswnimhh6wlHLIrD03Dk6853EStTFGpfP7l2l6f+2Vf1rm8xGRu/9+xY5NnJvvPMS86sPTtRRFNNy4GcXhLk27Oudz4g8BJFdDC8VfXb/PCfca2hvePUXmxrGVx/FzY9K1kza8pPlOn1dzH+i/VU62W6K+YB4aYRreLr+lHfkzW2d9/FmSLj6+/CucZbT7LGgtqLmdMqFridCWt42+mvPkSJOtefYa0qPv8WdMXnrKEbbsWZooFJreJiw7uwqzzBJ+M9oWaNSlOnw341vznzJWovZtKoRsIkFXwFKzyje8dj1KhGRvr9LHrsx3o278U4b2Rgq1jAydzCAx0kiQPCjWmjGinZ7mTJJV54OE9rXP1dZB+sMuOdntwB4cqwUak8xqalVB9jx/pUSdS5/kwc1UiZsG5Hups78bndOx4zRzVyQuYdybz7D+eHI/OPC2wNHdXI6XHuSrSoeAF7xFBo0dj6S6y4N8Yvxb9v7xSFFb0b6PPOvzlmH66zWsoezlPWp0a0qgr1C+8wslL7Ysfd5UfrUswdlaqwhPcZHQLrbBAqng/uNL/+EgVVWJEfv8n7372h+GYf0476S7j1pipswqhG2qDGTH2b/KlCGQoNFUUNGJWqUmoVKDD4U6HS6lnf122rv0SnhlS1af9LmVWeqjbW3698k/Qh29acP1kqfbIW7dv/Uipcs9p1/mSpajds3fmTSXocWqS1+18GuwGvpMX7X4YtTkahNvQ/5SmPZ+4Z+a9aNfLFKeHZtaT/qaDko/VT70fNhip1iG/u/P1ByoV4DBo8f3+UWrf0s1Hff1ZP4dlq/0uNkOS69d7Uj6qq1RN/s7cJXuakLuQVvyW+ver2x+HyxvPH0GtzT6+kySD/2cfyhOrj6brW1+d2czZaBJb3wgcqAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAS/gNEFysHV7+9yAAAAABJRU5ErkJggg==') ;background-repeat:no-repeat;background-position:center center;background-color:white ">
+    <style>
+        .example1 {
+            height: 58px;
+            overflow: hidden;
+            position: relative;
+        }
+        .example1 h3 {
+            font-size: large;
+            position: absolute;
+            width: 100%;
+            line-height: 50px;
+            text-align: center;
+            /* Starting position */
+            -moz-transform:translateX(100%);
+            -webkit-transform:translateX(100%);
+            transform:translateX(100%);
+            /* Apply animation to this element */
+            -moz-animation: example1 15s linear infinite;
+            -webkit-animation: example1 15s linear infinite;
+            animation: example1 15s linear infinite;
+        }
+        /* Move it (define the animation) */
+        @-moz-keyframes example1 {
+            0%   { -moz-transform: translateX(100%); }
+            100% { -moz-transform: translateX(-100%); }
+        }
+        @-webkit-keyframes example1 {
+            0%   { -webkit-transform: translateX(100%); }
+            100% { -webkit-transform: translateX(-100%); }
+        }
+        @keyframes example1 {
+            0%   {
+                -moz-transform: translateX(100%); /* Firefox bug fix */
+                -webkit-transform: translateX(100%); /* Firefox bug fix */
+                transform: translateX(100%);
+            }
+            100% {
+                -moz-transform: translateX(-100%); /* Firefox bug fix */
+                -webkit-transform: translateX(-100%); /* Firefox bug fix */
+                transform: translateX(-100%);
+            }
+        }
+    </style>
+    <div class="example1" style="background: #F5F5F5;transition-duration: 1000ms">
+        <h3> Livraison gratuite à partir de 100€ d'achat </h3>
 
     </div>
-
+    <div class="jumbotron" style="background: white">
+        <p style="font-family: 'Permanent Marker', cursive;text-align: center;font-size: xx-large;position: absolute;margin-left: 900px">SNEAK'ADDICT</p>
+    </div>
+    <h3 STYLE="margin-left: 30px">Chaussures pour tous</h3>
+    <div class="dropdown" style="float: right;margin-right: 100px">
+        <button style="outline: none;border: none;color: black;background: transparent" class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Trier par
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" href="#">Prix croissant</a>
+            <a class="dropdown-item" href="#">Prix décroissant</a>
+        </div>
+    </div>
     <div class="row">
         <nav class="col-md-200 d-none d-md-block bg sidebar"  style="position: absolute; ; margin-top: 50px; margin-left: 20px">
             <div class="sidebar-sticky" style="width: 200px;height: 1200px">
