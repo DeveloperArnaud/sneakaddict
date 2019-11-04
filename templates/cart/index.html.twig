@@ -15,6 +15,7 @@
             <th>Modèle</th>
             <th>Quantité</th>
             <th>Prix</th>
+            <th>Action</th>
         </tr>
         </thead>
         <tbody>
@@ -45,7 +46,7 @@
         </dl>
         <div class="clearfix"></div>
         {% if app.user %}
-        <a href="{{ path('billing' , {'id_user': app.user.id }) }}" class="btn btn-success pull-right">Payer</a>
+        <a href="{{ path('billing_adresses')}}" class="btn btn-success pull-right">Continuer</a>
             {% else %}
                 <a href="{{ path('login')}}" class="btn btn-success pull-right">Payer</a>
         {% endif %}

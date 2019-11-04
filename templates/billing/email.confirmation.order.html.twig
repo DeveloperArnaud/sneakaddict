@@ -22,9 +22,9 @@
                             <br>
                             <br>
                             Client : {{ commande.user.nom }} {{ commande.user.prenom }}
-                            <br>     {{ commande.user.pays }}
-                            <br>     {{ commande.user.adresse }}
-                            <br>     {{ commande.user.codePostal }}, {{ commande.user.ville }}
+                            <br>     {{ commande.adresse.pays }}
+                            <br>     {{ commande.adresse.adresse }}
+                            <br>     {{ commande.adresse.codePostal }}, {{ commande.adresse.ville }}
                             <br>
                             Article(s) :
                             {% for detail in commande.sneakers %}
@@ -39,7 +39,6 @@
                                         <p>Prix : {{ detail.prix }} €</p>
                                     </div>
                                 </div>
-
                             {% endfor %}
 
                         </div>

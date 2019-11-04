@@ -58,7 +58,6 @@ class AdminController extends AbstractController
         $repo = $em->getRepository('App:Sneaker');
         $chaussures = $repo->findAll();
         $repoQ = $em->getRepository('App:Quantity');
-        $stock = $repoQ->findBySneakerIdAndTailleId($idSneaker,$tailleId);
 
         return $this->render('admin/admin.products.html.twig', [
             'controller_name' => 'AdminController',
@@ -75,7 +74,6 @@ class AdminController extends AbstractController
         $repo = $em->getRepository('App:Sneaker');
         $chaussures = $repo->findAll();
         $repoQ = $em->getRepository('App:Quantity');
-        $stock = $repoQ->findBySneakerIdAndTailleId($idSneaker,$tailleId);
 
         return $this->render('admin/sneaker-taille-stock', [
             'controller_name' => 'AdminController',
@@ -174,6 +172,8 @@ class AdminController extends AbstractController
             if ($form->isSubmitted() && $form->isValid()) {
                 $sneaker = $form->getData();
                 $em = $this->getDoctrine()->getManager();
+                $sneaker->setAddedAt(new \DateTime('now'));
+                $sneaker->addTaille($form->getData()->getTaille());
                 $em->persist($sneaker);
                 $em->flush();
                 return $this->redirectToRoute('admin_products');

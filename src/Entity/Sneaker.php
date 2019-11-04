@@ -98,6 +98,11 @@ class Sneaker
      */
     private $avis;
 
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $added_at;
+
 
 
 
@@ -367,6 +372,18 @@ class Sneaker
                 $avi->setSneaker(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAddedAt(): ?\DateTimeInterface
+    {
+        return $this->added_at;
+    }
+
+    public function setAddedAt(\DateTimeInterface $added_at): self
+    {
+        $this->added_at = $added_at;
 
         return $this;
     }

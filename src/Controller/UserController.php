@@ -24,10 +24,21 @@ class UserController extends AbstractController
     /**
      * @Route("/user", name="user")
      */
-    public function index()
+    public function index(UserRepository $userRepository, Request $request, Security $security)
     {
+        $user = $userRepository->find($security->getUser()->getId()) ;
+        $form = $this->createForm(UserType::class,$user);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
+            $this->addFlash('notice', "Vos coordonnées ont bien étés modifiées");
+            return $this->redirectToRoute('user');
+        }
         return $this->render('user/index.html.twig', [
-            'controller_name' => 'UserController']);
+            'controller_name' => 'UserController',
+            'form' =>  $form->createView() ]);
     }
 
     /**
@@ -106,31 +117,6 @@ class UserController extends AbstractController
             'controller_name' => 'UserController']);
     }
 
-
-    /**
-     * @Route("/user/update", name="user_update")
-     * @param Request $request
-     * @param Security $security
-     * @param UserRepository $userRepository
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
-     */
-    public function user_update(Request $request,Security $security, UserRepository $userRepository)
-    {
-        $user = $userRepository->find($security->getUser()->getId()) ;
-        $form = $this->createForm(UserType::class,$user);
-        $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($user);
-            $em->flush();
-            $this->addFlash('notice', "Vos coordonnées ont bien étés modifiées");
-            return $this->redirectToRoute('user');
-        }
-
-        return $this->render('user/user.update.html.twig', [
-            'controller_name' => 'UserController',
-            'form'=>$form->createView()]);
-    }
 
     /**
      * @Route("/user/orders", name="user_orders")
