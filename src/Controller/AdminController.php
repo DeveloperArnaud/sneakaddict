@@ -5,11 +5,15 @@ namespace App\Controller;
 use App\Entity\Quantity;
 use App\Entity\Sneaker;
 use App\Entity\Taille;
+use App\Entity\User;
 use App\Form\SneakerType;
 use App\Form\StockType;
+use App\Form\UserType;
 use App\Repository\QuantityRepository;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Cache\CacheInterface;
 
@@ -114,15 +118,25 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/admin/customers/detail/{id}", name="admin_customers_detail")
+     * @Route("/admin/customers/detail/{id}", name="admin_edit_customer_role")
      */
-    public function admin_customers_detail($id)
+    public function admin_customers_detail(Request $request,$id,UserRepository $userRepository)
     {
-        $em= $this->getDoctrine()->getManager();
-        $repo = $em->getRepository('App:User');
-        $user = $repo->findOneBy(array('id'=>$id));
-        return $this->render('admin/admin.customers.html.twig', [
-            'detail_user' => $user ,
+        $user = $userRepository->findOneBy(array('id'=>$id));
+        $form = $this->createForm(UserType::class,$user);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()) {
+                $user = $form->getData();
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($user);
+                $em->flush();
+                $this->addFlash('success', "Le rôle a bien été modifié");
+                return $this->redirectToRoute('admin_customers');
+        }
+
+        return $this->render('admin/admin.customers.detail.html.twig', [
+            'user' => $user ,
+            'form' =>$form->createView()
         ]);
     }
 

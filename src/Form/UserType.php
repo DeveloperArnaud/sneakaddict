@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\User;
+use Hoa\Compiler\Llk\Rule\Choice;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -18,8 +19,16 @@ class UserType extends AbstractType
         $builder
             ->add('nom')
             ->add('prenom')
-            ->add('password',PasswordType::class)
-            ->add('email')
+            ->add('roles', ChoiceType::class, [
+                'choices' => [
+                    'User' => 'ROLE_USER',
+                    'Admin' => 'ROLE_ADMIN',
+                    'Banni' => 'Banned',
+                ],
+                'label' => 'Role :',
+                'expanded' => false,
+                'multiple' => true
+            ])
             ->add('valider',SubmitType::class)
 
         ;

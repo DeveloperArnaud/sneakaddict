@@ -22,15 +22,13 @@
         <div class="row" style="margin-top: 50px" >
             {% for chaussure in chaussures %}
                 <div class="col-4">
-                    <div class="card" style=" border : none">
-                            <img src="{{ asset(chaussure.path) }}"  style="height: 578px; width:462px;" alt="..." id="imgClickAndChange">
+                    <div class="card" style=" border : none;margin-left: 100px">
+                            <img id ="imageSneaker" src="{{ asset(chaussure.path) }}"  style="height: 800px; width:800px;" alt="..." >
                     </div>
                 </div>
 
                 <div class="col-4">
-                    <div class="card" style=" border : none">
-                        <img src="{{ asset(chaussure.path) }}"  style="height: 578px; width:462px;" alt="...">
-                    </div>
+
                 </div>
 
                 <div class="col-4">
@@ -86,39 +84,40 @@
                     </div>
                     <div class="card-text"  style="position: relative;margin-top: 40px;margin-left: 80px">
                         <div class="media">
+                            <div class="btn-group btn-group-toggle">
+                            {% for color in chaussure.colors %}
+                                <button style="background: transparent;border: none" >
+                                <img id="{{ loop.index }}"  style="width: 64px; height: 64px" src="{{ asset(color.colorsneakerpath) }}" class="mr-3" alt="..." onclick="changeImage({{ loop.index }}) ">
+                                </button>
+                            {% endfor %}
+                                <script>
+                                function changeImage(id) {
+                                {% for color in chaussure.colors %}
+                                    idS = id;
+                                    var index = {{ loop.index }};
+                                    if(index === id ) {
+                                        pathS = document.getElementById({{ loop.index }});
+                                        document.getElementById("imageSneaker").src = pathS.src;
+                                    }
+                                    {% endfor %}
+                                }
+                                </script>
 
-                            <img  style="width: 64px; height: 64px" src={{ asset(chaussure.path) }} class="mr-3" alt="..." onclick="changeImage()">
-                            <img style="width: 64px; height: 64px" src={{ asset(chaussure.path) }} class="mr-3" alt="...">
-                            <img style="width: 64px; height: 64px" src={{ asset(chaussure.path) }} class="mr-3" alt="...">
-                            <img style="width: 64px; height: 64px" src={{ asset(chaussure.path) }} class="mr-3" alt="...">
+                            </div>
                         </div>
                     </div>
 
 
 
+
                 </div>
             {% endfor %}
         </div>
 
-        <div class="row" style="margin-top: 10px" >
-            {% for chaussure in chaussures %}
-                <div class="col-4">
-                    <div class="card" style=" border : none">
-                        <img src="{{ asset(chaussure.path) }}" style="height: 578px; width:462px" alt="...">
-                    </div>
-                </div>
-                <div class="col-4">
-                    <div class="card" style=" border : none">
-                        <img src="{{ asset(chaussure.path) }}" style="height: 578px; width:462px" alt="...">
-                    </div>
-                </div>
-
-            {% endfor %}
-
-        </div>
 
 
     </div>
+
 {% endblock %}
 {% block container %}
 

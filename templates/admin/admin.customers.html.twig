@@ -4,12 +4,21 @@
 
 {% block body %}
     <table class="table">
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success alert-dismissible fade show"  style="text-align: center"role="alert">
+                <strong>{{ message }}</strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endfor %}
         <thead>
         <tr>
             <th scope="col">N°</th>
             <th scope="col"><i class="fa fa-user"></i> Nom/prénom</th>
             <th scope="col"><i class="fa fa-envelope"></i> E-mail</th>
-            <th scope="col">Actions</th>
+            <th scope="col">Rôle</th>
+            <th scope="col">Action</th>
 
         </tr>
         </thead>
@@ -19,7 +28,18 @@
                 <th scope="row">{{ user.id }}</th>
                 <td>{{user.nom}} {{ user.prenom }}</td>
                 <td><b>{{ user.email }}</b></td>
-                <td> <a class="btn btn-primary btn-sm" href="{{ path('admin_customers_detail',{'id' : user.id}) }}">Détails</a>  <a  class="btn btn-danger btn-sm" href="{{ path('admin_remove',{'id' : user.id}) }}"><i class="fa fa-trash"></i></a></td>
+                {% for role in user.roles %}
+                    {% if role == "ROLE_USER" %}
+                        <td><span class="badge badge-success" style="font-family: Arial">{{ role }}</span></td>
+                        {% elseif role == "ROLE_ADMIN" %}
+                            <td><span class="badge badge-primary" style="font-family: Arial">{{ role }}</span></td>
+                        {% elseif role == "Banned" %}
+                            <td><span class="badge badge-danger" style="font-family: Arial">{{ role }}</span></td>
+                    {% endif %}
+                <td>
+                    <a href="{{ path('admin_edit_customer_role', {id : user.id}) }}">Changer</a>
+                       </td>
+                {% endfor %}
             </tr>
         {% endfor %}
         </tbody>

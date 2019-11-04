@@ -18,6 +18,7 @@ class SneakerType extends AbstractType
             ->add('couleur')
             ->add('modele')
             ->add('titre')
+            ->add('colors')
             ->add('description')
             ->add('marque')
             ->add('prix')

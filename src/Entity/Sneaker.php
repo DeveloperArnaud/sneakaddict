@@ -103,6 +103,11 @@ class Sneaker
      */
     private $added_at;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Color", mappedBy="sneaker")
+     */
+    private $colors;
+
 
 
 
@@ -115,6 +120,7 @@ class Sneaker
         $this->quantities = new ArrayCollection();
         $this->quantityOrders = new ArrayCollection();
         $this->avis = new ArrayCollection();
+        $this->colors = new ArrayCollection();
 
     }
 
@@ -384,6 +390,37 @@ class Sneaker
     public function setAddedAt(\DateTimeInterface $added_at): self
     {
         $this->added_at = $added_at;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Color[]
+     */
+    public function getColors(): Collection
+    {
+        return $this->colors;
+    }
+
+    public function addColor(Color $color): self
+    {
+        if (!$this->colors->contains($color)) {
+            $this->colors[] = $color;
+            $color->setSneaker($this);
+        }
+
+        return $this;
+    }
+
+    public function removeColor(Color $color): self
+    {
+        if ($this->colors->contains($color)) {
+            $this->colors->removeElement($color);
+            // set the owning side to null (unless already changed)
+            if ($color->getSneaker() === $this) {
+                $color->setSneaker(null);
+            }
+        }
 
         return $this;
     }

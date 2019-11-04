@@ -122,9 +122,10 @@
                         <a href="{{ path('chaussure_detail', {'id' : chaussure.id }) }}" style="text-decoration: none; color: black">
                             <img src="{{ asset(chaussure.path) }}" style="height: 500px; width:500px;" alt="...">
                             <div class="card-body">
-                                <p class="card-title" style="font-size: medium">{{ chaussure.titre }}</p>
+                                <p class="card-title" style="font-size: medium">{{ chaussure.titre }} <b style="float: right">{{chaussure.prix}}€</b></p>
                                 <span style="color : grey"> Chaussures pour Homme </span>
-                                <p class="card-text" style="color: grey"><b>{{chaussure.prix}}€</b></p>
+                                <p class="card-text" style="color: grey;margin-bottom: 0"><b>{{chaussure.colors | length }} couleurs</b>  </p>
+
                             </div>
                         </a>
 

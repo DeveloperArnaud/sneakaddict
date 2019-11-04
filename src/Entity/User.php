@@ -248,8 +248,10 @@ class User implements UserInterface,\Serializable
 
         if ($this->roles == 'ROLE_ADMIN') {
             return ['ROLE_ADMIN'];
-        } else {
+        } elseif($this->roles == 'ROLE_USER') {
             return ['ROLE_USER'];
+        } else {
+            return ['Banned'];
         }
     }
 
@@ -385,4 +387,6 @@ class User implements UserInterface,\Serializable
 
         return $this;
     }
+
+
 }
