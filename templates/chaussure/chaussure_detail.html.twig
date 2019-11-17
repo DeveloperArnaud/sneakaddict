@@ -23,7 +23,7 @@
             {% for chaussure in chaussures %}
                 <div class="col-4">
                     <div class="card" style=" border : none;margin-left: 100px">
-                            <img id ="imageSneaker" src="{{ asset(chaussure.path) }}"  style="height: 800px; width:800px;" alt="..." >
+                            <img id ="imageSneaker" src="{{ asset(chaussure.imageName) }}"  style="height: 800px; width:800px;" alt="..." >
                     </div>
                 </div>
 
@@ -69,6 +69,7 @@
                                 <br>
                                 <p STYLE="margin-top: 10px">{{ avis.avis }}</p>
                             {% endfor %}
+                            {% if app.user %}
                             <form action="{{ path('chaussure_post_avis') }}" method="post">
                             <div class="form-group">
                                 <input name="idSneaker" value="{{ chaussure.id }}" type="text"  placeholder="Donnez votre avis.." style="border: none" hidden>
@@ -79,6 +80,7 @@
 
                             </div>
                             </form>
+                            {% endif %}
                         </div>
 
                     </div>

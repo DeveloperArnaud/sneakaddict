@@ -1,0 +1,344 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>jQuery UI Tabs - Default functionality</title>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Rubik&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Staatliches&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        $( function() {
+            $( "#tabs" ).tabs();
+        } );
+    </script>
+</head>
+<nav class="navbar navbar-expand-lg navbar-light">
+    <a class="navbar-brand" href="{{ path('chaussures') }}" style="font-family: 'Permanent Marker', cursive;">Sneak'Addict</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+    </div>
+
+
+
+
+    {% if app.user %}
+        <div class="dropdown">
+            <button  id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-secondary dropdown-toggle" style ="color : darkgray; background: transparent;border: none;outline: none;" ><i class="fa fa-user"></i><small style="margin-left: 5px">Mon compte</small></button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="{{ path(('user')) }}">Paramètres du compte</a>
+                <a class="dropdown-item" href="{{ path('user_orders') }}">Mes commandes</a>
+                <a class="dropdown-item" href="{{ path('user_avis') }}">Mes avis</a>
+                <a class="dropdown-item" href="{{ path('user_favoris') }}">Mes favoris</a>
+                <a class="dropdown-item" href="{{ path('logout') }}">Se déconnecter</a>
+            </div>
+        </div>
+    {% else %}
+        <a  class="nav-item nav-link" style ="color : darkgray;"  href="#" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-user"></i></a>
+    {% endif %}
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" style="text-align: center" id="exampleModalLongTitle"><b>VOTRE IDENTIFIANT POUR REJOINDRE SNEAK'ADDICT</b></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ path('login') }}" method="post">
+
+                        <div class="form-group">
+                            <input type="email" class="form-control"  name="_username" id="email" aria-describedby="emailHelp" placeholder="Adresse e-mail">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-control" name="_password" id="password" placeholder="Mot de passe">
+                        </div>
+                        <div class="form-group form-check">
+                            <input  type="checkbox" class="form-check-input" id="exampleCheck1">
+                            <label class="form-check-label" for="exampleCheck1">Rester connecté(e) </label>
+                            <a style ="margin-left: 150px; text-decoration: underline; color: grey; font-size: small;" href="{{ path('forgotten_password') }}">Mot de passe oublié ?</a>
+
+                        </div>
+                        <button style="border : none; background-color: black; margin-left: 80px;width: 322px; height: 40px; margin-top: 40px " type="submit" value="Se connecter" class="btn btn-primary">SE CONNECTER</button>
+                        <br>
+                        <p style="text-align: center; margin-top: 10px"> Vous n'êtes pas encore membre ? <a style ="text-decoration: underline; color: grey; font-size: small;" href="{{ path('sign-up') }}">Rejoignez-nous !</a></p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a  class="nav-item nav-link" id="cartShop-btn" style ="color : darkgray;" href="{{ path('cart_index') }}"><i class="fa fa-shopping-cart"></i></a>
+    <div class="modal" id="modal-cart" tabindex="-1" role="dialog" style="margin-left: 1480px; margin-top: 20px; width: 400px">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Mon panier</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="list-group">
+
+                        <ul class="list-unstyled">
+
+
+                        </ul>
+
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <a  href="{{ path('cart_index') }}"> <button style="width:  350px;margin-left: 130px;" class="btn btn-dark">Payer</button></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% if app.user %}
+        <a  class="nav-item nav-link" id="cartShop-btn" style ="color : darkgray;" href="{{ path('logout') }}"><i class="fa fa-sign-out"></i></a>
+    {% endif %}
+
+
+</nav>
+<hr>
+
+<body>
+<div class="container-fluid">
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+    <div class="row">
+        <nav class="col-md-2 d-none d-md-block  sidebar" style="margin-top: 20px">
+            <div class="sidebar-sticky">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a  style="text-decoration: none; color: black" class="nav-link active" href="{{ path('user') }}">
+                            <span data-feather="user"></span>
+                            Mon compte <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a style="text-decoration: none; color: black" class="nav-link" href="{{ path('user_orders') }}">
+                            <span data-feather="box"></span>
+                            Mes commandes
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a style="text-decoration: none; color: black" class="nav-link" href="{{ path('user_avis') }}">
+                            <span data-feather="edit-2"></span>
+                            Mes avis
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a style="text-decoration: none; color: black" class="nav-link" href="{{ path('user_favoris') }}">
+                            <span data-feather="heart"></span>
+                            Mes favoris
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a style="text-decoration: none; color: black" class="nav-link" href="{{ path('logout') }}">
+                            <span data-feather="log-out"></span>
+                            Se déconnecter
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+
+    </div>
+</div>
+
+<div id="tabs">
+    <ul class="nav nav-tabs" >
+        <li class="nav-item">
+            <a class="nav-link active" style="color: black" href="#tabs-1"> <i class="fa fa-cog"></i> Informations personnelles</a>
+        </li>
+        <li class="nav-item">
+            <a id="mode-paiement" style="color: black" class="nav-link" href="#tabs-2"> <i class="fa fa-credit-card"></i> Modes de paiement</a>
+        </li>
+        <li class="nav-item">
+            <a style="color: black" class="nav-link" href="#tabs-3"> Adresses</a>
+        </li>
+    </ul>
+    <div id="tabs-1">
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
+        <div class="" STYLE="">
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+                {% for message in app.flashes('notice') %}
+                    <div class="alert alert-success alert-dismissible fade show"  style="text-align: center" role="alert">
+                        <strong>{{ message }}</strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% endfor %}
+                <h2>Adresses</h2>
+                <br>
+                    {% for adresse in app.user.adresses %}
+                        <table class="table table-borderless" style="margin-top: 50px">
+
+                            <tbody>
+                            <tr>
+                                <th scope="row">
+                                    {{ app.user.nom | upper }} {{ app.user.prenom | upper}}
+                                    <br>
+                                    {{ adresse.adresse | upper}}
+                                    <br>
+                                    {{adresse.ville}}, {{adresse.region | upper}}
+                                    <br>
+                                    {{ adresse.pays | upper}}
+                                    <br>
+                                    0688502106
+                                </th>
+
+                            </tr>
+                            <td>
+                                <a href="{{ path('user_update_adress',{'idAdresse' : adresse.id }) }}"><button class="btn btn-dark" style="background: transparent;border-radius: 30px; width: 150px;height: 40px; color: black; margin-top: 35px">Modifier</button></a>
+                                <a href="{{ path('user_remove_adress',{'idAdresse' : adresse.id }) }}"><button class="btn btn-dark" style="background: transparent;border-radius: 30px; width: 150px;height: 40px; color: black; margin-top: 35px">Supprimer</button></a>
+
+                            </td>
+                            </tbody>
+
+                        </table>
+                        <hr>
+                    {% endfor %}
+                    <a href="{{ path('user_new_adress') }}"><button class="btn btn-dark" style="margin-left: 550px;background: transparent;border-radius: 30px; width: 300px;height: 40px; color: black ">Ajouter une nouvelle adresse</button></a>
+            </main>
+        </div>
+    </div>
+    <div id="tabs-2">
+        <div class="" STYLE="">
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+                <h2>Paramètres du compte</h2>
+                <div class="row" style="margin-left: 500px; margin-top: 50px">
+
+                    <div class="col-md-10 col-md-offset-4">
+                        {% for message in app.flashes('notice') %}
+                            <div class="alert alert-success">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                        {% if app.user %}
+                            <div class="col-md-8 order-md-1">
+                                <img style="width: 200px;height: 200px;border-radius: 100px;margin-left:150px" src="images/avatar.png">
+
+                                <form action="{{ path('user') }}" method="POST">
+                                    <h2 style="text-align: center;text-decoration: underline;margin-top: 50px;margin-bottom: 50px">Vos coordonnées</h2>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            {{form_row(form.nom, {'attr': {'class': 'form-control','value' : app.user.nom}})}}
+                                            <div class="invalid-feedback">
+                                                Valid first name is required.
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            {{form_row(form.prenom, {'attr': {'class': 'form-control','value' : app.user.prenom}})}}
+                                            <div class="invalid-feedback">
+                                                Valid last name is required.
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        {{form_row(form.email, {'attr': {'class': 'form-control'}})}}
+                                        <div class="invalid-feedback">
+                                            Please enter a valid email address for shipping updates.
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        {{form_row(form.password, {'label' : 'Mot de passe','attr': {'class': 'form-control', 'value' : app.user.password}})}}
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="example-date-input">Date de naissance</label>
+                                        <input class="form-control" type="date" value="2011-08-19" id="example-date-input">
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="form-group">
+                                            <label for="exampleSelect1">SEXE</label>
+                                            <select name="sexe" class="form-control" id="exampleSelect1">
+                                                <option value="Homme">{{ app.user.sexe }}</option>
+                                                <option value="Femme">Femme</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="pointure">Votre pointure</label>
+                                        <div class="input-group mb-3">
+                                            <select class="custom-select" id="inputGroupSelect02">
+                                                <option selected>Choissisez..</option>
+                                                <option value="1">39</option>
+                                                <option value="1">40</option>
+                                                <option value="2">41</option>
+                                                <option value="3">42</option>
+                                                <option value="1">40</option>
+                                                <option value="2">41</option>
+                                                <option value="3">42</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 mb-3" style="margin-left: 200px">
+                                        {{form_row(form.valider, {'attr': {'class': 'btn btn-dark'}})}}
+                                    </div>
+                                </form>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </main>
+        </div>    </div>
+    <div id="tabs-3">
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
+        <div class="" STYLE="">
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+                <h2>Modes de paiement</h2>
+                <table class="table" style="margin-top: 50px">
+
+                    <tbody>
+                    <tr>
+                        <th scope="row"></th>
+                        <td><img alt="mastercard-icon" style="height: 24px" src="https://assets.commerce.nikecloud.com/experience/membership/settings/dist/2.0.16/images/mastercard.png"></td>
+                        <td>4242</td>
+                        <td>Exp : 12/2020</td>
+                        <td><a style="color :black; text-decoration: underline" href="">Supprimer</a></td>
+
+                    </tr>
+                    <tr>
+                        <th scope="row"></th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <button class="btn btn-dark" style="margin-left: 600px;background: transparent;border-radius: 30px; width: 150px;height: 40px; color: black ">Nouvelle carte</button>
+            </main>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>

@@ -22,7 +22,7 @@ class Color
     private $color;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Sneaker", inversedBy="colors")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Sneaker", inversedBy="colors", cascade={"persist"})
      */
     private $sneaker;
 

@@ -48,14 +48,12 @@
             <link href="https://fonts.googleapis.com/css?family=Staatliches&display=swap" rel="stylesheet">
             <nav class="nav" style="justify-content: center;margin-bottom: 10px">
                 <a style="color: black" class="nav-link" href="{{ path('chaussures') }}">chaussures</a>
-                <a style="color: black" class="nav-link" href="{{ path('chaussures') }}">chaussures</a>
-                <a style="color: black" class="nav-link" href="{{ path('chaussures') }}">chaussures</a>
             </nav>
             <div class="example1" style="background: #F5F5F5;transition-duration: 1000ms">
                 <h3> Livraison gratuite à partir de 100€ d'achat </h3>
 
             </div>
-        <div class="jumbotron" style="margin-left: 50px;margin-right: 50px;height: 700px;border: none;border-radius:0;background-image: url('https://images.unsplash.com/photo-1552346053-c33aa8b3d665?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80'); background-repeat: no-repeat">
+        <div class="jumbotron" style="margin-left: 50px;margin-right: 50px;height: 700px;border: none;border-radius:0;background-image: url('https://images.unsplash.com/photo-1552346053-c33aa8b3d665?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80');">
             <p style="font-size: xx-large;color: white"> nouvelle sortie : </p>
 
             <p style="font-size: xx-large;color: white"> AIR JORDAN ONE <p>
@@ -68,7 +66,7 @@
                 <div class="col-4">
                     <div class="card" style=" border : none">
                         <a href="{{ path('chaussure_detail',{'id' : sneaker.id}) }}" style="text-decoration: none; color: black">
-                            <img src="{{ asset(sneaker.path) }}" style="height: 500px; width:500px;" alt="...">
+                            <img src="{{ asset(sneaker.imageName) }}" style="height: 500px; width:500px;" alt="...">
                             <div class="card-body">
                                 <p class="card-title" style="font-size: medium">{{ sneaker.titre }}</p>
                                 <span style="color : grey"> Chaussures pour Homme </span>
@@ -88,7 +86,7 @@
                     <div class="col-4">
                         <div class="card" style=" border : none">
                             <a href="" style="text-decoration: none; color: black">
-                                <img src="{{ asset(sneaker.path) }}" style="height: 500px; width:500px;" alt="...">
+                                <img src="{{ asset(sneaker.imageName) }}" style="height: 500px; width:500px;" alt="...">
                                 <div class="card-body">
                                     <p class="card-title" style="font-size: medium">{{ sneaker.titre }}</p>
                                     <span style="color : grey"> Chaussures pour Homme </span>

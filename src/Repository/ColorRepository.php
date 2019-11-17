@@ -19,6 +19,17 @@ class ColorRepository extends ServiceEntityRepository
         parent::__construct($registry, Color::class);
     }
 
+    public function GroupByColor()
+    {
+
+        return $this->createQueryBuilder('c')
+            ->select('c.color')
+            ->groupBy('c.color')
+            ->getQuery()
+            ->getResult();
+
+    }
+
     // /**
     //  * @return Color[] Returns an array of Color objects
     //  */

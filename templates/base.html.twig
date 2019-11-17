@@ -9,11 +9,12 @@
         <link href="https://fonts.googleapis.com/css?family=Rubik&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Staatliches&display=swap" rel="stylesheet">
 
-        {% block stylesheets %}
 
-        {% endblock %}
+
     </head>
-    <style>
+    {% block stylesheets %}
+
+        <style>
         /* Jacob Lett - https//BootstrapCreative.com - Reference / Refresh / Repetition */
 
         .modal-header {
@@ -62,6 +63,7 @@
             border: none;
         }
     </style>
+    {% endblock %}
     <script>
         window.console = window.console || function(t) {};
     </script>
@@ -78,28 +80,6 @@
         </button>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-
-                    {% if app.user %}
-                        {% for role in app.user.roles %}
-                            {% if role == "ROLE_ADMIN" %}
-                            <li class="nav-item active">
-                                 <a class="nav-link" href="{{ path('admin_customers') }}">Clients<span class="sr-only">(current)</span></a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ path('admin_products') }}">Chaussures</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ path('admin_orders') }}">Commandes</a>
-                            </li>
-
-                            {% endif %}
-                        {% endfor %}
-
-                    {% endif %}
-
-            </ul>
-
 
         </div>
 
@@ -114,17 +94,17 @@
                             <a class="dropdown-item" href="{{ path('user_orders') }}">Mes commandes</a>
                             <a class="dropdown-item" href="{{ path('user_avis') }}">Mes avis</a>
                             <a class="dropdown-item" href="{{ path('user_favoris') }}">Mes favoris</a>
-                            <a class="dropdown-item" href="#">Se déconnecter</a>
+                            <a class="dropdown-item" href="{{ path('logout') }}">Se déconnecter</a>
                         </div>
                     </div>
                 {% else %}
                     <div class="dropdown">
                     <button  id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-secondary dropdown-toggle" style ="color : darkgray; background: transparent;border: none;outline: none;" ><i class="fa fa-user"></i><small style="margin-left: 5px">Mon compte</small></button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="#">Paramètres du compte</a>
-                            <a class="dropdown-item" href="#">Mes commandes</a>
-                            <a class="dropdown-item" href="#">Mes avis</a>
-                            <a class="dropdown-item" href="#">Mes favoris</a>
+                            <a class="dropdown-item" href="{{ path('admin_customers') }}">Les clients</a>
+                            <a class="dropdown-item" href="{{ path('admin_orders') }}">Les commandes</a>
+                            <a class="dropdown-item" href="">Les Avis</a>
+                            <a class="dropdown-item" href="">Paramètres</a>
                             <a class="dropdown-item" href="{{ path('logout') }}">Se déconnecter</a>
                         </div>
                     </div>

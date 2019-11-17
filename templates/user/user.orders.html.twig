@@ -75,7 +75,7 @@
                             {% for detail in order.sneakers %}
 
                                 <div class="media" style="margin-top: 50px">
-                                    <img class="mr-3" style="width: 64px; height: 64px" src="{{ asset(detail.path) }}" alt="Generic placeholder image">
+                                    <img class="mr-3" style="width: 64px; height: 64px" src="{{ asset(detail.imageName) }}" alt="{{detail.titre}}">
                                     <div class="media-body">
                                         <h5 class="mt-0"></h5>
                                         {% for taille in order.tailles %}

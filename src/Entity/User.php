@@ -79,10 +79,12 @@ class User implements UserInterface,\Serializable
      */
     protected $resetToken;
 
+
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Favoris", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="App\Entity\Favoris", mappedBy="user")
      */
     private $favoris;
+
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Avis", mappedBy="user")
@@ -288,9 +290,10 @@ class User implements UserInterface,\Serializable
         // TODO: Implement eraseCredentials() method.
     }
 
-    public function setRoles(string $role) : self {
-        $this->roles = $role;
-        return $this;
+    public function setRoles(string $role) : void
+    {
+
+       $this->roles = $role;
     }
 
     /**
@@ -387,6 +390,7 @@ class User implements UserInterface,\Serializable
 
         return $this;
     }
+
 
 
 }

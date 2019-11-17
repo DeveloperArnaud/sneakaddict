@@ -4,7 +4,7 @@
     <div class="modal-chaussures-box" style="margin-top: 10px;">
         <a href="{{ path('chaussure_detail',{'id' : chaussure.id}) }}" style="text-decoration: none; color: black">
                 <div class="media" style="margin-left: 20px">
-                    <img class="mr-3" style="width: 50px; height: 50px; border-radius: 30px" src="{{ asset(chaussure.path) }}">
+                    <img class="mr-3" style="width: 50px; height: 50px; border-radius: 30px" src="{{ asset(chaussure.imageName) }}">
                     <div class="media-body" style="margin-top: 10px">
                         {{ chaussure.titre }}
                     </div>

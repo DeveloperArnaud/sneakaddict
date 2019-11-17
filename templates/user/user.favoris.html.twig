@@ -29,18 +29,13 @@
 
             <div class="col-4">
                 <div class="card" style="margin-top: 20px;border: none" >
-                        {% for dshoe in favori.sneaker %}
-                    <a href="{{ path('chaussure_detail', {'id' : dshoe.id }) }}" style="text-decoration: none; color: black">
-                    <img src="{{ asset(dshoe.path) }}" style="height: 500px; width:500px;" alt="...">
+                    <a href="{{ path('chaussure_detail', {'id' : favori.sneaker.id }) }}" style="text-decoration: none; color: black">
+                    <img src="{{ asset(favori.sneaker.path) }}" style="height: 500px; width:500px;" alt="...">
                     </a>
                         <div class="card-body">
-                            <p class="card-title" style="text-align: center;font-size: medium">{{ dshoe.titre }}</p>
-                            <a href="{{ path('user_remove_favoris',{'idSneaker': dshoe.id,'idFavoris' : favori.id}) }}"> <button class="btn btn-light" style="float: right; border-radius: 30px;"><i class="fa fa-heart"></i></button></a>
+                            <p class="card-title" style="text-align: center;font-size: medium">{{ favori.sneaker.titre }}</p>
+                            <a href="{{ path('user_remove_favoris', {'idFavoris' : favori.id}) }}"> <button class="btn btn-light" style="float: right; border-radius: 30px;"><i class="fa fa-heart"></i></button></a>
                         </div>
-
-
-                        {% endfor %}
-
 
                 </div>
             </div>

@@ -13,7 +13,10 @@
             <tr>
                 <th scope="row"><p>
                             Commande {{ commande.id }}
-                        <small STYLE="float: right">Statut : <b>{{ commande.statut }}</b></small></p>
+                        <small STYLE="float: right">Statut : <b><select>
+                                    <option>{{ commande.statut }}</option>
+                                    <option>Envoyée</option>
+                                </select></b> <button type="submit" style="background: transparent;border: none;color: black" >Valider</button></small></p>
                     <div class="">
                         <div class="card card-body">
                             Statut : {{ commande.statut }}
@@ -32,7 +35,7 @@
                             {% for detail in commande.sneakers %}
 
                             <div class="media" style="margin-top: 50px">
-                                <img class="mr-3" style="width: 64px; height: 64px" src="{{ asset(detail.path) }}" alt="Generic placeholder image">
+                                <img class="mr-3" style="width: 64px; height: 64px" src="{{ asset(detail.imageName) }}" alt="Generic placeholder image">
                                 <div class="media-body">
                                     <h5 class="mt-0">{{detail.titre}}</h5>
                                     {% for taille in commande.tailles %}

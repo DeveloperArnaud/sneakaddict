@@ -7,6 +7,7 @@ use Hoa\Compiler\Llk\Rule\Choice;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -17,18 +18,13 @@ class UserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('nom')
-            ->add('prenom')
-            ->add('roles', ChoiceType::class, [
-                'choices' => [
-                    'User' => 'ROLE_USER',
-                    'Admin' => 'ROLE_ADMIN',
-                    'Banni' => 'Banned',
-                ],
-                'label' => 'Role :',
-                'expanded' => false,
-                'multiple' => true
-            ])
+            ->add('nom', null, array('disabled' => true,
+            ))
+            ->add('prenom',null, array('disabled' => true,
+            ))
+            ->add('email',null, array('disabled' => true,
+            ))
+            ->add('password',HiddenType::class)
             ->add('valider',SubmitType::class)
 
         ;

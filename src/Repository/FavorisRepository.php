@@ -26,7 +26,7 @@ class FavorisRepository extends ServiceEntityRepository
     public function findByUserId($id)
     {
         return $this->createQueryBuilder('f')
-            ->innerJoin('f.user','u')
+            ->Join('f.user','u')
             ->where('u.id = :id')
             ->setParameter('id', $id)
             ->getQuery()

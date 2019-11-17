@@ -53,7 +53,9 @@
 
                     </tr>
                     <td>
-                        <button class="btn btn-dark" style="background: transparent;border-radius: 30px; width: 150px;height: 40px; color: black; margin-top: 35px">Modifier</button>
+                        <a href="{{ path('user_update_adress',{'idAdresse' : adresse.id }) }}"><button class="btn btn-dark" style="background: transparent;border-radius: 30px; width: 150px;height: 40px; color: black; margin-top: 35px">Modifier</button></a>
+                        <a href="{{ path('user_remove_adress',{'idAdresse' : adresse.id }) }}"><button class="btn btn-dark" style="background: transparent;border-radius: 30px; width: 150px;height: 40px; color: black; margin-top: 35px">Supprimer</button></a>
+
                     </td>
                     </tbody>
 

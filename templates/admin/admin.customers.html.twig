@@ -1,6 +1,8 @@
 {% extends 'base.html.twig' %}
-
 {% block title %}Hello AdminController!{% endblock %}
+
+{% block stylesheets %}
+{% endblock %}
 
 {% block body %}
     <table class="table">
@@ -37,7 +39,48 @@
                             <td><span class="badge badge-danger" style="font-family: Arial">{{ role }}</span></td>
                     {% endif %}
                 <td>
-                    <a href="{{ path('admin_edit_customer_role', {id : user.id}) }}">Changer</a>
+                    <a href="{{ path('admin_edit_customer_role', {id : user.id}) }}" style="text-decoration: none ;color: black"><i class="fa fa-edit"></i></a> / <button type="button" style="border: none;background: transparent" data-toggle="modal" data-target="#exampleModalLong{{ user.id }}">
+                        <i class="fa fa-search"></i>
+                    </button>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModalLong{{ user.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">Détails de l'utilisateur</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{user.nom}} {{ user.prenom }}</h5>
+                                        <h6 class="card-subtitle mb-2 text-muted">
+                                            {% for role in user.roles %}
+                                            {% if role == "ROLE_USER" %}
+                                                Statut : <span class="badge badge-success" style="font-family: Arial">{{ role }}</span>
+                                            {% elseif role == "ROLE_ADMIN" %}
+                                                Statut : <span class="badge badge-primary" style="font-family: Arial">{{ role }}</span>
+                                            {% elseif role == "Banned" %}
+                                                Statut :  <span class="badge badge-danger" style="font-family: Arial">{{ role }}</span>
+                                        {% endif %}
+                                        </h6>
+
+                                        <p class="card-text" style="margin-top: 10px">Date de naissance : {{user.dateNaissance | date('d-m-y')}}</p>
+
+                                        <p class="card-text">Sexe : {{user.sexe}}</p>
+
+                                        {% if role == "Banned" %}
+                                            <p class="card-text">Raison(s) du bannissement : Avis inapproprié</p>
+                                        {% endif %}
+                                        {% endfor %}
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                        </td>
                 {% endfor %}
             </tr>

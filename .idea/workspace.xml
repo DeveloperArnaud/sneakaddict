@@ -152,6 +152,9 @@
       <path value="$PROJECT_DIR$/vendor/knplabs/knp-components" />
       <path value="$PROJECT_DIR$/vendor/knplabs/knp-paginator-bundle" />
       <path value="$PROJECT_DIR$/vendor/shippo/shippo-php" />
+      <path value="$PROJECT_DIR$/vendor/behat/transliterator" />
+      <path value="$PROJECT_DIR$/vendor/vich/uploader-bundle" />
+      <path value="$PROJECT_DIR$/vendor/symfony/templating" />
     </include_path>
   </component>
   <component name="ProjectId" id="1RptoWJwhNiab8i7JdfGyG72FQH" />
@@ -242,7 +245,17 @@
       <workItem from="1572429258919" duration="22562000" />
       <workItem from="1572460992702" duration="637000" />
       <workItem from="1572513139648" duration="36339000" />
-      <workItem from="1572853681056" duration="24040000" />
+      <workItem from="1572853681056" duration="25083000" />
+      <workItem from="1573050671192" duration="9594000" />
+      <workItem from="1573413272136" duration="2225000" />
+      <workItem from="1573656545424" duration="129000" />
+      <workItem from="1573722789334" duration="21382000" />
+      <workItem from="1573761492409" duration="4957000" />
+      <workItem from="1573815932333" duration="11800000" />
+      <workItem from="1573832983492" duration="2094000" />
+      <workItem from="1573844401520" duration="1305000" />
+      <workItem from="1573914689221" duration="4545000" />
+      <workItem from="1573949056118" duration="15044000" />
     </task>
     <servers />
   </component>
