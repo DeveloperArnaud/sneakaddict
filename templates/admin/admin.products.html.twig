@@ -38,7 +38,7 @@
         <tr>
             <th scope="row">{{ chaussure.id }}</th>
             <td> <div class="media">
-                <img class="mr-3"  style ="height: 64px;width: 64px" src="{{ asset(chaussure.path) }}">
+                <img class="mr-3"  style ="height: 64px;width: 64px" src="{{ asset(chaussure.imageName) }}">
             </div>
             </td>
             <td>{{chaussure.titre}}</td>
@@ -48,4 +48,7 @@
         {% endfor %}
         </tbody>
     </table>
+    <div class="pagination" style="justify-content: center;margin-top: 50px;">
+        {{ knp_pagination_render(chaussures) }}
+    </div>
 {% endblock %}

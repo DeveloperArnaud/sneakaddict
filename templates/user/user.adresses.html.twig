@@ -12,6 +12,14 @@
         {% endfor %}
         <div class="" STYLE="">
             <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+                {% for message in app.flashes('notice') %}
+                    <div class="alert alert-success alert-dismissible fade show"  style="text-align: center" role="alert">
+                        <strong>{{ message }}</strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% endfor %}
                 <h2>Adresses</h2>
                 <br>
                 {% if app.user %}
@@ -26,28 +34,35 @@
                         <a style="color: black" class="nav-link active" href="{{ path('user_adresses') }}"> Adresses</a>
                     </li>
                 </ul>
+                    {% for adresse in app.user.adresses %}
                 <table class="table table-borderless" style="margin-top: 50px">
 
                     <tbody>
                     <tr>
-                        <th scope="row">{{ app.user.nom }} {{ app.user.prenom }}
+                        <th scope="row">
+                            {{ app.user.nom | upper }} {{ app.user.prenom | upper}}
                             <br>
-                            {{ app.user.adresse}}
+                            {{ adresse.adresse | upper}}
                             <br>
-                            {{app.user.ville}}, ILE-DE-FRANCE
+                            {{adresse.ville}}, {{adresse.region | upper}}
                             <br>
-                            {{ app.user.pays }}
+                            {{ adresse.pays | upper}}
                             <br>
                             0688502106
                         </th>
-                        <td><button class="btn btn-dark" style="background: transparent;border-radius: 30px; width: 150px;height: 40px; color: black; margin-top: 35px">Modifier</button>
-                        </td>
-                    </tr>
 
+                    </tr>
+                    <td>
+                        <a href="{{ path('user_update_adress',{'idAdresse' : adresse.id }) }}"><button class="btn btn-dark" style="background: transparent;border-radius: 30px; width: 150px;height: 40px; color: black; margin-top: 35px">Modifier</button></a>
+                        <a href="{{ path('user_remove_adress',{'idAdresse' : adresse.id }) }}"><button class="btn btn-dark" style="background: transparent;border-radius: 30px; width: 150px;height: 40px; color: black; margin-top: 35px">Supprimer</button></a>
+
+                    </td>
                     </tbody>
 
                 </table>
                 <hr>
+                    {% endfor %}
+                    <a href="{{ path('user_new_adress') }}"><button class="btn btn-dark" style="margin-left: 550px;background: transparent;border-radius: 30px; width: 300px;height: 40px; color: black ">Ajouter une nouvelle adresse</button></a>
                 {% endif %}
             </main>
         </div>

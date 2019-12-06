@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Sneak'Addict{% endblock %}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Rubik&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Staatliches&display=swap" rel="stylesheet">
+
+
+
+</head>
+{% block stylesheets %}
+
+    <style>
+        /* Jacob Lett - https//BootstrapCreative.com - Reference / Refresh / Repetition */
+
+        .modal-header {
+            border-bottom: none;
+        }
+
+        .modal-dialog {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        .modal-backdrop {
+            background-color:#fff;
+            opacity:1!important;
+            border: 10px solid rgba(136, 136, 136, .4);
+        }
+
+        .modal-content {
+            height: auto;
+            min-height: 100%;
+            border-radius: 0;
+            background: none;
+            box-shadow: none;
+        }
+
+        .modal-body {
+            text-align: center;
+        }
+
+        .modal-body form {
+            margin: 0 auto;
+            float: none;
+            width: 100%;
+
+        }
+
+        .modal-content .close {
+            opacity: 1;
+            font-size: 30px;
+        }
+
+        .navbar-default .navbar-collapse,
+        .navbar-default .navbar-form {
+            border: none;
+        }
+    </style>
+{% endblock %}
+<script>
+    window.console = window.console || function(t) {};
+</script>
+<script>
+    if (document.location.search.match(/type=embed/gi)) {
+        window.parent.postMessage("resize", "*");
+    }
+</script>
+<body STYLE="font-family: 'Staatliches', cursive; letter-spacing: 1px">
+<nav class="navbar navbar-expand-lg navbar-light">
+    <a class="navbar-brand" href="{{ path('accueil') }}" style="font-family: 'Permanent Marker', cursive;">Sneak'Addict</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+    </div>
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content" style="width: 1910px">
+                <div class="modal-header">
+                    <h5 class="modal-title" style="text-align: center;margin-left: 150px;margin-top: 10px" id="exampleModalLongTitle"><b>CONNEXION</b></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" style="">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ path('login') }}" method="post">
+
+                        <div class="form-group" style="width: 500px">
+                            <input type="email" class="form-control"  name="_username" id="email" aria-describedby="emailHelp" placeholder="Adresse e-mail">
+                        </div>
+                        <div class="form-group" style="width: 500px">
+                            <input type="password" class="form-control" name="_password" id="password" placeholder="Mot de passe">
+                        </div>
+                        <div class="form-group form-check" style="width: 500px">
+                            <input  type="checkbox" class="form-check-input" id="exampleCheck1">
+                            <label class="form-check-label" for="exampleCheck1">Rester connecté(e) </label>
+                            <a style ="margin-left: 150px; text-decoration: underline; color: grey; font-size: small;" href="{{ path('forgotten_password') }}">Mot de passe oublié ?</a>
+
+                        </div>
+                        <button style="border : none; background-color: black; margin-right: 1400px;width: 322px; height: 40px; margin-top: 40px " type="submit" value="Se connecter" class="btn btn-primary">SE CONNECTER</button>
+                        <br>
+                        <p style="text-align: center; margin-top: 10px;margin-right: 1400px"> Vous n'êtes pas encore membre ? <a style ="text-decoration: underline; color: grey; font-size: small;" href="{{ path('sign-up') }}">Rejoignez-nous !</a></p>
+                    </form>
+                    <div style="justify-content: center; width: 2000px" >
+                        <h1 style="font-family: 'Permanent Marker', cursive;">Sneak'Addict</h1>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <a  class="nav-item nav-link" id="cartShop-btn" style ="color : darkgray;" href="{{ path('cart_index') }}"><i class="fa fa-shopping-cart"></i></a>
+    {% if app.user %}
+        <a  class="nav-item nav-link" id="cartShop-btn" style ="color : darkgray;" href="{{ path('logout') }}"><i class="fa fa-sign-out"></i></a>
+    {% endif %}
+
+    <button style="color: darkgray" type="button" data-toggle="modal" data-target="#myModal" class="btn btn-default navbar-btn">
+        <i class="fa fa-search"></i>
+    </button>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" style="width: 1900px; height: 900px">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <h1 style="font-family: 'Permanent Marker', cursive;">Sneak'Addict</h1>
+                    <div class="form-group">
+                        <input type="text" placeholder="Rechercher.." id="searchbox" style="border: none; outline: none; width: 1850px" >
+                        <hr>
+                    </div>
+                    <div class="modal-users" id="modal-users" style="position: absolute;background-color: white; text-align: center; width: 1800px;border-radius: 30px;">
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+</nav>
+<hr STYLE="margin-bottom: 0">
+{% block body %}
+
+{% endblock %}
+{% block javascripts %}
+
+{% endblock %}
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script type="text/javascript" src="js/main.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+    $('#searchbox').on('keyup',function () {
+        var query = $(this).val();
+        if(query.length > 0) {
+            $.ajax({
+                type: 'POST',
+                url: '/search/chaussures',
+                data: {
+                    query: query
+                },
+                success: function (data) {
+                    console.log(data);
+                    $('#modal-users').html(data).show();
+                },
+            });
+        } else {
+            $('#modal-users').hide();
+        }
+    });
+
+
+</script>
+
+
+</body>
+</html>

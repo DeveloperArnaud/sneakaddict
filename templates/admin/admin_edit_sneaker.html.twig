@@ -4,13 +4,10 @@
 
 {% block body %}
     <div class="container">
-        <form action="{{ path('admin_edit_sneaker') }}" method="POST">
-            {{ form_start(form) }}
-
+        <form action="{{ path('admin_edit_sneaker',{'id' : sneaker.id} ) }}" method="POST">
+{{ form_start(form,{'multipart' : true}) }}
             {{ form_row(form.titre,{
                 attr: { class: 'form-control'}}) }}
-            {{ form_row(form.couleur,{
-                attr: {  class: 'form-control'}}) }}
             {{ form_row(form.description,{
                 attr: {  class: 'form-control'}}) }}
             {{ form_row(form.modele,{
@@ -19,15 +16,16 @@
                 attr: {  class: 'form-control'}}) }}
             {{ form_row(form.prix,{
                 attr: {  class: 'form-control'}}) }}
-            {{ form_row(form.path,{
-                attr: { class: 'form-control'}}) }}
+            <div class="custom-file" style="">
+                {{ form_row(form.imageFile) }}
+            </div>
             {{ form_row(form.taille,{
                 attr: {  class: 'form-control'}}) }}
             <br>
+            {{ form_row(form._token) }}
             {{ form_row(form.save,{
                 attr: {  class: 'btn btn-success'}}) }}
 
-            {{ form_end(form) }}
         </form>
     </div>
 {% endblock %}

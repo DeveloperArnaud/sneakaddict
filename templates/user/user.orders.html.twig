@@ -38,17 +38,17 @@
                 <th scope="row"><p>
                         <small>Commande {{ order.id }} :</small>
                     <small> Statut :  <b>{{ order.statut }}</b>  |  <button class="btn btn-primary btn-sm" style="background: transparent;"><a href="#" style="text-decoration: none">Suivre votre colis</a></button></small>
-                        {% if order.statut == "En cours" or order.statut =="Validée" %}
-                        <small><a href="#" style="float: right;margin-top: 5px">Annuler la commande</a> </small>
-                        {% elseif order.statut == "En cours de traitement" %}
+                        {% if order.statut == "En cours de traitement" %}
                     <div class="progress">
-                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 10%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
                             {% elseif order.statut == "En préparation" %}
                     <div class="progress">
                         <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 50%" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
                             {% elseif order.statut == "Envoyée" %}
+                                <small><a href="#" style="float: right;margin-top: 5px">Annuler la commande</a> </small>
+
                                 <div class="progress">
                                     <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 100%" aria-valuenow="100    " aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
@@ -63,16 +63,19 @@
                             à : {{ order.datecommande | date('H:m:s') }}
                             <br>
                             <br>
-                            Client :
+                            <hr>
+                            Adresse de facturation :
                             <br>{{ app.user.nom }} {{ app.user.prenom }}
-                            <br>{{ app.user.pays }}
-                            <br>{{ app.user.adresse }} , {{ app.user.codePostal }}
-                            <br>
+                            <br>{{ order.adresse.adresse }} , {{ order.adresse.codePostal }}
+                            <br>{{ order.adresse.pays }}
+
+                            <hr>
+
                             Article(s) :
                             {% for detail in order.sneakers %}
 
                                 <div class="media" style="margin-top: 50px">
-                                    <img class="mr-3" style="width: 64px; height: 64px" src="{{ asset(detail.path) }}" alt="Generic placeholder image">
+                                    <img class="mr-3" style="width: 64px; height: 64px" src="{{ asset(detail.imageName) }}" alt="{{detail.titre}}">
                                     <div class="media-body">
                                         <h5 class="mt-0"></h5>
                                         {% for taille in order.tailles %}

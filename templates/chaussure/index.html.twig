@@ -49,45 +49,42 @@
         <h3> Livraison gratuite à partir de 100€ d'achat </h3>
 
     </div>
+    {% if app.user %}
+        {% for role in app.user.roles %}
+            {% if role == "BANNED" %}
+            <div class="alert alert-warning" role="alert" style="text-align: center">
+                Votre compte a temporairement été suspendu. <a href="#"> Cliquez ici pour plus d'informations</a>
+            </div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+
     <div class="jumbotron" style="background: white">
         <p style="font-family: 'Permanent Marker', cursive;text-align: center;font-size: xx-large;position: absolute;margin-left: 900px">SNEAK'ADDICT</p>
     </div>
     <h3 STYLE="margin-left: 30px">Chaussures pour tous</h3>
-    <div class="dropdown" style="float: right;margin-right: 100px">
-        <button style="outline: none;border: none;color: black;background: transparent" class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Trier par
-        </button>
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" href="#">Prix croissant</a>
-            <a class="dropdown-item" href="#">Prix décroissant</a>
-        </div>
+    <div class="dropdown" style="margin-left: 1700px;position: absolute;">
+        <label style="font-size: x-small">
+            Trier par:
+            <select id="order" class="custom-select custom-select-sm">
+                <option value=""></option>
+                <option value="ASC">Prix croissant</option>
+                <option value="DESC">Prix décroissant</option>
+            </select>
+        </label>
     </div>
     <div class="row">
         <nav class="col-md-200 d-none d-md-block bg sidebar"  style="position: absolute; ; margin-top: 50px; margin-left: 20px">
             <div class="sidebar-sticky" style="width: 200px;height: 1200px">
                 <ul class="nav flex-column" style="margin-left: 10px">
                     <li class="nav-item">
-                        <p style="text-align: center">Taille</p><hr>
+                        <p style="text-align: center">Tailles</p><hr>
                         {% for taille in tailles %}
                             <a href="{{ path('chaussures_search_taille', {'taille' : taille.taille}) }}"> <button style="width: 58px; height: 28px; background-color: white;border-radius:5px; border: 1px solid grey; margin-right: 2px" >{{ taille.taille }}</button></a>
 
                         {% endfor %}
 
 
-
-                    </li>
-
-                    <li class="nav-item" style="margin-top: 50px">
-                        <hr>
-                        <p style="text-align: center">Coupe</p>
-
-                        <ul style="text-align: left; list-style: none; margin-left: 35px">
-                            <li><button style="background-color: white; border: 1px solid black; border-radius: 5px">Low</button></li>
-                            <br>
-                            <li><button style="background-color: white; border: 1px solid black; border-radius: 5px">Mid</button></li>
-                            <br>
-                            <li><button style="background-color: white; border: 1px solid black; border-radius: 5px">High</button></li>
-                        </ul>
 
                     </li>
                     <br>
@@ -101,9 +98,9 @@
 
                     <li style="text-align: center">
                         <br>
-                        <a href="{{ path('chaussure_color_search', {'color' : color.couleur}) }}" style="text-decoration: none; color: black">
-                            <div class="dot-color" style="background-color: {{ color.couleur }} ; width: 20px; height: 20px; border-radius: 10px;border: 2px solid black;position:absolute; margin-left: 50px"></div>
-                            <b>  {{ color.couleur | capitalize }}</b></a>
+                        <a href="{{ path('chaussure_color_search', {'color' : color.color}) }}" style="text-decoration: none; color: black">
+                            <div class="dot-color" style="background-color: {{ color.color }} ; width: 20px; height: 20px; border-radius: 10px;border: 2px solid black;position:absolute; margin-left: 50px"></div>
+                            <b>  {{ color.color | capitalize }}</b></a>
                     </li>
                     {% endfor %}
                     <br>
@@ -113,18 +110,28 @@
     </div>
 
 
-    <div class="container" style="max-width: 1600px; margin-right: 50px">
+    <div class="container" style="max-width: 1800px;">
+        <div id="shoes-order">
 
-        <div class="row" style="margin-top: 50px" >
+        </div>
+        <div class="row" style="margin-top: 50px;margin-left:300px;" id="row-all">
+
             {% for chaussure in chaussures %}
                 <div class="col-4">
                     <div class="card" style=" border : none">
-                        <a href="{{ path('chaussure_detail', {'id' : chaussure.id }) }}" style="text-decoration: none; color: black">
-                            <img src="{{ asset(chaussure.path) }}" style="height: 500px; width:500px;" alt="...">
+                        <a href="{{ path('chaussure_detail', {'id' : chaussure.id }) }}" style="text-decoration: none; color: black;">
+                            <img src="{{ asset(chaussure.imageName) }}" style="height: 450px; width:450px;" alt="...">
                             <div class="card-body">
-                                <p class="card-title" style="font-size: medium">{{ chaussure.titre }}</p>
+                                <p class="card-title" style="font-size: medium">{{ chaussure.titre }} <b style="float: right">{{chaussure.prix}}€</b></p>
                                 <span style="color : grey"> Chaussures pour Homme </span>
-                                <p class="card-text" style="color: grey"><b>{{chaussure.prix}}€</b></p>
+                                {% if chaussure.colors | length == 0  %}
+                                <p class="card-text" style="color: grey;margin-bottom: 0"><b>Couleur unique</b>  </p>
+                                {% elseif chaussure.colors | length == 1  %}
+                                    <p class="card-text" style="color: grey;margin-bottom: 0"><b>{{chaussure.colors | length }} couleur</b>  </p>
+                                {% elseif chaussure.colors | length > 1  %}
+                                <p class="card-text" style="color: grey;margin-bottom: 0"><b>{{chaussure.colors | length }} couleurs</b>  </p>
+                                    {% endif %}
+
                             </div>
                         </a>
 
@@ -135,10 +142,12 @@
 
         </div>
 
-        <div class="pagination" style="justify-content: center;margin-top: 50px;">
+        <div class="pagination" style="justify-content: center;margin-top: 50px;" id="pagination">
             {{ knp_pagination_render(chaussures) }}
         </div>
     </div>
+
+
 
 
 {% endblock %}

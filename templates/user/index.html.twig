@@ -1,132 +1,169 @@
 {% extends 'base.user.html.twig' %}
 
-{% block title %}Hello UserController!{% endblock %}
+{% block title %}Sneak'Addict - Compte Utilisateur{% endblock %}
 
 {% block body %}
+
     <body>
     <div class="container-fluid" STYLE="position: absolute">
-        {% for message in app.flashes('success') %}
-            <div class="alert alert-success">
-                {{ message }}
-            </div>
-        {% endfor %}
-        <div class="" STYLE="">
-            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-                <h2>Paramètres du compte</h2>
-                <br>
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+            <h2 style="margin-bottom: 20px">Votre compte</h2>
+            <hr>
+            <div id="tabs">
                 <ul class="nav nav-tabs">
                     <li class="nav-item">
-                        <a class="nav-link active" style="color: black" href="{{ path('user') }}"> <i class="fa fa-cog"></i> Informations personnelles</a>
+                        <a  id="tab-1" class="nav-link active" style="color: black" href="#tabs-1"> <i class="fa fa-cog"></i> Informations personnelles</a>
                     </li>
                     <li class="nav-item">
-                        <a id="mode-paiement" style="color: black" class="nav-link" href="{{ path('user_modes_paiement') }}"> <i class="fa fa-credit-card"></i> Modes de paiement</a>
+                        <a id="tab-2" style="color: black" class="nav-link" href="#tabs-2"> <i class="fa fa-credit-card"></i> Modes de paiement</a>
                     </li>
                     <li class="nav-item">
-                        <a style="color: black" class="nav-link" href="{{ path('user_adresses') }}"> Adresses</a>
+                        <a id="tab-3" style="color: black" class="nav-link" href="#tabs-3"> Adresses</a>
                     </li>
                 </ul>
-                <div class="row" style="margin-left: 500px; margin-top: 50px">
-                {% for message in app.flashes('notice') %}
-                    <div class="alert alert-success">
-                        {{ message }}
+
+                <br>
+                <div id="tabs-1">
+                    <div class="row" style="margin-left: 500px; margin-top: 50px">
+
+                        <div class="col-md-10 col-md-offset-4">
+                            {% for message in app.flashes('notice') %}
+                                <div class="alert alert-success">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                            {% if app.user %}
+                            <div class="col-md-8 order-md-1">
+                                <img style="width: 200px;height: 200px;border-radius: 100px;margin-left:150px" src="images/avatar.png">
+
+                                <form action="{{ path('user') }}" method="POST">
+                                <h2 style="text-align: center;text-decoration: underline;margin-top: 50px;margin-bottom: 50px">Vos coordonnées</h2>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        {{form_row(form.nom, {'attr': {'class': 'form-control','value' : app.user.nom}})}}
+                                        <div class="invalid-feedback">
+                                            Valid first name is required.
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        {{form_row(form.prenom, {'attr': {'class': 'form-control','value' : app.user.prenom}})}}
+                                        <div class="invalid-feedback">
+                                            Valid last name is required.
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    {{form_row(form.email, {'attr': {'class': 'form-control'}})}}
+                                    <div class="invalid-feedback">
+                                        Please enter a valid email address for shipping updates.
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    {{form_row(form.password, {'label' : 'Mot de passe','attr': {'class': 'form-control', 'value' : app.user.password}})}}
+                                </div>
+                                <div class="mb-3">
+                                        <label for="example-date-input">Date de naissance</label>
+                                            <input class="form-control" type="date" value="2011-08-19" id="example-date-input">
+                                </div>
+                                <div class="mb-3">
+                                    <div class="form-group">
+                                        <label for="exampleSelect1">SEXE</label>
+                                        <select name="sexe" class="form-control" id="exampleSelect1">
+                                            <option value="Homme">{{ app.user.sexe }}</option>
+                                            <option value="Femme">Femme</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="pointure">Votre pointure</label>
+                                    <div class="input-group mb-3">
+                                        <select class="custom-select" id="inputGroupSelect02">
+                                            <option selected>Choissisez..</option>
+                                            <option value="1">39</option>
+                                            <option value="1">40</option>
+                                            <option value="2">41</option>
+                                            <option value="3">42</option>
+                                            <option value="1">40</option>
+                                            <option value="2">41</option>
+                                            <option value="3">42</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 mb-3" style="margin-left: 200px">
+                                    {{form_row(form.valider, {'attr': {'class': 'btn btn-dark'}})}}
+                                </div>
+                                </form>
+                            </div>
+                                {% endif %}
+                            </div>
                     </div>
-                {% endfor %}
-
-
-                    <div class="col-md-10 col-md-offset-4">
-                        {% if app.user %}
-                        <div class="col-md-8 order-md-1">
-                            <img style="width: 200px;height: 200px;border-radius: 100px;margin-left:150px" src="images/avatar.png">
-
-                            <div class="col-md-6 mb-3">
-                            </div>
-                            <h2 style="text-align: center;text-decoration: underline;margin-top: 50px;margin-bottom: 50px">Vos coordonnées</h2>
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label for="firstName">Nom</label>
-                                    <input type="text" class="form-control" id="firstName" placeholder="" value="{{ app.user.nom }}" disabled>
-                                    <div class="invalid-feedback">
-                                        Valid first name is required.
-                                    </div>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="lastName">Prénom</label>
-                                    <input type="text" class="form-control" id="lastName" placeholder="" value="{{ app.user.prenom }}" disabled>
-                                    <div class="invalid-feedback">
-                                        Valid last name is required.
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="email">Email</label>
-                                <input type="email" class="form-control" id="email" value="{{ app.user.email }}" disabled>
-                                <div class="invalid-feedback">
-                                    Please enter a valid email address for shipping updates.
-                                </div>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="address">Adresse</label>
-                                <input type="text" class="form-control" id="address"  value="{{ app.user.adresse }}" disabled>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="address2">Adresse 2 <span class="text-muted">(Optionelle)</span></label>
-                                <input type="text" class="form-control" id="address2" placeholder="Appartement/Etage.." disabled>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-3 mb-3">
-                                    <label for="country">Pays</label>
-                                    <select class="custom-select d-block w-100" id="country" disabled>
-                                        <option value="">{{app.user.pays}}</option>
-                                    </select>
-                                    <div class="invalid-feedback">
-                                        Please select a valid country.
-                                    </div>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="state">Ville</label>
-                                    <select class="custom-select d-block w-200" id="state" disabled>
-                                        <option value="">{{app.user.ville}}</option>
-                                    </select>
-                                    <div class="invalid-feedback">
-                                        Please provide a valid state.
-                                    </div>
-                                </div>
-                                <div class="col-md-3 mb-3">
-                                    <label for="zip">Code postal</label>
-                                    <input type="text" class="form-control" id="zip"  value ="{{ app.user.codePostal }}" placeholder="" disabled>
-                                </div>
-                            </div>
-                            <div class="col-md-15 mb-3">
-                                <a href="{{ path('user_update') }}"  class="btn btn-light" style="text-decoration: none;margin-left: 200px">Modifier vos coordonnées</a>
-                            </div>
+                </div>
+                <div id="tabs-3">
+                    {% for message in app.flashes('notice') %}
+                        <div class="alert alert-success alert-dismissible fade show"  style="text-align: center" role="alert">
+                            <strong>{{ message }}</strong>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
                         </div>
-                            {% endif %}
-                        </div>
-                    </div>
-                </main>
+                    {% endfor %}
+                    <h2>Adresses</h2>
+                    <br>
+                        {% for adresse in app.user.adresses %}
+                            <table class="table table-borderless" style="margin-top: 50px">
+
+                                <tbody>
+                                <tr>
+                                    <th scope="row">
+                                        {{ app.user.nom | upper }} {{ app.user.prenom | upper}}
+                                        <br>
+                                        {{ adresse.adresse | upper}}
+                                        <br>
+                                        {{adresse.ville}}, {{adresse.region | upper}}
+                                        <br>
+                                        {{ adresse.pays | upper}}
+                                        <br>
+                                        0688502106
+                                    </th>
+
+                                </tr>
+                                <td>
+                                    <a href="{{ path('user_update_adress',{'idAdresse' : adresse.id }) }}"><button class="btn btn-dark" style="background: transparent;border-radius: 30px; width: 150px;height: 40px; color: black; margin-top: 35px">Modifier</button></a>
+                                    <a href="{{ path('user_remove_adress',{'idAdresse' : adresse.id }) }}"><button class="btn btn-dark" style="background: transparent;border-radius: 30px; width: 150px;height: 40px; color: black; margin-top: 35px">Supprimer</button></a>
+
+                                </td>
+                                </tbody>
+
+                            </table>
+                            <hr>
+                        {% endfor %}
+                        <a href="{{ path('user_new_adress') }}"><button class="btn btn-dark" style="margin-left: 550px;background: transparent;border-radius: 30px; width: 300px;height: 40px; color: black ">Ajouter une nouvelle adresse</button></a>
+                </div>
+                <div id="tabs-2">
+                    <table class="table" style="margin-top: 50px">
+                        <tbody>
+                        <tr>
+                            <th scope="row"></th>
+                            <td><img alt="mastercard-icon" style="height: 24px" src="https://assets.commerce.nikecloud.com/experience/membership/settings/dist/2.0.16/images/mastercard.png"></td>
+                            <td>4242</td>
+                            <td>Exp : 12/2020</td>
+                            <td><a style="color :black; text-decoration: underline" href="">Supprimer</a></td>
+
+                        </tr>
+                        <tr>
+                            <th scope="row"></th>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <button class="btn btn-dark" style="margin-left: 600px;background: transparent;border-radius: 30px; width: 150px;height: 40px; color: black ">Nouvelle carte</button>
+                </div>
             </div>
-            </div>
-
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
-    <script src="../../assets/js/vendor/popper.min.js"></script>
-    <script src="../../dist/js/bootstrap.min.js"></script>
-
-    <!-- Icons -->
-    <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
-    <script>
-        feather.replace()
-    </script>
-
-    <!-- Graphs -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
-
+        </main>
+    </div>
     </body>
 {% endblock %}

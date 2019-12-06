@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Avis;
+use App\Entity\Color;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -22,11 +23,11 @@ class ChaussureController extends AbstractController
     {
         $em= $this->getDoctrine()->getManager();
         $repo = $em->getRepository('App:Sneaker');
-        $chaussures = $pagination->paginate($repo->findAll(), $request->query->getInt('page',1),6);
+        $chaussures = $pagination->paginate($repo->findAll(), $request->query->getInt('page',1),12);
         $repo = $em->getRepository('App:Taille');
         $tailles = $repo->findAll();
 
-        $couleurChaussure = $em->getRepository('App:Sneaker')->GroupByColor();
+        $couleurChaussure = $em->getRepository(Color::class)->GroupByColor();
 
         return $this->render('chaussure/index.html.twig', [
             'controller_name' => 'ChaussureController',
@@ -117,6 +118,27 @@ class ChaussureController extends AbstractController
         $chaussures = $repo->findByTitre($request->get('query'));
         return $this->render('chaussure/chaussures.search.html.twig', [
             'chaussures' => $chaussures,
+        ]);
+
+    }
+
+
+    /**
+     * @Route("/orders/chaussures", name="chaussure_order")
+     */
+    public function chaussure_order(Request $request,PaginatorInterface $pagination) {
+
+        $em= $this->getDoctrine()->getManager();
+        $repo = $em->getRepository('App:Sneaker');
+        $chaussures = $repo->orderBy($request->get('query'),$request->get('offset'),$request->get('limit'));
+        $repo = $em->getRepository('App:Taille');
+        $tailles = $repo->findAll();
+        $couleurChaussure = $em->getRepository(Color::class)->GroupByColor();
+        return $this->render('chaussure/chaussure.filter.html.twig', [
+            'controller_name' => 'ChaussureController',
+            'chaussures' => $chaussures,
+            'tailles' => $tailles,
+            'couleurs' => $couleurChaussure
         ]);
 
     }

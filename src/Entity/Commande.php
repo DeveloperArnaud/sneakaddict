@@ -65,6 +65,11 @@ class Commande
      */
     private $total;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Adresses", inversedBy="commandes")
+     */
+    private $adresse;
+
 
 
 
@@ -179,6 +184,18 @@ class Commande
     public function setTotal(string $total): self
     {
         $this->total = $total;
+
+        return $this;
+    }
+
+    public function getAdresse(): ?Adresses
+    {
+        return $this->adresse;
+    }
+
+    public function setAdresse(?Adresses $adresse): self
+    {
+        $this->adresse = $adresse;
 
         return $this;
     }

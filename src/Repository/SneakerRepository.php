@@ -28,7 +28,9 @@ class SneakerRepository extends ServiceEntityRepository
     {
 
         return $this->createQueryBuilder('s')
+            ->orderBy('s.added_at','DESC')
             ->setMaxResults(3)
+
             ->getQuery()
             ->getResult();
 
@@ -56,6 +58,18 @@ class SneakerRepository extends ServiceEntityRepository
 
     }
 
+    public function orderBy($query,$offset,$limit)
+    {
+
+        return $this->createQueryBuilder('s')
+            ->orderBy('s.prix',$query)
+            ->setMaxResults($limit)
+            ->setFirstResult($offset)
+            ->getQuery()
+            ->getResult();
+
+    }
+
     public function GroupByColor()
     {
 
@@ -69,7 +83,7 @@ class SneakerRepository extends ServiceEntityRepository
 
     public function SearchByTaille($taille) {
         return $this->createQueryBuilder('s')
-            ->innerJoin('s.taille', 't')
+            ->join('s.taille', 't')
             ->where('t.taille = :taille')
             ->setParameter('taille',$taille)
             ->getQuery()

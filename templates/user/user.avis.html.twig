@@ -18,7 +18,7 @@
             <div class="row">
                 {% if avis | length <= 0  %}
                     <div class="col-4">
-                        Vous n'avez pas encore de favoris
+                        Vous n'avez pas encore d'avis posté(s)
                     </div>
 
                 {% endif %}
@@ -30,7 +30,7 @@
                     <div class="col-4">
                         <div class="card" style="margin-top: 20px;border: none" >
                                 <a href="{{ path('chaussure_detail', {'id' : avis.id }) }}" style="text-decoration: none; color: black">
-                                    <img src="{{ asset(avis.sneaker.path) }}" style="height: 500px; width:500px;" alt="...">
+                                    <img src="{{ asset(avis.sneaker.imageName) }}" style="height: 500px; width:500px;" alt="...">
                                 </a>
                                 <div class="card-body">
                                     <p class="card-title" style="text-align: center;font-size: medium">{{ avis.avis }}</p>

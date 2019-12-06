@@ -2,14 +2,22 @@
 
 namespace App\Controller;
 
+use App\Entity\Color;
 use App\Entity\Quantity;
 use App\Entity\Sneaker;
 use App\Entity\Taille;
+use App\Entity\User;
 use App\Form\SneakerType;
 use App\Form\StockType;
+use App\Form\UserType;
 use App\Repository\QuantityRepository;
+use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Cache\CacheInterface;
 
@@ -42,23 +50,26 @@ class AdminController extends AbstractController
      */
     public function index()
     {
+        $em= $this->getDoctrine()->getManager();
+        $repo = $em->getRepository('App:Sneaker');
+        $chaussures = $repo->findAll();
+        $repoQ = $em->getRepository('App:Quantity');
 
-
-        return $this->render('admin/index.html.twig', [
+        return $this->render('admin/dashboard.html.twig', [
             'controller_name' => 'AdminController',
+            'chaussures' => $chaussures ,
         ]);
     }
 
     /**
      * @Route("/admin/products", name="admin_products")
      */
-    public function admin_products()
+    public function admin_products(PaginatorInterface $pagination, Request $request)
     {
         $em= $this->getDoctrine()->getManager();
         $repo = $em->getRepository('App:Sneaker');
-        $chaussures = $repo->findAll();
+        $chaussures = $pagination->paginate($repo->findAll(), $request->query->getInt('page',1),10);
         $repoQ = $em->getRepository('App:Quantity');
-        $stock = $repoQ->findBySneakerIdAndTailleId($idSneaker,$tailleId);
 
         return $this->render('admin/admin.products.html.twig', [
             'controller_name' => 'AdminController',
@@ -75,7 +86,6 @@ class AdminController extends AbstractController
         $repo = $em->getRepository('App:Sneaker');
         $chaussures = $repo->findAll();
         $repoQ = $em->getRepository('App:Quantity');
-        $stock = $repoQ->findBySneakerIdAndTailleId($idSneaker,$tailleId);
 
         return $this->render('admin/sneaker-taille-stock', [
             'controller_name' => 'AdminController',
@@ -116,15 +126,25 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/admin/customers/detail/{id}", name="admin_customers_detail")
+     * @Route("/admin/customers/detail/{id}", name="admin_edit_customer_role")
      */
-    public function admin_customers_detail($id)
+    public function admin_customers_detail(Request $request,$id,UserRepository $userRepository)
     {
-        $em= $this->getDoctrine()->getManager();
-        $repo = $em->getRepository('App:User');
-        $user = $repo->findOneBy(array('id'=>$id));
-        return $this->render('admin/admin.customers.html.twig', [
-            'detail_user' => $user ,
+        $user = $userRepository->findOneBy(array('id'=>$id));
+        $form = $this->createForm(UserType::class,$user);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()) {
+                $user->setRoles($request->get('role'));
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($user);
+                $em->flush();
+                $this->addFlash('success', "Le rôle a bien été modifié");
+                return $this->redirectToRoute('admin_customers');
+        }
+
+        return $this->render('admin/admin.customers.detail.html.twig', [
+            'user' => $user ,
+            'form' =>$form->createView()
         ]);
     }
 
@@ -137,9 +157,12 @@ class AdminController extends AbstractController
         $em= $this->getDoctrine()->getManager();
         $repo = $em->getRepository('App:Sneaker');
         $chaussure = $repo->findBy(array('id'=> $id));
+        $repo = $em->getRepository('App:Quantity');
+        $stock = $repo->findBySneakerId($id);
         return $this->render('admin/admin.products.detail.html.twig', [
             'controller_name' => 'AdminController',
             'chaussure' => $chaussure ,
+            'stock' => $stock
         ]);
     }
 
@@ -170,10 +193,60 @@ class AdminController extends AbstractController
         $form = $this->createForm(SneakerType::class,$sneaker);
 
          $form->handleRequest($request);
-
             if ($form->isSubmitted() && $form->isValid()) {
                 $sneaker = $form->getData();
                 $em = $this->getDoctrine()->getManager();
+                $sneaker->setAddedAt(new \DateTime('now'));
+                if($request->get("color1") != null) {
+                    $color1 = new Color();
+                    $color1->setSneaker($sneaker);
+                    $color1->setColor($request->get("color1"));
+                    $color1->setColorSneakerPath($request->get("color1path"));
+
+                }
+                if($color1 != null) {
+                    $sneaker->addColor($color1);
+
+                }
+
+                if($request->get("color2") != null) {
+                    $color2 = new Color();
+                    $color2->setSneaker($sneaker);
+                    $color2->setColor($request->get("color2"));
+                    $color2->setColorSneakerPath($request->get("color2path"));
+
+                }
+                if($color2 != null) {
+                    $sneaker->addColor($color2);
+                }
+                $getColor3 = $request->get("color3");
+                if(isset($getColor3)) {
+                    $color3 = new Color();
+                    $color3->setSneaker($sneaker);
+                    $color3->setColor($getColor3);
+                    $color3->setColorSneakerPath($request->get("color3path"));
+                    $sneaker->addColor($color3);
+
+                }
+                $getColor4 = $request->get("color4");
+                if(isset($getColor4)) {
+                    $color4 = new Color();
+                    $color4->setSneaker($sneaker);
+                    $color4->setColor($getColor4);
+                    $color4->setColorSneakerPath($request->get("color4path"));
+                    $sneaker->addColor($color4);
+                }
+
+                $getColor5 = $request->get("color");
+                if(isset($getColor5)) {
+                    $color5 = new Color();
+                    $color5->setSneaker($sneaker);
+                    $color5->setColor($getColor5);
+                    $color5->setColorSneakerPath($request->get("color5path"));
+                    $sneaker->addColor($color5);
+                }
+                $sneaker->setCouleur("zdfaz");
+                dd($form->getData());
                 $em->persist($sneaker);
                 $em->flush();
                 return $this->redirectToRoute('admin_products');
@@ -214,8 +287,16 @@ class AdminController extends AbstractController
         $form = $this->createForm(SneakerType::class,$sneaker);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()){
+            $tab = $request->get('App:Sneaker');
+            $imageFileTab = $tab['imageFile'];
+            $file = $imageFileTab['file'];
+            $filename = 'images/'.$file;
+            $filee = new File($filename,true);
+            $sneaker->setImageFile($filee);
+            $sneaker->setImageName($filename);
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($sneaker);
+
                 $em->flush();
 
             return $this->redirectToRoute('admin_products');

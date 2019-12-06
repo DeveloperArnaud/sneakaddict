@@ -55,12 +55,12 @@ class CartController extends AbstractController
 
 
     /**
-     * @Route("/cart/add/{idSneaker}/{idTaille}", name="cart_add")
+     * @Route("/cart/add/{idSneaker}", name="cart_add")
      */
-    public function add($idSneaker, $idTaille,SessionInterface $session) {
+    public function add($idSneaker,SessionInterface $session, Request $request) {
 
         $panier = $session->get('panier', []);
-
+        $idTaille = $request->get('taille');
         if(!empty($panier[$idSneaker][$idTaille])) {
             $panier[$idSneaker][$idTaille] ++;
 

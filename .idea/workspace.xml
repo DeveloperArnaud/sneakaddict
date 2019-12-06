@@ -152,13 +152,16 @@
       <path value="$PROJECT_DIR$/vendor/knplabs/knp-components" />
       <path value="$PROJECT_DIR$/vendor/knplabs/knp-paginator-bundle" />
       <path value="$PROJECT_DIR$/vendor/shippo/shippo-php" />
+      <path value="$PROJECT_DIR$/vendor/behat/transliterator" />
+      <path value="$PROJECT_DIR$/vendor/vich/uploader-bundle" />
+      <path value="$PROJECT_DIR$/vendor/symfony/templating" />
     </include_path>
   </component>
   <component name="ProjectId" id="1RptoWJwhNiab8i7JdfGyG72FQH" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../BatiInterim" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="php.override.implement.member.chooser.php.doc" value="NONE" />
@@ -184,11 +187,19 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="JavaScript Debug.chaussure_detail.html.twig">
+    <configuration name="chaussure_detail.html.twig" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/SneakAddict/templates/chaussure/chaussure_detail.html.twig" useBuiltInWebServerPort="true">
+      <method v="2" />
+    </configuration>
     <configuration name="phpunit.xml.dist" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
       <TestRunner scope="XML" />
       <method v="2" />
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JavaScript Debug.chaussure_detail.html.twig" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -233,7 +244,32 @@
       <workItem from="1572340221415" duration="13124000" />
       <workItem from="1572429258919" duration="22562000" />
       <workItem from="1572460992702" duration="637000" />
-      <workItem from="1572513139648" duration="17336000" />
+      <workItem from="1572513139648" duration="36339000" />
+      <workItem from="1572853681056" duration="25083000" />
+      <workItem from="1573050671192" duration="9594000" />
+      <workItem from="1573413272136" duration="2225000" />
+      <workItem from="1573656545424" duration="129000" />
+      <workItem from="1573722789334" duration="21382000" />
+      <workItem from="1573761492409" duration="4957000" />
+      <workItem from="1573815932333" duration="11800000" />
+      <workItem from="1573832983492" duration="2094000" />
+      <workItem from="1573844401520" duration="1305000" />
+      <workItem from="1573914689221" duration="4545000" />
+      <workItem from="1573949056118" duration="15952000" />
+      <workItem from="1574014914610" duration="12499000" />
+      <workItem from="1574061987356" duration="2529000" />
+      <workItem from="1574089577987" duration="676000" />
+      <workItem from="1574091901093" duration="1435000" />
+      <workItem from="1574093440145" duration="285000" />
+      <workItem from="1574346423012" duration="1914000" />
+      <workItem from="1574416375928" duration="3906000" />
+      <workItem from="1574614226351" duration="36000" />
+      <workItem from="1574675546659" duration="664000" />
+      <workItem from="1574767607337" duration="1440000" />
+      <workItem from="1574769087326" duration="5270000" />
+      <workItem from="1574800081905" duration="3151000" />
+      <workItem from="1574869641682" duration="2654000" />
+      <workItem from="1574934616599" duration="5411000" />
     </task>
     <servers />
   </component>

@@ -2,9 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Adresses;
 use App\Entity\Favoris;
 use App\Entity\User;
+use App\Form\AdressesType;
 use App\Form\UserType;
+use App\Repository\AdressesRepository;
 use App\Repository\AvisRepository;
 use App\Repository\FavorisRepository;
 use App\Repository\SneakerRepository;
@@ -21,10 +24,21 @@ class UserController extends AbstractController
     /**
      * @Route("/user", name="user")
      */
-    public function index()
+    public function index(UserRepository $userRepository, Request $request, Security $security)
     {
+        $user = $userRepository->find($security->getUser()->getId()) ;
+        $form = $this->createForm(UserType::class,$user);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
+            $this->addFlash('notice', "Vos coordonnées ont bien étés modifiées");
+            return $this->redirectToRoute('user');
+        }
         return $this->render('user/index.html.twig', [
-            'controller_name' => 'UserController']);
+            'controller_name' => 'UserController',
+            'form' =>  $form->createView() ]);
     }
 
     /**
@@ -44,6 +58,72 @@ class UserController extends AbstractController
     {
         return $this->render('user/user.adresses.html.twig', [
             'controller_name' => 'UserController']);
+    }
+
+    /**
+     * @Route("/user/adresse/{idAdresse}", name="user_update_adress")
+     */
+    public function user_adresse_update($idAdresse,AdressesRepository $adressesRepository,Request $request)
+    {
+        $adresse = $adressesRepository->find($idAdresse);
+        $form = $this->createForm(AdressesType::class,$adresse);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            $adresse = $form->getData();
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($adresse);
+            $em->flush();
+            return $this->redirectToRoute('user_adresses');
+        }
+
+        return $this->render('user/user.update.adresse.html.twig', [
+            'controller_name' => 'UserController',
+            'adresse' => $adresse,
+            'form' => $form->createView()]);
+    }
+
+    /**
+     * @Route("/user/adresse/remove/{idAdresse}", name="user_remove_adress")
+     */
+    public function user_adresse_remove($idAdresse,AdressesRepository $adressesRepository,Request $request)
+    {
+        $adresse = $adressesRepository->find($idAdresse);
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($adresse);
+            $em->flush();
+            $this->addFlash('notice',"L'adresse a bien été supprimée");
+        return $this->redirectToRoute('user_adresses');
+    }
+
+
+    /**
+     * @Route("/user/new_adresse", name="user_new_adress")
+     * @param AdressesRepository $adressesRepository
+     * @param UserRepository $userRepository
+     * @param Security $security
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
+    public function user_new_adress(AdressesRepository $adressesRepository,UserRepository $userRepository,Security $security,Request $request)
+    {
+        $adress = new Adresses();
+        $user = $userRepository->find($security->getUser()->getId());
+        $form = $this->createForm(AdressesType::class,$adress);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()) {
+            $adress = $form->getData();
+            $adress->setUser($user);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($adress);
+            $em->flush();
+            $this->addFlash('notice', "Votre adresse a correctement été ajoutée !");
+            return $this->redirectToRoute('user_adresses');
+        }
+
+        return $this->render('user/user.add.adress.html.twig', [
+            'controller_name' => 'UserController',
+            'form' => $form->createView()]);
     }
 
     /**
@@ -76,31 +156,6 @@ class UserController extends AbstractController
 
 
     /**
-     * @Route("/user/update", name="user_update")
-     * @param Request $request
-     * @param Security $security
-     * @param UserRepository $userRepository
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
-     */
-    public function user_update(Request $request,Security $security, UserRepository $userRepository)
-    {
-        $user = $userRepository->find($security->getUser()->getId()) ;
-        $form = $this->createForm(UserType::class,$user);
-        $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($user);
-            $em->flush();
-            $this->addFlash('notice', "Vos coordonnées ont bien étés modifiées");
-            return $this->redirectToRoute('user');
-        }
-
-        return $this->render('user/user.update.html.twig', [
-            'controller_name' => 'UserController',
-            'form'=>$form->createView()]);
-    }
-
-    /**
      * @Route("/user/orders", name="user_orders")
      */
     public function orders(Security $security)
@@ -127,8 +182,8 @@ class UserController extends AbstractController
 
            $em = $this->getDoctrine()->getManager();
            $favoris = new Favoris();
-           $favoris->addSneaker($sneakerRepository->find($idSneaker));
-           $favoris->addUser($userRepository->find($security->getUser()->getId()));
+           $favoris->setSneaker($sneakerRepository->find($idSneaker));
+           $favoris->setUser($userRepository->find($security->getUser()->getId()));
            $em->persist($favoris);
            $em->flush();
            $this->addFlash('success', "L'article a été ajouté dans vos favoris !");
@@ -138,28 +193,22 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/user/remove/favoris/{idSneaker}/{idFavoris}", name="user_remove_favoris")
+     * @Route("/user/remove/favoris/{idFavoris}", name="user_remove_favoris")
      */
-    public function remove_favoris($idFavoris,$idSneaker,Security $security, SneakerRepository $sneakerRepository,UserRepository $userRepository,FavorisRepository $favorisRepository)
+    public function remove_favoris($idFavoris,FavorisRepository $favorisRepository)
     {
 
-
             $em = $this->getDoctrine()->getManager();
-            $favoris =$favorisRepository->findByIdandUserIdAndSneakerId($idFavoris,$security->getUser()->getId(),$idSneaker);
+            $favoris =$favorisRepository->findOneBy(array('id' => $idFavoris));
 
-            foreach ($favoris as $favori) {
-                $favori->removeUser($userRepository->find($security->getUser()->getId()));
-                $favori->removeSneaker($sneakerRepository->find($idSneaker));
-                $em->remove($favori);
-                $em->flush();
-                $this->addFlash('notice', "L'article a été supprimé dans vos favoris !");
-                return $this->redirectToRoute('user_favoris');
 
-            }
+            $em->remove($favoris);
+            $em->flush();
+            $this->addFlash('notice', "L'article a été supprimé dans vos favoris !");
+            return $this->redirectToRoute('user_favoris');
 
 
 
-            return $this->redirect($this->generateUrl('chaussure_detail', array('id' => $idSneaker)));
         }
 
 
@@ -169,7 +218,7 @@ class UserController extends AbstractController
     public function favoris(Security $security)
     {
         $em = $this->getDoctrine()->getManager();
-        $repo = $em->getRepository('App:Favoris');
+        $repo = $em->getRepository(Favoris::class);
         $favoris = $repo->findByUserId($security->getUser()->getId());
         return $this->render('user/user.favoris.html.twig', [
             'favoris' => $favoris
@@ -207,6 +256,25 @@ class UserController extends AbstractController
 
 
 
+    }
+
+    /**
+     * Test
+     * @Route("/user/tabs", name="user_tabs")
+     */
+
+    public function testTabs(Security $security, UserRepository $userRepository, Request $request) {
+        $user = $userRepository->find($security->getUser()->getId()) ;
+        $form = $this->createForm(UserType::class,$user);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
+            $this->addFlash('notice', "Vos coordonnées ont bien étés modifiées");
+            return $this->redirectToRoute('user');
+        }
+        return $this->render('user/tabs.html.twig', ['form' => $form->createView()]);
     }
 
 

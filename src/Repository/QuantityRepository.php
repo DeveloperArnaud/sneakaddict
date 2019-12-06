@@ -23,15 +23,12 @@ class QuantityRepository extends ServiceEntityRepository
     //  * @return Quantity[] Returns an array of Quantity objects
     //  */
 
-    public function findBySneakerIdAndTailleId($idSneaker,$idTaille)
+    public function findBySneakerId($idSneaker)
     {
         return $this->createQueryBuilder('q')
             ->innerJoin('q.chaussure','s')
-            ->innerJoin('q.tailles  ','t')
             ->where('s.id = :idSneaker')
-            ->andWhere('t.id = :idTaille')
             ->setParameter('idSneaker', $idSneaker)
-            ->setParameter('idTaille',$idTaille)
             ->getQuery()
             ->getResult()
         ;

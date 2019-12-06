@@ -5,10 +5,14 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+
 
 /**
  * Sneaker
- *
+ * @Vich\Uploadable
  * @ORM\Table(name="sneaker")
  * @ORM\Entity(repositoryClass="App\Repository\SneakerRepository")
  */
@@ -23,12 +27,6 @@ class Sneaker
      */
     private $id;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="couleur", type="string", length=255, nullable=false)
-     */
-    private $couleur;
 
     /**
      * @var string
@@ -66,14 +64,6 @@ class Sneaker
     private $prix;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="path", type="string", length=255, nullable=false)
-     */
-    private $path;
-
-
-    /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Taille", inversedBy="sneakers")
      */
     private $taille;
@@ -84,10 +74,9 @@ class Sneaker
     private $commandes;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Favoris", mappedBy="sneaker")
+     * @ORM\OneToMany(targetEntity="App\Entity\Favoris", mappedBy="sneaker")
      */
     private $favoris;
-
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Quantity", mappedBy="chaussure")
      */
@@ -97,6 +86,86 @@ class Sneaker
      * @ORM\OneToMany(targetEntity="App\Entity\Avis", mappedBy="sneaker")
      */
     private $avis;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $added_at;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Color", mappedBy="sneaker", cascade={"persist"})
+     */
+    private $colors;
+
+
+    /**
+     *
+     * @Vich\UploadableField(mapping="sneaker_image", fileNameProperty="imageName", size="imageSize")
+     *
+     * @var File
+     */
+    private $imageFile;
+
+
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     *
+     * @var string|null
+     */
+    private $imageName;
+
+    /**
+     * @param string $imageName
+     */
+    public function setImageName(string $imageName): void
+    {
+        $this->imageName = $imageName;
+    }
+
+    /**
+     * @param int $imageSize
+     */
+    public function setImageSize(int $imageSize): void
+    {
+        $this->imageSize = $imageSize;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getImageName()
+    {
+        return $this->imageName;
+    }
+
+    /**
+     * @return int
+     */
+    public function getImageSize(): int
+    {
+        return $this->imageSize;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUpdateAt()
+    {
+        return $this->update_at;
+    }
+
+    /**
+     * @ORM\Column(type="integer")
+     *
+     * @var integer
+     */
+    private $imageSize;
+
+    /**
+     * @ORM\Column(type="datetime" , nullable=true)
+     */
+    private $update_at;
 
 
 
@@ -110,6 +179,7 @@ class Sneaker
         $this->quantities = new ArrayCollection();
         $this->quantityOrders = new ArrayCollection();
         $this->avis = new ArrayCollection();
+        $this->colors = new ArrayCollection();
 
     }
 
@@ -370,6 +440,74 @@ class Sneaker
 
         return $this;
     }
+
+    public function getAddedAt(): ?\DateTimeInterface
+    {
+        return $this->added_at;
+    }
+
+    public function setAddedAt(\DateTimeInterface $added_at): self
+    {
+        $this->added_at = $added_at;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Color[]
+     */
+    public function getColors(): Collection
+    {
+        return $this->colors;
+    }
+
+    public function addColor(Color $color): self
+    {
+        if (!$this->colors->contains($color)) {
+            $this->colors[] = $color;
+            $color->setSneaker($this);
+        }
+
+        return $this;
+    }
+
+    public function removeColor(Color $color): self
+    {
+        if ($this->colors->contains($color)) {
+            $this->colors->removeElement($color);
+            // set the owning side to null (unless already changed)
+            if ($color->getSneaker() === $this) {
+                $color->setSneaker(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
+     * of 'UploadedFile' is injected into this setter to trigger the update. If this
+     * bundle's configuration parameter 'inject_on_load' is set to 'true' this setter
+     * must be able to accept an instance of 'File' as the bundle will inject one here
+     * during Doctrine hydration.
+     *
+     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $imageFile
+     */
+    public function setImageFile(?File $imageFile = null): void
+    {
+        $this->imageFile = $imageFile;
+
+        if ($this->imageFile instanceof UploadedFile) {
+            $this->update_at = new \DateTime('now');
+        }
+    }
+
+
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+
 
 
 }

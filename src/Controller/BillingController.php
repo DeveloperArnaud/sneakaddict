@@ -2,14 +2,18 @@
 
 namespace App\Controller;
 
+use App\Entity\Adresses;
 use App\Entity\Commande;
 use App\Entity\QuantityOrder;
 use App\Entity\QuantitySneakerOrdered;
 use App\Entity\QuantityTestOrder;
 use App\Entity\User;
+use App\Form\AdressesType;
+use App\Repository\AdressesRepository;
 use App\Repository\CommandeRepository;
 use App\Repository\SneakerRepository;
 use App\Repository\TailleRepository;
+use App\Repository\UserRepository;
 use App\Stripe\Stripe;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\LazyProxy\Instantiator\RealServiceInstantiator;
@@ -23,14 +27,49 @@ use Symfony\Component\Security\Core\Security;
 class BillingController extends AbstractController
 {
     /**
+     * @Route("/billing/adresses", name="billing_adresses")
+     */
+    public function billing_user_adress() {
+
+        return $this->render('billing/billing.adress.user.html.twig');
+
+    }
+
+    /**
+     * @Route("/billing/add_after_cart", name="billing_adresses_after_cart")
+     */
+    public function billing_adress_after_cart(Security $security,UserRepository $userRepository, Request $request) {
+
+        $adress = new Adresses();
+        $user = $userRepository->find($security->getUser()->getId());
+        $form = $this->createForm(AdressesType::class,$adress);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()) {
+            $adress = $form->getData();
+            $adress->setUser($user);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($adress);
+            $em->flush();
+            $this->addFlash('success', "Votre adresse a correctement été ajoutée !");
+            return $this->redirectToRoute('billing_adresses');
+        }
+
+        return $this->render('billing/billing.adress.added.after_cart.html.twig', [
+            'controller_name' => 'UserController',
+            'form' => $form->createView()]);
+
+    }
+
+
+    /**
      * @Route("/billing", name="billing")
      */
-    public function index( Request $request, SneakerRepository $sneakerRepository, Security $security)
+    public function index(Request $request, SneakerRepository $sneakerRepository, Security $security,AdressesRepository $adressesRepository)
     {
         $em = $this->getDoctrine()->getManager();
         $repo = $em->getRepository('App:User');
         $user = $repo->findBy(array('id'=>$security->getUser()->getId()));
-
+        $adresse = $adressesRepository->findBy(array('id'=>$request->get('adresse-billing')));
         $session = $request->getSession();
         $panier = $session->get('panier');
         $panierData = [];
@@ -65,18 +104,20 @@ class BillingController extends AbstractController
             'controller_name' => 'BillingController',
             'user' =>$user,
             'panier' => $panierBilling,
-            'total' => $total
+            'total' => $total,
+            'adresse' => $adresse
         ]);
     }
 
     /**
      * @Route("/billing/payment", name="billing_payment")
      */
-    public function billing_payment(Request $request, Security $security,SneakerRepository $sneakerRepository, TailleRepository $tailleRepository,\Swift_Mailer $mailer, CommandeRepository $commandeRepository)
+    public function billing_payment(Request $request, AdressesRepository $adressesRepository,Security $security,SneakerRepository $sneakerRepository, TailleRepository $tailleRepository,\Swift_Mailer $mailer, CommandeRepository $commandeRepository)
     {
         $token = $request->get('stripeToken');
         $email = $request->get('email');
         $name = $request->get('name');
+        $adresse_id = $request->get('id-adresse');
 
         $stripe = new Stripe('sk_test_C0P5MK6d6wM1flxZagJp3Iog00faEMmcD7');
         $customer = $stripe->api('customers', [
@@ -96,11 +137,13 @@ class BillingController extends AbstractController
             $commande = new Commande();
             $us = $security->getUser();
             $em = $this->getDoctrine()->getManager();
+            $adresse = $adressesRepository->findOneBy(array('id'=> $adresse_id));
             $user = $em->getRepository(User::class)->findOneBy(array('id' => $us->getId()));
             $commande->setUser($user);
-            $commande->setStatut("Envoyée");
+            $commande->setStatut("En cours de traitement");
             $date = new \DateTime('now');
             $commande->setDateCommande($date);
+            $commande->setAdresse($adresse);
             $session = $request->getSession();
             $panier = $session->get('panier');
             $panierConfirm = [];

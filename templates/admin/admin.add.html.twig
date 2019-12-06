@@ -5,12 +5,22 @@
 {% block body %}
     <div class="container">
     <form action="{{ path('admin_add') }}" method="POST">
-        {{ form_start(form) }}
-
         {{ form_row(form.titre,{
             attr: { class: 'form-control'}}) }}
-        {{ form_row(form.couleur,{
-            attr: {  class: 'form-control'}}) }}
+        <div class="form-group">
+            <label for="exampleFormControlSelect1">Combien de couleurs possède la chaussure :</label>
+            <select id="my_input" class="form-control" onchange='if(this.value !== 0) { add_inputboxes(); }' required>
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+            <div id="rolonum"></div>
+        </div>
+
+        <!-- Yet Another button to do the same thing -->
         {{ form_row(form.description,{
             attr: {  class: 'form-control'}}) }}
         {{ form_row(form.modele,{
@@ -19,15 +29,47 @@
             attr: {  class: 'form-control'}}) }}
         {{ form_row(form.prix,{
             attr: {  class: 'form-control'}}) }}
-        {{ form_row(form.path,{
-            attr: { class: 'form-control'}}) }}
+        <div class="custom-file" style="">
+        {{ form_row(form.imageFile) }}
+            <br>
+
+        </div>
         {{ form_row(form.taille,{
             attr: {  class: 'form-control'}}) }}
-        <br>
+        {{ form_row(form._token) }}
         {{ form_row(form.save,{
             attr: {  class: 'btn btn-success'}}) }}
-
-        {{ form_end(form) }}
     </form>
+
+
+
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script>
+        function add_inputboxes() {
+        n = $('#my_input').val();
+        $("#rolonum").html('');
+        for (var i = 1; i <= n; i++) {
+        $("#rolonum").append('<label>Couleur ' + i + ' </label>' +
+            '           <select name="color'+i+'" class="form-control" style="width: 100px;position: absolute" required>\n' +
+            '               <option value="red"> <i class="fa fa-circle"></i>Rouge</option>\n' +
+            '                <option value="blue">Bleu</option>\n' +
+            '                <option value="green">Vert</option>\n' +
+            '                <option value="yellow">Jaune</option>\n' +
+            '                <option value="black">Noir</option>\n' +
+            '                <option value="white">Blanc</option>\n' +
+            '            </select><input style="margin-left: 100px;width: 1010px;" name="color'+i+'path"  class="form-control" id="color'+i+'"  type="file" placeholder="Path image" required>');
+        }
+        }
+        jQuery('#my_input').onchange(add_inputboxes);
+
+
+        if($('#color1').val() !== "") {
+            $('#imageFile').text($('#color1').val())
+        }
+        </script>
+
+
     </div>
 {% endblock %}
+

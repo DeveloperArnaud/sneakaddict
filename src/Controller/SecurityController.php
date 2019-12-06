@@ -69,11 +69,6 @@ class SecurityController extends AbstractController
                 $user->setRoles('ROLE_USER');
                 $dateNa = new \DateTime($dateNaiss);
                 $user->setDateNaissance($dateNa);
-                $user->setAdresse(" ");
-                $user->setVille(" ");
-                $user->setPays(" ");
-                $user->setCodePostal(" ");
-
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($user);
                 $em->flush();

@@ -19,75 +19,45 @@ class Favoris
     private $id;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Sneaker", inversedBy="favoris")
-     */
-    private $sneaker;
-
-    /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\User", inversedBy="favoris")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="favoris")
      */
     private $user;
 
-    public function __construct()
-    {
-        $this->sneaker = new ArrayCollection();
-        $this->user = new ArrayCollection();
-    }
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Sneaker", inversedBy="favoris")
+     */
+    private $sneaker;
+
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @return Collection|Sneaker[]
-     */
-    public function getSneaker(): Collection
-    {
-        return $this->sneaker;
-    }
-
-    public function addSneaker(Sneaker $sneaker): self
-    {
-        if (!$this->sneaker->contains($sneaker)) {
-            $this->sneaker[] = $sneaker;
-        }
-
-        return $this;
-    }
-
-    public function removeSneaker(Sneaker $sneaker): self
-    {
-        if ($this->sneaker->contains($sneaker)) {
-            $this->sneaker->removeElement($sneaker);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|User[]
-     */
-    public function getUser(): Collection
+    public function getUser(): ?User
     {
         return $this->user;
     }
 
-    public function addUser(User $user): self
+    public function setUser(?User $user): self
     {
-        if (!$this->user->contains($user)) {
-            $this->user[] = $user;
-        }
+        $this->user = $user;
 
         return $this;
     }
 
-    public function removeUser(User $user): self
+    public function getSneaker(): ?Sneaker
     {
-        if ($this->user->contains($user)) {
-            $this->user->removeElement($user);
-        }
+        return $this->sneaker;
+    }
+
+    public function setSneaker(?Sneaker $sneaker): self
+    {
+        $this->sneaker = $sneaker;
 
         return $this;
     }
+
+
+
 }

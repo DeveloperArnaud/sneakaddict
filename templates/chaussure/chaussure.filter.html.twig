@@ -1,0 +1,38 @@
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Rubik&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Staatliches&display=swap" rel="stylesheet">
+
+{% block body %}
+    <div class="container" style="max-width: 1800px;">
+
+        <div class="row" style="margin-top: 50px;margin-left:300px;">
+            {% for chaussure in chaussures %}
+                <div class="col-4">
+                    <div class="card" style=" border : none">
+                        <a href="{{ path('chaussure_detail', {'id' : chaussure.id }) }}" style="text-decoration: none; color: black">
+                            <img src="{{ asset(chaussure.imageName) }}" style="height: 450px; width:450px;" alt="...">
+                            <div class="card-body">
+                                <p class="card-title" style="font-size: medium">{{ chaussure.titre }} <b style="float: right">{{chaussure.prix}}€</b></p>
+                                <span style="color : grey"> Chaussures pour Homme </span>
+                                {% if chaussure.colors | length == 0  %}
+                                    <p class="card-text" style="color: grey;margin-bottom: 0"><b>Couleur unique</b>  </p>
+                                {% else %}
+                                    <p class="card-text" style="color: grey;margin-bottom: 0"><b>{{chaussure.colors | length }} couleurs</b>  </p>
+                                {% endif %}
+
+                            </div>
+                        </a>
+
+                    </div>
+                </div>
+
+            {% endfor %}
+
+        </div>
+    </div>
+{% endblock %}
+{% block container %}
+
+{% endblock %}

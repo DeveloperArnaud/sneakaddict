@@ -27,13 +27,13 @@
     <p style="font-size: medium"><b>INSCRIVEZ-VOUS AVEC VOTRE ADRESSE E-MAIL</b></p>
     <label style="margin-right: 240px; color: grey; font-size: small"><b>ADRESSE E-MAIL:</b></label>
     <br>
-    <input style="margin-bottom: 10px; margin-top: 5px; width: 350px; height: 45px" id="email" type="email" name="email">
+    <input style="margin-bottom: 10px; margin-top: 5px; width: 350px; height: 45px" id="email" type="email" name="email" required>
     <br>
     <span style="font-size: x-small;margin-bottom: 10px;color: grey">Un email de confirmation vous sera envoyé à cette adresse</span>
     <br>
     <label style="margin-right: 290px; color: grey; font-size: small"><b>PRENOM:</b></label>
     <br>
-    <input style="margin-bottom: 40px; margin-top: 5px; width: 350px; height: 45px" name="prenom" id="prenom" type="text">
+    <input style="margin-bottom: 40px; margin-top: 5px; width: 350px; height: 45px" name="prenom" id="prenom" type="text" required>
     <br>
     <label style="margin-right: 240px; color: grey; font-size: small"><b>NOM DE FAMILLE:</b></label>
     <br>
@@ -41,22 +41,22 @@
     <br>
     <label style="margin-right: 240px; color: grey; font-size: small"><b>MOT DE PASSE:</b></label>
     <br>
-    <input style="margin-bottom: 10px; margin-top: 5px; width: 350px; height: 45px" type="password" id="password" name="password">
+    <input style="margin-bottom: 10px; margin-top: 5px; width: 350px; height: 45px" type="password" id="password" name="password" required>
     <br>
     <span style="font-size: x-small;margin-bottom: 10px;color: grey;margin-right: 185px">Doit contenir minimum 10 caractères</span>
     <br>
     <label style="margin-right: 210px; color: grey; font-size: small;margin-top: 50px"><b>DATE DE NAISSANCE:</b></label>
     <br>
-    <input style="margin-bottom: 40px; margin-top: 5px; width: 350px; height: 45px" type="date"  name="dateNaiss">
+    <input style="margin-bottom: 40px; margin-top: 5px; width: 350px; height: 45px" type="date"  name="dateNaiss" required>
     <br>
     <label style="margin-right: 300px; color: grey; font-size: small"><b>SEXE:</b></label>
     <br>
 
     <input type="radio" id="fille" name="femme" value="Femme"
-           > <label style="margin-right: 100px"> Femme </label>
+           required> <label style="margin-right: 100px"> Femme </label>
 
     <input type="radio" id="garcon" name="homme" value="Homme"
-           > <label> Homme </label>
+           required> <label> Homme </label>
     <br><br>
 
         <label style="margin-right: 300px; color: grey; font-size: small"><b>PAYS:</b></label>
@@ -67,7 +67,7 @@
 
         <label style="margin-right: 300px; color: grey; font-size: small"><b>VILLE:</b></label>
         <br>
-        <input style="margin-bottom: 40px; margin-top: 5px; width: 350px; height: 45px" name ="ville" type="text">
+        <input style="margin-bottom: 40px; margin-top: 5px; width: 350px; height: 45px" name ="ville" type="text" required>
         <br>
     <input type="submit" name="valider" style="margin-bottom: 40px; margin-top: 40px; background-color: black; border: none; color: white; width: 350px; height : 45px" value="REJOIGNEZ SNEAK'ADDICT">
     </form>
