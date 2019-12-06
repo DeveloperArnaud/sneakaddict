@@ -58,6 +58,18 @@ class SneakerRepository extends ServiceEntityRepository
 
     }
 
+    public function orderBy($query,$offset,$limit)
+    {
+
+        return $this->createQueryBuilder('s')
+            ->orderBy('s.prix',$query)
+            ->setMaxResults($limit)
+            ->setFirstResult($offset)
+            ->getQuery()
+            ->getResult();
+
+    }
+
     public function GroupByColor()
     {
 

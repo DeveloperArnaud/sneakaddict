@@ -245,17 +245,7 @@ class User implements UserInterface,\Serializable
      *
      * @return (Role|string)[] The user roles
      */
-    public function getRoles()
-    {
 
-        if ($this->roles == 'ROLE_ADMIN') {
-            return ['ROLE_ADMIN'];
-        } elseif($this->roles == 'ROLE_USER') {
-            return ['ROLE_USER'];
-        } else {
-            return ['Banned'];
-        }
-    }
 
     /**
      * Returns the salt that was originally used to encode the password.
@@ -392,5 +382,29 @@ class User implements UserInterface,\Serializable
     }
 
 
+    /**
+     * Returns the roles granted to the user.
+     *
+     *     public function getRoles()
+     *     {
+     *         return ['ROLE_USER'];
+     *     }
+     *
+     * Alternatively, the roles might be stored on a ``roles`` property,
+     * and populated in any number of different ways when the user object
+     * is created.
+     *
+     * @return (Role|string)[] The user roles
+     */
+    public function getRoles()
+    {
 
+        if ($this->roles == 'ROLE_ADMIN') {
+            return ['ROLE_ADMIN'];
+        } elseif($this->roles == 'ROLE_USER') {
+            return ['ROLE_USER'];
+        } else {
+            return ['BANNED'];
+        }
+    }
 }

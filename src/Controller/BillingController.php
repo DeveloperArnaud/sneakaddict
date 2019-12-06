@@ -2,11 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\Adresses;
 use App\Entity\Commande;
 use App\Entity\QuantityOrder;
 use App\Entity\QuantitySneakerOrdered;
 use App\Entity\QuantityTestOrder;
 use App\Entity\User;
+use App\Form\AdressesType;
 use App\Repository\AdressesRepository;
 use App\Repository\CommandeRepository;
 use App\Repository\SneakerRepository;
@@ -30,6 +32,31 @@ class BillingController extends AbstractController
     public function billing_user_adress() {
 
         return $this->render('billing/billing.adress.user.html.twig');
+
+    }
+
+    /**
+     * @Route("/billing/add_after_cart", name="billing_adresses_after_cart")
+     */
+    public function billing_adress_after_cart(Security $security,UserRepository $userRepository, Request $request) {
+
+        $adress = new Adresses();
+        $user = $userRepository->find($security->getUser()->getId());
+        $form = $this->createForm(AdressesType::class,$adress);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()) {
+            $adress = $form->getData();
+            $adress->setUser($user);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($adress);
+            $em->flush();
+            $this->addFlash('success', "Votre adresse a correctement été ajoutée !");
+            return $this->redirectToRoute('billing_adresses');
+        }
+
+        return $this->render('billing/billing.adress.added.after_cart.html.twig', [
+            'controller_name' => 'UserController',
+            'form' => $form->createView()]);
 
     }
 

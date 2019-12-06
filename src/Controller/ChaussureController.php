@@ -122,6 +122,27 @@ class ChaussureController extends AbstractController
 
     }
 
+
+    /**
+     * @Route("/orders/chaussures", name="chaussure_order")
+     */
+    public function chaussure_order(Request $request,PaginatorInterface $pagination) {
+
+        $em= $this->getDoctrine()->getManager();
+        $repo = $em->getRepository('App:Sneaker');
+        $chaussures = $repo->orderBy($request->get('query'),$request->get('offset'),$request->get('limit'));
+        $repo = $em->getRepository('App:Taille');
+        $tailles = $repo->findAll();
+        $couleurChaussure = $em->getRepository(Color::class)->GroupByColor();
+        return $this->render('chaussure/chaussure.filter.html.twig', [
+            'controller_name' => 'ChaussureController',
+            'chaussures' => $chaussures,
+            'tailles' => $tailles,
+            'couleurs' => $couleurChaussure
+        ]);
+
+    }
+
     /**
      * @Route("/chaussures/taille/{taille}", name="chaussures_search_taille")
      */

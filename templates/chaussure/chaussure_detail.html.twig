@@ -70,6 +70,8 @@
                                 <p STYLE="margin-top: 10px">{{ avis.avis }}</p>
                             {% endfor %}
                             {% if app.user %}
+                                {% for role in app.user.roles %}
+                                    {% if role == "ROLE_USER" or role == "ROLE_ADMIN" %}
                             <form action="{{ path('chaussure_post_avis') }}" method="post">
                             <div class="form-group">
                                 <input name="idSneaker" value="{{ chaussure.id }}" type="text"  placeholder="Donnez votre avis.." style="border: none" hidden>
@@ -80,6 +82,8 @@
 
                             </div>
                             </form>
+                                    {% endif %}
+                                {% endfor %}
                             {% endif %}
                         </div>
 
@@ -89,7 +93,7 @@
                             <div class="btn-group btn-group-toggle">
                             {% for color in chaussure.colors %}
                                 <button style="background: transparent;border: none" >
-                                <img id="{{ loop.index }}"  style="width: 64px; height: 64px" src="{{ asset(color.colorsneakerpath) }}" class="mr-3" alt="..." onclick="changeImage({{ loop.index }}) ">
+                                <img id="{{ loop.index }}"  style="width: 64px; height: 64px" src="{{ asset(color.colorsneakerpath) }}" class="mr-3" alt="..." onclick="changeImage({{ loop.index }}) " >
                                 </button>
                             {% endfor %}
                                 <script>

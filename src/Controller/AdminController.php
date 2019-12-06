@@ -13,6 +13,7 @@ use App\Form\UserType;
 use App\Repository\QuantityRepository;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\Request;
@@ -63,11 +64,11 @@ class AdminController extends AbstractController
     /**
      * @Route("/admin/products", name="admin_products")
      */
-    public function admin_products()
+    public function admin_products(PaginatorInterface $pagination, Request $request)
     {
         $em= $this->getDoctrine()->getManager();
         $repo = $em->getRepository('App:Sneaker');
-        $chaussures = $repo->findAll();
+        $chaussures = $pagination->paginate($repo->findAll(), $request->query->getInt('page',1),10);
         $repoQ = $em->getRepository('App:Quantity');
 
         return $this->render('admin/admin.products.html.twig', [

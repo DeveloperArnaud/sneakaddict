@@ -11,10 +11,22 @@
             <li class="breadcrumb-item active" aria-current="page">Choix de l'adresse de facturation</li>
         </ol>
     </nav>
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success alert-dismissible fade show"  style="text-align: center"role="alert">
+            <strong>L'adresse a correctement été ajoutée</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endfor %}
     <h2 style="margin-left: 50px;margin-top: 50px">Choisissez votre adresse de facturation</h2>
     <hr>
     <div class="container" style="max-width: 1600px">
-        <form action="{{ path('billing')}}" METHOD="post" >
+        {% if app.user.adresses | length <= 0 %}
+            <a href="{{ path('billing_adresses_after_cart') }}"><button class="btn btn-dark" style="margin-left: 550px;background: transparent;border-radius: 30px; width: 300px;height: 40px; color: black;margin-top: 200px"> <i class="fa fa-plus" style="margin-right: 10px"> </i>  Ajouter une nouvelle adresse </button></a>
+
+        {% endif %}
+        <form action="{{ path('billing')}}" METHOD="post">
         <div class="row" style="justify-content: center;margin-top: 150px">
             {% for adresse in app.user.adresses %}
             <div class="col-4">
