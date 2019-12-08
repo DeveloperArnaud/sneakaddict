@@ -1,8 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="08890f31-3806-49ea-ab66-3d6f6b025315" name="Default Changelist" comment="" />
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <list default="true" id="08890f31-3806-49ea-ab66-3d6f6b025315" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/assets/css/app.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/js/app.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/js/modules/Filter.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config/packages/assets.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config/packages/prod/webpack_encore.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config/packages/test/webpack_encore.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config/packages/webpack_encore.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/chaussure/_card.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/chaussure/_chaussures.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/chaussure/_pagination.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/chaussure/_sorting.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/webpack.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/SneakAddict.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/SneakAddict.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/bundles.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/bundles.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/packages/knp_paginator.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/packages/knp_paginator.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/packages/twig.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/packages/twig.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/ChaussureController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/ChaussureController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Sneaker.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Sneaker.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/SneakerRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/SneakerRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/symfony.lock" beforeDir="false" afterPath="$PROJECT_DIR$/symfony.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/base.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/chaussure/chaussure_detail.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/chaussure/chaussure_detail.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/chaussure/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/chaussure/index.html.twig" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -155,37 +186,41 @@
       <path value="$PROJECT_DIR$/vendor/behat/transliterator" />
       <path value="$PROJECT_DIR$/vendor/vich/uploader-bundle" />
       <path value="$PROJECT_DIR$/vendor/symfony/templating" />
+      <path value="$PROJECT_DIR$/vendor/symfony/webpack-encore-bundle" />
     </include_path>
   </component>
   <component name="ProjectId" id="1RptoWJwhNiab8i7JdfGyG72FQH" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="php.override.implement.member.chooser.php.doc" value="NONE" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="settings.editor.selected.configurable" value="MTConfigurable" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\wamp64\www\SneakAddict\public\images" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\wamp64\www\SneakAddict\templates\security" />
       <recent name="C:\wamp64\www\SneakAddict\public\images" />
     </key>
-  </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src" />
+      <recent name="C:\wamp64\www\SneakAddict\public\images" />
+    </key>
   </component>
   <component name="RunManager" selected="JavaScript Debug.chaussure_detail.html.twig">
     <configuration name="chaussure_detail.html.twig" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/SneakAddict/templates/chaussure/chaussure_detail.html.twig" useBuiltInWebServerPort="true">
@@ -200,6 +235,18 @@
         <item itemvalue="JavaScript Debug.chaussure_detail.html.twig" />
       </list>
     </recent_temporary>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <treeState>
+            <expand />
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
+    </option>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -270,6 +317,10 @@
       <workItem from="1574800081905" duration="3151000" />
       <workItem from="1574869641682" duration="2654000" />
       <workItem from="1574934616599" duration="5411000" />
+      <workItem from="1575662620957" duration="612000" />
+      <workItem from="1575665422832" duration="591000" />
+      <workItem from="1575666180368" duration="165000" />
+      <workItem from="1575735565111" duration="29306000" />
     </task>
     <servers />
   </component>
@@ -288,5 +339,38 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="320" y="114" key="#Project_Structure" timestamp="1575812423420">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="320" y="114" key="#Project_Structure/0.0.1440.900@0.0.1440.900" timestamp="1575812423420" />
+    <state x="473" y="256" key="NewPhpClassDialog" timestamp="1575738967015">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="473" y="256" key="NewPhpClassDialog/0.0.1440.900@0.0.1440.900" timestamp="1575738967015" />
+    <state x="229" y="98" key="SettingsEditor" timestamp="1575809179247">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="229" y="98" key="SettingsEditor/0.0.1440.900@0.0.1440.900" timestamp="1575809179247" />
+    <state width="500" height="445" key="SwitcherDM" timestamp="1575736898113">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state width="500" height="445" key="SwitcherDM/0.0.1440.900@0.0.1440.900" timestamp="1575736898113" />
+    <state x="384" y="281" key="com.intellij.ide.util.TipDialog" timestamp="1575735565802">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="384" y="281" key="com.intellij.ide.util.TipDialog/0.0.1440.900@0.0.1440.900" timestamp="1575735565802" />
+    <state x="378" y="71" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1575809809095">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="378" y="71" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1440.900@0.0.1440.900" timestamp="1575809809095" />
+    <state x="385" y="196" width="670" height="676" key="search.everywhere.popup" timestamp="1575811147546">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="385" y="196" width="670" height="676" key="search.everywhere.popup/0.0.1440.900@0.0.1440.900" timestamp="1575811147546" />
   </component>
 </project>

@@ -1,0 +1,16 @@
+<div class="card" id="chaussure-{{ chaussure.id }}" style="border : none">
+    <a href="{{ path('chaussure_detail', {'id' : chaussure.id }) }}" style="text-decoration: none; color: black;">
+        <img src="{{ asset(chaussure.imageName) }}" style="height: 270px; width:270px;" alt="...">
+        <div class="card-body">
+            <p class="card-title" style="font-size: medium">{{ chaussure.titre }} {{chaussure.prix}}€</p>
+            {% if chaussure.colors | length == 0  %}
+                <p class="card-text" style="color: grey;margin-bottom: 0"><b>Couleur unique</b>  </p>
+            {% elseif chaussure.colors | length == 1  %}
+                <p class="card-text" style="color: grey;margin-bottom: 0"><b>{{chaussure.colors | length }} couleur</b>  </p>
+            {% elseif chaussure.colors | length > 1  %}
+                <p class="card-text" style="color: grey;margin-bottom: 0"><b>{{chaussure.colors | length }} couleurs</b>  </p>
+            {% endif %}
+
+        </div>
+    </a>
+</div>

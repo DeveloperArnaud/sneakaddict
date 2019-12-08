@@ -2,7 +2,7 @@
 
 
 {% block body %}
-    <div class="container" style="max-width: 1400px">
+    <div class="container">
         {% for message in app.flashes('notice') %}
             <div class="alert alert-warning alert-dismissible fade show"  style="text-align: center"role="alert">
                 <strong>L'article est déjà dans vos favoris</strong>
@@ -20,17 +20,11 @@
             </div>
         {% endfor %}
         <div class="row" style="margin-top: 50px" >
-            {% for chaussure in chaussures %}
-                <div class="col-4">
+               <div class="col">
                     <div class="card" style=" border : none;margin-left: 100px">
-                            <img id ="imageSneaker" src="{{ asset(chaussure.imageName) }}"  style="height: 800px; width:800px;" alt="..." >
+                            <img id ="imageSneaker" src="{{ asset(chaussure.imageName) }}"  style="height: 600px; width:600px;" alt="..." >
                     </div>
                 </div>
-
-                <div class="col-4">
-
-                </div>
-
                 <div class="col-4">
                     <div style="position:absolute;margin-left: 400px" class="card-text">{{ chaussure.prix }} €
                     </div>
@@ -117,7 +111,6 @@
 
 
                 </div>
-            {% endfor %}
         </div>
 
 

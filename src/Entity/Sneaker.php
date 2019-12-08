@@ -59,7 +59,7 @@ class Sneaker
     /**
      * @var float
      *
-     * @ORM\Column(name="prix", type="float", precision=10, scale=0, nullable=false)
+     * @ORM\Column(name="prix", type="integer", nullable=false)
      */
     private $prix;
 

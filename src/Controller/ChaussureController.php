@@ -2,11 +2,16 @@
 
 namespace App\Controller;
 
+use App\Data\SearchData;
 use App\Entity\Avis;
 use App\Entity\Color;
+use App\Entity\Sneaker;
+use App\Form\SearchForm;
+use App\Repository\SneakerRepository;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,21 +24,34 @@ class ChaussureController extends AbstractController
     /**
      * @Route("/chaussures", name="chaussures")
      */
-    public function index(CacheInterface $cache, PaginatorInterface $pagination, SessionInterface $session, Request $request)
+    public function index(SneakerRepository $repository,PaginatorInterface $pagination, Request $request)
     {
-        $em= $this->getDoctrine()->getManager();
-        $repo = $em->getRepository('App:Sneaker');
-        $chaussures = $pagination->paginate($repo->findAll(), $request->query->getInt('page',1),12);
-        $repo = $em->getRepository('App:Taille');
-        $tailles = $repo->findAll();
 
-        $couleurChaussure = $em->getRepository(Color::class)->GroupByColor();
+        $searchData = new SearchData();
+        $searchData->page = $request->get('page',1);
+        $form = $this->createForm(SearchForm::class,$searchData);
+        $form->handleRequest($request);
+        [$min,$max] = $repository->findMinMax($searchData);
+        $chaussures = $repository->findSearch($searchData);
+        if($request->get('ajax')) {
+            return new JsonResponse([
+                'content' => $this->renderView('chaussure/_chaussures.html.twig', ['chaussures' => $chaussures]),
+                'sorting' => $this->renderView('chaussure/_sorting.html.twig', ['chaussures' => $chaussures]),
+                'pagination' => $this->renderView('chaussure/_pagination.html.twig', ['chaussures' => $chaussures]),
+                'pages' => ceil($chaussures->getTotalItemCount() / $chaussures->getItemNumberPerPage()),
+                'min' => $min,
+                'max' => $max
+
+
+            ]);
+        }
+
 
         return $this->render('chaussure/index.html.twig', [
-            'controller_name' => 'ChaussureController',
             'chaussures' => $chaussures,
-            'tailles' => $tailles,
-            'couleurs' => $couleurChaussure
+            'form' => $form->createView(),
+            'min' => $min,
+            'max' =>$max
         ]);
     }
 
@@ -44,12 +62,11 @@ class ChaussureController extends AbstractController
 
         $em= $this->getDoctrine()->getManager();
         $repo = $em->getRepository('App:Sneaker');
-        $chaussure = $repo->findBy(array('id'=>$id));
+        $chaussure = $repo->find($id);
         $avis = $repo = $em->getRepository('App:Avis')-> findBySneakerId($id);
-
         return $this->render('chaussure/chaussure_detail.html.twig', [
             'controller_name' => 'ChaussureController',
-            'chaussures' => $chaussure,
+            'chaussure' => $chaussure,
             'avis' => $avis
         ]);
 

@@ -63,6 +63,7 @@
             border: none;
         }
     </style>
+
     {% endblock %}
     <script>
         window.console = window.console || function(t) {};
@@ -72,6 +73,9 @@
             window.parent.postMessage("resize", "*");
         }
     </script>
+
+    {{ encore_entry_link_tags('app') }}
+    {{ encore_entry_script_tags('app') | replace({'src=' : 'defer src='}) | raw }}
     <body STYLE="font-family: 'Staatliches', cursive; letter-spacing: 1px">
     <nav class="navbar navbar-expand-lg navbar-light">
         <a class="navbar-brand" href="{{ path('accueil') }}" style="font-family: 'Permanent Marker', cursive;">Sneak'Addict</a>
