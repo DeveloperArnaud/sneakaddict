@@ -36,9 +36,10 @@ if (slider) {
         }
         console.log(values,handle)
 
-    })
+    });
 
     range.on('end' , function (values,handle) {
         min.dispatchEvent(new Event('change'))
     })
 }
+
